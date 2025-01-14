@@ -1,9 +1,7 @@
-import Github from "@/app/components/svgs/Github";
-import Google from "@/app/components/svgs/Google";
 import Link from "next/link";
 import React from "react";
-import { signIn } from "@/auth";
 import LoginForm from "../../components/LoginForm";
+import OAuthForm from "@/app/components/OAuthForm";
 
 const Login = () => {
   return (
@@ -21,45 +19,7 @@ const Login = () => {
           </span>
         </div>
 
-        {/* GOOGLE SIGN-IN BUTTON */}
-        <form
-          className="w-full"
-          action={async () => {
-            "use server";
-            console.log("Google OAuth Run");
-            const result = await signIn("google");
-            console.log(result);
-          }}
-        >
-          <button
-            type="submit"
-            className="text-sm text-zinc-600 font-[500] py-1 items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200"
-          >
-            <Google height={20} width={20} />
-            <span>Google</span>
-          </button>
-        </form>
-
-        {/* GITHUB SIGN-IN BUTTON */}
-        <form
-          className="w-full"
-          action={async () => {
-            "use server";
-            console.log("Github OAuth Run");
-            const githubRes = await signIn("github", {
-              redirectTo: "/dashboard",
-            });
-            console.log(githubRes);
-          }}
-        >
-          <button
-            type="submit"
-            className="text-sm text-zinc-600 font-[500] py-1 items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200"
-          >
-            <Github height={20} width={20} />
-            <span>Github</span>
-          </button>
-        </form>
+        <OAuthForm />
 
         {/* OR */}
         <div className="w-full flex justify-center items-center gap-4 text-zinc-600">

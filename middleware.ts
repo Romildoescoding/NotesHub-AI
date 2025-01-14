@@ -27,7 +27,7 @@ export default async function middleware(req: NextRequest) {
   // console.log(!session?.userId);
   // console.log(!oAuthSession?.user);
   // console.log(isProtectedRoute && !session?.userId && !oAuthSession?.user);
-  if (isProtectedRoute && !session?.userId && !oAuthSession?.user) {
+  if (isProtectedRoute && !session?.user && !oAuthSession?.user) {
     console.log("Redirected due to middleware");
     return NextResponse.redirect(new URL("/auth/login", req.nextUrl));
   }

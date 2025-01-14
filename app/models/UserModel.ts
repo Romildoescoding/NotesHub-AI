@@ -1,10 +1,11 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 // Define an interface for the User document
 interface IUser extends Document {
   name: string;
   email: string;
-  provider: 'google' | 'github' | 'custom';
+  provider: "google" | "github" | "custom";
+  image: string;
   password?: string;
   providerId: string;
   createdAt: Date;
@@ -23,15 +24,19 @@ const userSchema = new Schema<IUser>({
     lowercase: true,
     trim: true,
   },
+  image: {
+    type: String,
+    default: "https://placehold.co/48",
+  },
   provider: {
     type: String,
     required: true,
-    enum: ['google', 'github', 'custom'], // OAuth providers + custom
+    enum: ["google", "github", "custom"], // OAuth providers + custom
   },
   password: {
     type: String,
     required: function () {
-      return this.provider === 'custom'; // Only required for custom auth
+      return this.provider === "custom"; // Only required for custom auth
     },
   },
   providerId: {
@@ -46,6 +51,6 @@ const userSchema = new Schema<IUser>({
 });
 
 // Create the model using the schema and interface
-const User = mongoose.models.User || mongoose.model<IUser>('User', userSchema);
+const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default User;

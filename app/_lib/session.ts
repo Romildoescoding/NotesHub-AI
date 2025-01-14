@@ -20,10 +20,10 @@ export async function encrypt(payload: Record<string, any>) {
     .sign(key);
 }
 
-export async function decrypt(session: string) {
+export async function decrypt(session: string | undefined) {
   try {
     if (!session) {
-      console.log("No session in decrypt");
+      // console.log("No session in decrypt");
       // console.log("SEssion is undefined or empty", session);
       return null;
     }
@@ -39,10 +39,10 @@ export async function decrypt(session: string) {
 }
 
 //SESSION METHODS
-export async function createSession(userId: string) {
+export async function createSession(userId: object) {
   console.log("Create Session called");
   const expires = new Date(Date.now() + cookieOptions.duration);
-  const session = await encrypt({ userId, expires });
+  const session = await encrypt({ ...userId, expires });
 
   (await cookies()).set(cookieOptions.name, session, {
     httpOnly: true,
@@ -58,8 +58,8 @@ export async function createSession(userId: string) {
   //   redirect("/dashboard");
 }
 
-export async function verifySession(): Promise<{ userId: string } | null> {
-  console.log("Verify session called::");
+export async function verifySession(): Promise<{ user: object | undefined }> {
+  // console.log("Verify session called::");
   const oAuthSession = await auth();
   const cookie = (await cookies()).get(cookieOptions.name)?.value;
 
@@ -78,7 +78,11 @@ export async function verifySession(): Promise<{ userId: string } | null> {
     );
     redirect("/auth/login");
   }
-  return { userId: session?.userId || (oAuthSession?.user?.name as string) };
+  console.log("SESSION");
+  console.log(session);
+  console.log("OAUTHSESSION");
+  console.log(oAuthSession);
+  return { user: session?.user || oAuthSession?.user };
 }
 
 export async function updateSession() {

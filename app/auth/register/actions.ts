@@ -3,6 +3,7 @@ import dbConnect from "@/app/_lib/dbConnect";
 import { SigninFormSchema, SignupFormSchema } from "@/app/_lib/definitions";
 import { createSession } from "@/app/_lib/session";
 import User from "@/app/models/UserModel";
+import { signIn } from "@/auth";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 
@@ -33,6 +34,19 @@ export async function signup(state, formData: FormData) {
     if (userData) {
       isNewUser = false;
       console.log("Email already found");
+
+      //IN CASE OF USRE REGISTER ADN ACCOUNT EXISTS BUT WITH NOT CUSTOM PROVIDER
+      if (userData.provider !== "custom") {
+        console.log("Not Custom Provider");
+        return {
+          errors: {
+            general: `An account with this email already exists. Please use ${
+              userData.provider[0].toUpperCase() + userData.provider.slice(1)
+            } to login`,
+          },
+        };
+      }
+
       return {
         errors: {
           general: "An account with this email already exists. Try logging in.",
@@ -108,6 +122,17 @@ export async function signin(state, formData: FormData) {
         errors: { general: "Invalid email or password." },
       };
     }
+    // console.log(user);
+    if (user.provider !== "custom") {
+      console.log("Not Custom Provider");
+      return {
+        errors: {
+          general: `An account with this email already exists. Please use ${
+            user.provider[0].toUpperCase() + user.provider.slice(1)
+          } to login`,
+        },
+      };
+    }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
@@ -122,9 +147,12 @@ export async function signin(state, formData: FormData) {
 
     //VALIDATE THE FLAG
     isValidUser = true;
-
+    console.log(user);
     // 3. Initiate Session
-    await createSession(user.id);
+    // await createSession(user.id);
+    await createSession({
+      user: { name: user.name, email: user.email, image: user.image },
+    });
 
     // Convert the Mongoose document into a plain object
     const plainUser = user.toObject();
@@ -147,5 +175,95 @@ export async function signin(state, formData: FormData) {
       redirect("/dashboard");
     } else {
     }
+  }
+}
+
+import { auth } from "@/auth"; // Adjust import based on your setup
+
+// export async function signInViaOAuth(provider: string) {
+//   // Redirect to the OAuth provider
+//   console.log("OAUTH CALLED");
+//   await signIn(provider);
+//   console.log("SignIn Called properly --------------------------------");
+
+//   // After redirection back to your app, get the user session
+//   const session = await auth();
+//   console.log("SESSION IS---->" + session);
+
+//   if (!session || !session?.user) {
+//     console.log("No session in OAuth !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//     throw new Error("Failed to retrieve user session after OAuth login.");
+//   }
+
+//   const { email, name, id, image } = session.user;
+//   console.log(email, name, id, image);
+
+//   try {
+//     // Check if user exists
+//     let user = await User.findOne({ email });
+
+//     if (!user) {
+//       // Create a new user if not found
+//       user = await User.create({
+//         email,
+//         name,
+//         provider,
+//         providerId: id,
+//         image,
+//       });
+//     }
+
+//     // Redirect to the dashboard or grant access
+//     redirect("/dashboard");
+//   } catch (error) {
+//     console.error("Error during sign-in via OAuth:", error);
+//     throw new Error("Unable to complete the sign-in process.");
+//   }
+// }
+
+export async function handler() {
+  // Redirect to the OAuth provider
+  // console.log("handler called");
+
+  // After redirection back to your app, get the user session
+  const session = await auth();
+  // console.log("SESSION IS---->");
+  // console.log(session);
+  if (!session || !session?.user) {
+    console.log("No session in OAuth handler");
+    return;
+  }
+
+  const { email, name, id, image } = session.user;
+  // console.log(email, name, id, image);
+
+  try {
+    // Check if user exists
+    await dbConnect();
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      console.log("Creating a new account");
+      // Create a new user if not found
+      user = await User.create({
+        email,
+        name,
+        provider: image?.includes("google")
+          ? "google"
+          : image?.includes("github")
+          ? "github"
+          : "custom",
+        providerId: email,
+        image,
+      });
+    } else {
+      console.log("Account already created");
+    }
+
+    // Redirect to the dashboard or grant access
+    // redirect("/dashboard");
+  } catch (error) {
+    console.error("Error during sign-in via OAuth:", error);
+    throw new Error("Unable to complete the sign-in process.");
   }
 }
