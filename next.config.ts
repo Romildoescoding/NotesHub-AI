@@ -15,6 +15,16 @@ const nextConfig: NextConfig = {
   // experimental: {
   //   turbo: false, // Disable Turbopack
   // },
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**", // Wildcard to allow any hostname
+      },
+    ],
+    dangerouslyAllowSVG: true, // Enable SVG rendering
+  },
 };
 
 // Export the configuration

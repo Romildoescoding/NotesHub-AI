@@ -78,10 +78,10 @@ export async function verifySession(): Promise<{ user: object | undefined }> {
     );
     redirect("/auth/login");
   }
-  console.log("SESSION");
-  console.log(session);
-  console.log("OAUTHSESSION");
-  console.log(oAuthSession);
+  // console.log("SESSION");
+  // console.log(session);
+  // console.log("OAUTHSESSION");
+  // console.log(oAuthSession);
   return { user: session?.user || oAuthSession?.user };
 }
 

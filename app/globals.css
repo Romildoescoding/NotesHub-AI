@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
+  --background: #f4f4f5;
   --foreground: #171717;
   --font-geist-sans: "Geist", sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
@@ -12,16 +12,51 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #f4f4f5;
   }
 }
 
 body {
   color: var(--foreground);
-  background: var(--background);
+  background: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  width: 100%;
+  /* overflow-x: hidden; */
 }
 
 .gsans {
   font-family: var(--font-geist-sans);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  font-size: 14px;
+  /* white-space: nowrap; */
+  visibility: hidden;
+  width: fit-content !important;
+  background-color: #27272a;
+  color: #fff;
+  text-align: center;
+  padding: 4px 6px;
+  border-radius: 6px;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+  transition: visibility 0.25s;
+}
+
+.tooltip .tooltiptext {
+  /* width: 120px; */
+  top: 105%;
+  left: 50%;
+  margin-left: -50%;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
 }
