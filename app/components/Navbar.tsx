@@ -34,8 +34,8 @@ import FloatingNavbar from "./FloatingNavbar";
 const Navbar = async () => {
   const user = await getUser();
   return (
-    <nav className="fixed top-0 left-0 flex flex-col gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
-      <div className="pointer-events-auto w-full border-b-[2px] bg-zinc-50 border-[#ededed] h-14 flex justify-between items-center pl-2 pr-4">
+    <nav className="fixed z-[9999] top-0 left-0 flex flex-col gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
+      <div className="pointer-events-auto w-full border-b-[2px] bg-[#ffffffff] backdrop-blur-sm border-[#ededed] h-14 flex justify-between items-center pl-2 pr-4 z-[2]">
         <Link href="/">
           <Image
             src={"/App_Logo.svg"}

@@ -7,7 +7,7 @@ import React from "react";
 const FloatingNavbar = () => {
   const pathname = usePathname();
   return (
-    <div className="pointer-events-auto flex gap-4 h-18 px-2 py-2 w-fit bg-zinc-50 rounded-md border-[2px] border-[#ededed]">
+    <div className="pointer-events-auto flex gap-4 h-18 px-2 py-2 w-fit bg-[#ffffffee] backdrop-blur-sm rounded-md border-[2px] border-[#ededed]">
       <Link
         href="/dashboard/upload"
         className={`capitalize rounded-md p-2 ${
