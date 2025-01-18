@@ -2,14 +2,25 @@
 
 import Image from "next/image";
 import React, { useState, DragEvent, ChangeEvent, useEffect } from "react";
+import AnimatedLogoLoader from "./AnimatedLogoLoader";
+import Spinner from "./Spinner";
+import Modal from "./Modal";
+import NotesSlider from "./NotesSlider";
 
 // Define the type for the files state
 type FileType = File;
 
 const FileUpload: React.FC = () => {
   const [files, setFiles] = useState<FileType[]>([]);
-  const [ocrResults, setOcrResults] = useState<string[]>([]);
-  const [modal, setModal] = useState<string>("");
+  const [ocrResults, setOcrResults] = useState<string[]>([
+    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+  ]);
+  const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   // OCR UPLOAD URL IS http://localhost:3000/api/ocr/upload
@@ -32,6 +43,7 @@ const FileUpload: React.FC = () => {
 
   const handleGenerate = async () => {
     setIsLoading(true);
+    setShowModal("loading");
     const results: string[] = [];
 
     for (const file of files) {
@@ -52,7 +64,7 @@ const FileUpload: React.FC = () => {
     }
 
     setOcrResults(results);
-    setModal("results");
+    setShowModal("results");
     setIsLoading(false);
   };
 
@@ -67,13 +79,26 @@ const FileUpload: React.FC = () => {
 
   return (
     <div className="z-2 flex flex-col items-center justify-center w-full pt-24 relative">
-      {modal === "results" && (
-        <div className=" fixed inset-0 h-1/2 w-1/2 bg-white text-zinc-500 top-1/2 left-1/2 border-black border-2 p-8">
-          {ocrResults.map((result, i) => (
-            <span key={i}>{result}</span>
-          ))}
-        </div>
+      {showModal === "loading" && (
+        <Modal setShowModal={setShowModal}>
+          <div className="h-full w-full flex flex-col items-center justify-center bg-white text-zinc-500 rounded-md">
+            <Spinner />
+            <span className="mt-2 text-xl font-semibold text-zinc-800">
+              Generating Results...
+            </span>{" "}
+            <span>It might take a few minutes or seconds.</span>
+            {/* {ocrResults.map((result, i) => (
+              <span key={i}>{result}</span>
+            ))} */}
+          </div>
+        </Modal>
       )}
+
+      {
+        <Modal setShowModal={setShowModal}>
+          <NotesSlider ocrResults={ocrResults} />
+        </Modal>
+      }
       {/* Drag-and-Drop Input */}
       <label
         htmlFor="file-upload"
