@@ -6,6 +6,7 @@ import AnimatedLogoLoader from "./AnimatedLogoLoader";
 import Spinner from "./Spinner";
 import Modal from "./Modal";
 import NotesSlider from "./NotesSlider";
+import Loader from "./Loader";
 
 // Define the type for the files state
 type FileType = File;
@@ -82,7 +83,7 @@ const FileUpload: React.FC = () => {
       {showModal === "loading" && (
         <Modal setShowModal={setShowModal}>
           <div className="h-full w-full flex flex-col items-center justify-center bg-white text-zinc-500 rounded-md">
-            <Spinner />
+            <Loader />
             <span className="mt-2 text-xl font-semibold text-zinc-800">
               Generating Results...
             </span>{" "}
@@ -94,11 +95,20 @@ const FileUpload: React.FC = () => {
         </Modal>
       )}
 
-      {
+      {showModal === "results" && (
         <Modal setShowModal={setShowModal}>
-          <NotesSlider ocrResults={ocrResults} />
+          <NotesSlider ocrResults={ocrResults} setShowModal={setShowModal} />
         </Modal>
-      }
+      )}
+
+      {showModal === "uploaded" && (
+        <Modal setShowModal={setShowModal}>
+          <div className="w-[600px] h-[400px] bg-white">
+            NOTES UPLOADED SUCCESSULLY
+          </div>
+        </Modal>
+      )}
+
       {/* Drag-and-Drop Input */}
       <label
         htmlFor="file-upload"

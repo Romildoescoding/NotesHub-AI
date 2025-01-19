@@ -1,11 +1,19 @@
 "use client";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import NoteEditor from "./NoteEditor";
 import { RainbowButton } from "@/components/ui/rainbow-button";
 import { jsPDF } from "jspdf";
 import { PDFDocument } from "pdf-lib";
+import Spinner from "./Spinner";
 
-const NotesSlider = ({ ocrResults }: { ocrResults: string[] }) => {
+const NotesSlider = ({
+  ocrResults,
+  setShowModal,
+}: {
+  ocrResults: string[];
+  setShowModal: any;
+}) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currentPage, setCurrentPage] = React.useState(0);
   const editorRefs = useRef<HTMLDivElement[]>([]);
 
@@ -17,6 +25,7 @@ const NotesSlider = ({ ocrResults }: { ocrResults: string[] }) => {
     if (currentPage < ocrResults.length - 1) setCurrentPage(currentPage + 1);
   };
   const handleExportPDF = async () => {
+    setIsLoading(true);
     const pdfs: Array<Uint8Array> = [];
 
     // Create individual PDFs
@@ -35,10 +44,13 @@ const NotesSlider = ({ ocrResults }: { ocrResults: string[] }) => {
           autoPaging: true,
           callback: () => {
             pdfs.push(tempPdf.output("arraybuffer") as Uint8Array);
+            setIsLoading(false);
             resolve();
           },
         });
       });
+
+      setShowModal("uploaded");
     }
 
     // Merge PDFs using pdf-lib
@@ -104,7 +116,16 @@ const NotesSlider = ({ ocrResults }: { ocrResults: string[] }) => {
         {">>"}
       </button>
       <div className="absolute bottom-4 right-4 z-[9]">
-        <RainbowButton onClick={handleExportPDF}>Upload &uarr;</RainbowButton>
+        <RainbowButton onClick={handleExportPDF} className="flex gap-1">
+          Upload{" "}
+          {isLoading ? (
+            // <span className="inline-block ml-4">
+            <Spinner height={24} width={24} isWhite={true} />
+          ) : (
+            // </span>
+            <span className="ml-3 text-[17px]"> &uarr;</span>
+          )}
+        </RainbowButton>
       </div>
     </div>
   );

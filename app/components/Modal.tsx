@@ -10,7 +10,7 @@ function Modal({
   setShowModal,
 }: {
   children: ReactNode;
-  setShowModa: any;
+  setShowModal: any;
 }) {
   //   const ref = useOutsideClick(() => setShowModal(""));
   return (
