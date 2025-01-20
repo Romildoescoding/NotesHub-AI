@@ -34,8 +34,15 @@ import FloatingNavbar from "./FloatingNavbar";
 const Navbar = async () => {
   const user = await getUser();
   return (
-    <nav className="fixed z-[9999] top-0 left-0 flex flex-col gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
-      <div className="pointer-events-auto w-full border-b-[2px] bg-[#ffffffff] backdrop-blur-sm border-[#ededed] h-14 flex justify-between items-center pl-2 pr-4 z-[2]">
+    <nav className="fixed z-[9999] top-0 left-0 flex flex-col bg-gradient-to-b from-white via-[#ffffffef] to-[#ffffff00] gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
+      <div
+        className="pointer-events-auto relative w-full h-24 flex justify-between items-start pt-2 pl-2 pr-4 z-[2] transition-all"
+        // style={{
+        //   background: "linear-gradient(to bottom, white 0%, transparent 100%)",
+        // }}
+      >
+        {/* <div className="w-full absolute z-[9999999] h-7 left-0 top-0 bg-gradient-to-b from-white via-white to-[#ffffff90]"></div>
+        <div className="w-full absolute z-[9999999] h-7 left-0 bottom-0 bg-gradient-to-b from-[#ffffff90] via-[#ffffff30] to-transparent"></div> */}
         <Link href="/">
           <Image
             src={"/App_Logo.svg"}
@@ -46,8 +53,8 @@ const Navbar = async () => {
           />
         </Link>
 
-        <div className="flex items-center gap-4">
-          <button className="flex gap-2 cursor-pointer p-2 bg-zinc-800 text-zinc-50 rounded-md">
+        <div className="flex items-center gap-4 h-1/2 pt-4">
+          {/* <button className="flex gap-2 cursor-pointer p-2 bg-zinc-800 rounded-full text-zinc-50">
             Logout
             <Image
               src={"/logout-svg.svg"}
@@ -56,7 +63,7 @@ const Navbar = async () => {
               alt="avatar"
               className=" antialiased"
             />
-          </button>
+          </button> */}
           <Link href="/dashboard/profile" className="tooltip">
             <span className="tooltiptext" style={{}}>
               Profile

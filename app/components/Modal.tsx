@@ -3,6 +3,7 @@
 // import "../styles/modal.css";
 import { ReactNode } from "react";
 import ModalWrapper from "./ModalWrapper";
+import { AnimatePresence, motion } from "framer-motion";
 // import useOutsideClick from "../hooks/useOutsideClick";
 
 function Modal({
@@ -14,9 +15,16 @@ function Modal({
 }) {
   //   const ref = useOutsideClick(() => setShowModal(""));
   return (
-    <div className="z-[99999] bg-[#00000007] flex items-center justify-center backdrop-blur-sm h-full w-full fixed top-0 left-0">
+    // <AnimatePresence>
+    <motion.div
+      className="z-[99999] bg-[#00000007] flex items-center justify-center backdrop-blur-sm h-full w-full fixed top-0 left-0"
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      // exit={{ opacity: 0, scale: 0.95 }}
+    >
       <ModalWrapper setShowModal={setShowModal}>{children}</ModalWrapper>
-    </div>
+    </motion.div>
+    // </AnimatePresence>
   );
 }
 

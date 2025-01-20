@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <>
       <Navbar />
-      <main className="mt-[56px] text-zinc-900">{children}</main>
+      <main className="mt-20 text-zinc-900">{children}</main>
     </>
   );
 }

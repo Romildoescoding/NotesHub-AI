@@ -15,7 +15,7 @@ export function BackgroundBoxesDemo() {
       <div className="absolute inset-0 w-full h-full bg-zinc-50 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none" />
 
       <Boxes />
-      <h1 className="text-[6vw] leading-[5vw] text-zinc-900  font-medium relative z-20 flex gap-4 gsans tracking-tighter">
+      <h1 className="text-[7vw] leading-[5vw] text-zinc-900  font-medium relative z-20 flex gap-4 gsans tracking-tighter">
         NoteCraft AI
       </h1>
       <h1 className="text-[5vw] text-zinc-900  font-medium relative z-20 flex gap-4 gsans tracking-tighter">

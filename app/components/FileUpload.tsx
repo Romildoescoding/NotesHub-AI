@@ -7,6 +7,9 @@ import Spinner from "./Spinner";
 import Modal from "./Modal";
 import NotesSlider from "./NotesSlider";
 import Loader from "./Loader";
+import Confetti, { ConfettiButton } from "@/components/ui/confetti";
+import { ConfettiFireworks } from "./ConfettiFireworks";
+import SuccessfulUpload from "./SuccessfulUpload";
 
 // Define the type for the files state
 type FileType = File;
@@ -21,7 +24,7 @@ const FileUpload: React.FC = () => {
     "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
     "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
   ]);
-  const [showModal, setShowModal] = useState<string>("");
+  const [showModal, setShowModal] = useState<string>("uploaded");
   const [isLoading, setIsLoading] = useState(false);
 
   // OCR UPLOAD URL IS http://localhost:3000/api/ocr/upload
@@ -82,7 +85,7 @@ const FileUpload: React.FC = () => {
     <div className="z-2 flex flex-col items-center justify-center w-full pt-24 relative">
       {showModal === "loading" && (
         <Modal setShowModal={setShowModal}>
-          <div className="h-full w-full flex flex-col items-center justify-center bg-white text-zinc-500 rounded-md">
+          <div className="w-[60vw] h-[90vh] flex flex-col items-center justify-center bg-white text-zinc-500 rounded-md">
             <Loader />
             <span className="mt-2 text-xl font-semibold text-zinc-800">
               Generating Results...
@@ -103,9 +106,7 @@ const FileUpload: React.FC = () => {
 
       {showModal === "uploaded" && (
         <Modal setShowModal={setShowModal}>
-          <div className="w-[600px] h-[400px] bg-white">
-            NOTES UPLOADED SUCCESSULLY
-          </div>
+          <SuccessfulUpload />
         </Modal>
       )}
 
@@ -161,9 +162,10 @@ const FileUpload: React.FC = () => {
         <div className="flex justify-between">
           <h3 className="text-xl font-semibold">Uploaded Files:</h3>{" "}
           <button
-            className=" bg-zinc-800 text-zinc-50 p-2 flex gap-1 items-center rounded-md"
+            className=" bg-zinc-900 text-zinc-50 p-2 px-4 flex gap-1 items-center rounded-full"
             style={{ cursor: files.length == 0 ? "not-allowed" : "pointer" }}
             disabled={files.length == 0}
+            // onClick={() => setShowModal("loading")}
             onClick={handleGenerate}
           >
             {/* img {
