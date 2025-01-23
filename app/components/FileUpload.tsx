@@ -10,21 +10,25 @@ import Loader from "./Loader";
 import Confetti, { ConfettiButton } from "@/components/ui/confetti";
 import { ConfettiFireworks } from "./ConfettiFireworks";
 import SuccessfulUpload from "./SuccessfulUpload";
+import { useRouter } from "next/router";
 
 // Define the type for the files state
 type FileType = File;
 
 const FileUpload: React.FC = () => {
+  // const router = useRouter();
+
+  // Your file upload logic and result generation code here
+
+  // After successful upload, redirect to /dashboard/editor
   const [files, setFiles] = useState<FileType[]>([]);
   const [ocrResults, setOcrResults] = useState<string[]>([
-    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
-    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
-    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
-    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
-    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
-    "One afternoon in October 2009, a former banking executive named Aaron Siegel waited impatiently in the master bedroom of a house in Buffalo that served as his office. As he stared at the room’s old fireplace and then out the window to the quiet street beyond, he tried not to think about his investors and the $14 million they had entrusted to him. Siegel was no stranger to money. He grew up in one of the city’s wealthiest and most prominent families. His father, Herb Siegel, was a legendary playboy and the majority owner of a hugely profitable personal-injury law firm. During his late teenage years, Aaron lived essentially unchaperoned in a sprawling, 100-year-old mansion. His sister, Shana, recalls the parties she hosted — lavish affairs with plenty of Champagne — and how their private-school classmates would often spend the night, as if the place were a clubhouse for the young and privileged.",
+    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
+    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
+    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
+    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
   ]);
-  const [showModal, setShowModal] = useState<string>("uploaded");
+  const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
   // OCR UPLOAD URL IS http://localhost:3000/api/ocr/upload
@@ -66,6 +70,7 @@ const FileUpload: React.FC = () => {
         results.push(`Error processing file: ${file.name}`);
       }
     }
+    router.push("/dashboard/editor");
 
     setOcrResults(results);
     setShowModal("results");
@@ -113,7 +118,7 @@ const FileUpload: React.FC = () => {
       {/* Drag-and-Drop Input */}
       <label
         htmlFor="file-upload"
-        className="flex flex-col items-center justify-center w-1/2 h-56 border-2 border-dashed border-zinc-300 rounded-md cursor-pointer bg-white hover:border-zinc-400 transition-all"
+        className="flex flex-col items-center justify-center w-1/2 h-56 border-2 border-dashed border-zinc-300 rounded-md cursor-pointer bg-white hover:border-zinc-400 transition-all hover:shadow-md shadow-zinc-400"
         onDrop={handleDrop}
         onDragOver={handleDragOver}
       >
@@ -143,7 +148,7 @@ const FileUpload: React.FC = () => {
           </p>
           <p className="text-sm text-gray-500">Drag and drop your files here</p>
           <p className="text-sm text-gray-500">or</p>
-          <p className="text-zinc-50 p-2 bg-zinc-800 rounded-md">
+          <p className="text-zinc-50 p-2 bg-zinc-900 rounded-md">
             Click to browse files
           </p>
         </div>
@@ -157,6 +162,31 @@ const FileUpload: React.FC = () => {
         />
       </label>
 
+      {/* SAMPLE IMAGES
+      {/* <div className="flex flex-col gap-2 justify-center items-center h-fit w-fit p-2 text-zinc-900 font-semibold">
+        <span>Sample Images</span>
+        <div className="flex gap-2">
+          <Image
+            onClick={() => {
+              setFiles((prev) => [...prev, new File([""], "/file_2.jpg")]);
+            }}
+            alt="sample1"
+            src="/file_2.jpg"
+            height={300}
+            width={300}
+          />
+          <Image
+            onClick={() => {
+              setFiles((prev) => [...prev, new File([""], "/file.jpg")]);
+            }}
+            alt="sample1"
+            src="/file.jpg"
+            height={300}
+            width={300}
+          />
+        </div>
+      </div> */}
+
       {/* Uploaded Files Section */}
       <div className="w-3/4 p-4 mt-6 bg-white border-[2px] border-[#eaeaea] rounded-md">
         <div className="flex justify-between">
@@ -165,8 +195,8 @@ const FileUpload: React.FC = () => {
             className=" bg-zinc-900 text-zinc-50 p-2 px-4 flex gap-1 items-center rounded-full"
             style={{ cursor: files.length == 0 ? "not-allowed" : "pointer" }}
             disabled={files.length == 0}
-            // onClick={() => setShowModal("loading")}
-            onClick={handleGenerate}
+            onClick={() => setShowModal("results")}
+            // onClick={handleGenerate}
           >
             {/* img {
   max-width: 100%; 

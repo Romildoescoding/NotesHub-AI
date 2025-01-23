@@ -30,6 +30,7 @@ import React from "react";
 import { getUser } from "../_data/user";
 import Image from "next/image";
 import FloatingNavbar from "./FloatingNavbar";
+import ProfileButton from "./ProfileButton";
 
 const Navbar = async () => {
   const user = await getUser();
@@ -64,18 +65,7 @@ const Navbar = async () => {
               className=" antialiased"
             />
           </button> */}
-          <Link href="/dashboard/profile" className="tooltip">
-            <span className="tooltiptext" style={{}}>
-              Profile
-            </span>
-            <Image
-              src={user.image}
-              width={42}
-              height={42}
-              alt="avatar"
-              className="rounded-full border-[2px] border-[#ededed] hover:border-zinc-200 transition-all"
-            />
-          </Link>
+          <ProfileButton user={user} />
         </div>
       </div>
 

@@ -78,13 +78,13 @@ const FloatingNavbar = () => {
     // </div>
 
     <div
-      className="fixed pointer-events-auto top-16 left-1/2 -translate-x-1/2 flex gap-16 items-center px-4  z-[99] bg-white rounded-full"
+      className="fixed pointer-events-auto top-4 left-1/2 -translate-x-1/2 flex gap-16 items-center px-4 py-2  z-[99] bg-white rounded-full"
       style={{
         boxShadow: "0px 2px 3px #00000040",
         borderTop: "1px solid #00000010",
       }}
     >
-      <Link href="/">
+      {/* <Link href="/">
         <Image
           src={"/App_Logo.svg"}
           width={60}
@@ -92,36 +92,57 @@ const FloatingNavbar = () => {
           alt="avatar"
           className=" antialiased"
         />
-      </Link>
+      </Link> */}
       <div className="flex gap-2 items-center">
         <Link
           href="/dashboard/upload"
-          className=" hover:bg-zinc-200 p-2 px-4 rounded-full transition-all flex"
+          className={`rounded-full flex ${
+            pathname !== "/dashboard/upload" &&
+            "p-2 px-4 hover:bg-zinc-200 transition-all"
+          }`}
         >
-          Upload
+          {pathname === "/dashboard/upload" ? (
+            <RainbowButton className=" rounded-full">Upload</RainbowButton>
+          ) : (
+            "Upload"
+          )}
         </Link>
         <Link
           href="/dashboard/list"
-          className=" hover:bg-zinc-200 p-2 px-4 rounded-full transition-all"
+          className={`rounded-full flex ${
+            pathname !== "/dashboard/list" &&
+            "p-2 px-4 hover:bg-zinc-200 transition-all "
+          }`}
         >
-          View Notes
+          {pathname === "/dashboard/list" ? (
+            <RainbowButton className=" rounded-full">View Notes</RainbowButton>
+          ) : (
+            "View Notes"
+          )}
         </Link>
 
         <Link
-          href="/dashboard/summary"
-          className=" hover:bg-zinc-200 p-2 px-4 rounded-full transition-all"
+          href="/dashboard/chat"
+          className={`rounded-full flex ${
+            pathname !== "/dashboard/chat" &&
+            "p-2 px-4 hover:bg-zinc-200 transition-all "
+          }`}
         >
-          AI summary
+          {pathname === "/dashboard/chat" ? (
+            <RainbowButton className=" rounded-full">AI Chat</RainbowButton>
+          ) : (
+            "AI Chat"
+          )}
         </Link>
 
-        <Link
+        {/* <Link
           href="/dashboard"
           // className=" hover:bg-zinc-900 p-2 px-4 rounded-full"
         >
           <RainbowButton className="ml-2 rounded-full">
             Get Started
           </RainbowButton>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

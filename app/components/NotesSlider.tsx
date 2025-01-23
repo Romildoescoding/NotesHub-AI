@@ -5,6 +5,8 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 import { jsPDF } from "jspdf";
 import { PDFDocument } from "pdf-lib";
 import Spinner from "./Spinner";
+import { getUser } from "../_data/user";
+import { uploadFileToSupabase } from "../(dashboard)/dashboard/upload/uploadFile";
 
 const NotesSlider = ({
   ocrResults,
@@ -49,8 +51,6 @@ const NotesSlider = ({
           },
         });
       });
-
-      setShowModal("uploaded");
     }
 
     // Merge PDFs using pdf-lib
@@ -68,12 +68,36 @@ const NotesSlider = ({
     // Save the merged PDF
     const mergedPdfBytes = await mergedPdf.save();
     const pdfBlob = new Blob([mergedPdfBytes], { type: "application/pdf" });
-    const pdfUrl = URL.createObjectURL(pdfBlob);
 
-    const a = document.createElement("a");
-    a.href = pdfUrl;
-    a.download = "merged_notes.pdf";
-    a.click();
+    // Fix: Wrap `pdfBlob` in an array when creating the `File` object
+    const fileName = "uploads.pdf";
+    const pdfFile = new File([pdfBlob], fileName, { type: "application/pdf" });
+    const fileUrl = await uploadFileToSupabase(pdfFile);
+
+    // Creating a new note in the database
+    //User function for the client here!!
+    const user = {
+      email: "romilrajrana1@gmail.com",
+      id: "67839448b5474a277037a82a",
+    };
+
+    const res = await fetch("/api/notes", {
+      method: "POST",
+      body: JSON.stringify({
+        title: "My First Note",
+        fileName: fileName,
+        fileUrl: fileUrl,
+        isPublic: true,
+        tags: ["learning", "typescript"],
+        uploadedBy: user.id,
+        uploaderEmail: user.email,
+        description: "This is my first note uploaded to Supabase.",
+      }),
+    });
+
+    const data = await res.json();
+    console.log(data);
+    setShowModal("uploaded");
   };
 
   return (

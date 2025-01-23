@@ -3,7 +3,13 @@ import confetti from "canvas-confetti";
 import { Button } from "@/components/ui/button";
 import { ReactNode } from "react";
 
-export function ConfettiFireworks({ children }: { children: ReactNode }) {
+export function ConfettiFireworks({
+  children,
+  ref,
+}: {
+  children: ReactNode;
+  ref: any;
+}) {
   const handleClick = () => {
     const duration = 5 * 1000;
     const animationEnd = Date.now() + duration;
@@ -40,7 +46,7 @@ export function ConfettiFireworks({ children }: { children: ReactNode }) {
 
   return (
     <div className="relative">
-      <Button onClick={handleClick} className="rounded-full">
+      <Button onClick={handleClick} className="rounded-full" ref={ref}>
         {children}
       </Button>
     </div>

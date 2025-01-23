@@ -220,3 +220,53 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.ai-message {
+  height: fit-content;
+  width: fit-content;
+  max-width: 40vw;
+  background: #18181b;
+  color: #efefef;
+  border-radius: 10px;
+  /* border: 2px solid #ccc; */
+  padding: 10px 10px;
+  padding-bottom: 50px;
+  position: relative;
+}
+
+.ai-message:before {
+  rotate: 180deg;
+  content: "";
+  position: absolute;
+  bottom: 0; /* Positioned below the chat bubble */
+  left: -10px; /* Adjust position to align with the bubble */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #18181b;
+}
+
+.user-message {
+  height: fit-content;
+  width: fit-content;
+  max-width: 40vw;
+  background: #efefef;
+  border-radius: 10px;
+  padding: 10px 10px;
+  position: relative;
+  margin-left: auto;
+}
+
+.user-message:before {
+  rotate: 180deg;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: -10px; /* Adjust position to align with the bubble */
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #efefef;
+}
