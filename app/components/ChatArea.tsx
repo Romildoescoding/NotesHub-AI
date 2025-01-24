@@ -11,6 +11,7 @@ import Spinner from "./Spinner";
 import { useCurrentUser } from "../auth/useCurrentUser";
 import useChats from "../(dashboard)/dashboard/chat/useChats";
 import useSendMessage from "../(dashboard)/dashboard/chat/useSendMessage";
+import useGeminiAI from "../(dashboard)/dashboard/chat/useGeminiAI";
 
 const ChatArea = ({ chatId }) => {
   const [message, setMessage] = useState("");
@@ -18,6 +19,11 @@ const ChatArea = ({ chatId }) => {
   const { user, status } = useCurrentUser();
   console.log(chats);
   const { sendMessage, isSending, error } = useSendMessage();
+  const {
+    sendMessageAI,
+    isSending: isSendingAI,
+    error: errorAI,
+  } = useGeminiAI();
 
   const handleSendMessage = async (e: SubmitEvent) => {
     e.preventDefault();
@@ -33,7 +39,13 @@ const ChatArea = ({ chatId }) => {
         content: message.trim(),
       });
 
-      setMessage(""); // Clear the input field
+      console.log("GOING TO AI");
+      const data = await sendMessageAI(message.trim());
+      console.log("GONE TO AI");
+      console.log(data);
+      const aiContent = data.candidates[0].content.parts[0].text;
+      await sendMessage({ chatId, sender: "ai", content: aiContent });
+      setMessage("");
     } catch (err) {
       console.error("Failed to send message:", err);
     }
