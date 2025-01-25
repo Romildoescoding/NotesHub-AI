@@ -30,6 +30,7 @@ export async function GET(req: NextApiRequest) {
     // Extract chatId from the query parameters
     const { searchParams } = new URL(req.url); // Extract search parameters
     const chatId = searchParams.get("chatId"); // Retrieve the 'chatId' query params
+    console.log(chatId);
 
     if (!chatId) {
       return NextResponse.json(

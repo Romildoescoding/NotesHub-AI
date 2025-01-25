@@ -13,7 +13,7 @@ import useChats from "../(dashboard)/dashboard/chat/useChats";
 import useSendMessage from "../(dashboard)/dashboard/chat/useSendMessage";
 import useGeminiAI from "../(dashboard)/dashboard/chat/useGeminiAI";
 
-const ChatArea = ({ chatId }) => {
+const ChatArea = ({ chatId, isSidebarOpen }) => {
   const [message, setMessage] = useState("");
   const { chats, isLoading } = useChats(chatId);
   const { user, status } = useCurrentUser();
@@ -53,7 +53,7 @@ const ChatArea = ({ chatId }) => {
 
   return (
     // <SessionProvider>
-    <div className="w-full flex justify-center h-fit pt-24">
+    <div className="w-full relative flex justify-center h-fit pt-24">
       <div
         className="w-full max-w-[60vw] h-screen flex flex-col gap-2"
         style={{
@@ -65,18 +65,29 @@ const ChatArea = ({ chatId }) => {
               : "start",
         }}
       >
-        {!status || status === "loading" || status === "" ? (
+        {!status || status === "loading" || status === "" || !chats ? (
           <Spinner height={24} width={24} isWhite={false} />
         ) : (
           <>
-            <AiMessage />
-            <UserMessage user={user} />
+            {chats.map((message, i) =>
+              message.sender === "ai" ? (
+                <AiMessage key={i} text={message.content} />
+              ) : (
+                <UserMessage key={i} user={user} text={message.content} />
+              )
+            )}
+            {/* <AiMessage />
+            <UserMessage user={user} /> */}
           </>
         )}
 
         {/* INPUT BOX FOR QUESTIONS */}
         <form
           onSubmit={handleSendMessage}
+          style={{
+            left: !isSidebarOpen ? "50%" : "calc(50% + 62px)",
+            transition: "left 0.35s ease-in-out",
+          }}
           className="w-full max-w-[60vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-6 p-4 pt-4 rounded-t-lg"
         >
           <textarea

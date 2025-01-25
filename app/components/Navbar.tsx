@@ -35,7 +35,8 @@ import ProfileButton from "./ProfileButton";
 const Navbar = async () => {
   const user = await getUser();
   return (
-    <nav className="fixed z-[9999] top-0 left-0 flex flex-col bg-gradient-to-b from-white via-[#ffffffef] to-[#ffffff00] gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
+    <nav className="fixed z-[9999] top-0 left-0 flex flex-col bg-transparent gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
+      {/* <nav className="fixed z-[9999] top-0 left-0 flex flex-col bg-gradient-to-b from-white via-[#ffffffef] to-[#ffffff00] gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none"> */}
       <div
         className="pointer-events-auto relative w-full h-24 flex justify-between items-start pt-2 pl-2 pr-4 z-[2] transition-all"
         // style={{

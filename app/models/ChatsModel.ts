@@ -31,6 +31,6 @@ const chatSchema = new Schema<IChat>({
 });
 
 // Create the model using the schema and interface
-const Chat = mongoose.models.Chat || mongoose.model<IChat>("Chat", chatSchema);
+const Chat = mongoose.models?.Chat || mongoose.model<IChat>("Chat", chatSchema);
 
 export default Chat;

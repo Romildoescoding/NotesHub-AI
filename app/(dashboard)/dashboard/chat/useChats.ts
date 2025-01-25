@@ -5,6 +5,7 @@ export default function useChats(chatId) {
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function fetchChats() {
+      console.log(chatId);
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/chats?chatId=${chatId}`
       );

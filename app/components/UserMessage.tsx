@@ -1,13 +1,11 @@
 import Image from "next/image";
 import React from "react";
 
-const UserMessage = ({ user }) => {
+const UserMessage = ({ user, text }) => {
   console.log(user);
   return (
     <div className="h-fit items-end w-full flex gap-3 ">
-      <span className="h-fit w-full max-w-[40vw] user-message">
-        Sure. wait a minute.
-      </span>
+      <span className="h-fit w-full max-w-[40vw] user-message">{text}</span>
       <Image
         src={user?.image}
         height={24}
