@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { getUser } from "../_data/user";
 import { Copy, Send } from "lucide-react";
 import UserMessage from "./UserMessage";
@@ -13,9 +13,13 @@ import useChats from "../(dashboard)/dashboard/chat/useChats";
 import useSendMessage from "../(dashboard)/dashboard/chat/useSendMessage";
 import useGeminiAI from "../(dashboard)/dashboard/chat/useGeminiAI";
 
+//OPTIMIZE IT TO PREVENT RE-RENDERS ON ENTERING THE DATA IN THE TEXTAREA
+
 const ChatArea = ({ chatId, isSidebarOpen }) => {
+  const chatAreaRef = useRef(null);
   const [message, setMessage] = useState("");
-  const { chats, isLoading } = useChats(chatId);
+  const { chats, isLoading, setChats } = useChats(chatId);
+  const [isGeminiLoading, setIsGeminiLoading] = useState(false);
   const { user, status } = useCurrentUser();
   console.log(chats);
   const { sendMessage, isSending, error } = useSendMessage();
@@ -25,6 +29,12 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
     error: errorAI,
   } = useGeminiAI();
 
+  useEffect(() => {
+    if (chatAreaRef.current) {
+      chatAreaRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chats, isGeminiLoading]);
+
   const handleSendMessage = async (e: SubmitEvent) => {
     e.preventDefault();
 
@@ -32,20 +42,41 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
 
     //Remeber, i need to create another table to store the chatIs mapped to userids to fetch the previous cahts okay!!??
     try {
+      setMessage("");
       const sender = "user";
-      await sendMessage({
+      const newMessage = await sendMessage({
         chatId,
         sender,
         content: message.trim(),
       });
+
+      console.log("USER MESSAGE-------------------------------------");
+      //Simulate realtime updates
+      console.log(newMessage);
+      console.log("USER MESSAGE-------------------------------------");
+      setChats((chats) => [...chats, newMessage.data]);
+
+      //Set gemini to loading
+      setIsGeminiLoading(true);
 
       console.log("GOING TO AI");
       const data = await sendMessageAI(message.trim());
       console.log("GONE TO AI");
       console.log(data);
       const aiContent = data.candidates[0].content.parts[0].text;
-      await sendMessage({ chatId, sender: "ai", content: aiContent });
-      setMessage("");
+      const message1 = await sendMessage({
+        chatId,
+        sender: "ai",
+        content: aiContent,
+      });
+
+      //Set gemini to idle
+      setIsGeminiLoading(false);
+      console.log("AI REPLY-------------------------------------");
+      console.log(message1);
+      console.log("AI REPLY-------------------------------------");
+      //Simulate realtime updates
+      setChats((chats) => [...chats, message1.data]);
     } catch (err) {
       console.error("Failed to send message:", err);
     }
@@ -53,9 +84,9 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
 
   return (
     // <SessionProvider>
-    <div className="w-full relative flex justify-center h-fit pt-24">
+    <div className="w-full relative flex justify-center h-fit pt-24 pb-28">
       <div
-        className="w-full max-w-[60vw] h-screen flex flex-col gap-2"
+        className="w-full max-w-[60vw] h-fit flex flex-col gap-4"
         style={{
           alignItems:
             !status || status === "loading" || status === "" ? "center" : "top",
@@ -76,8 +107,9 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
                 <UserMessage key={i} user={user} text={message.content} />
               )
             )}
-            {/* <AiMessage />
-            <UserMessage user={user} /> */}
+            {isGeminiLoading && <AiMessage text={""} />}
+            {/* Scroll to the bottom yk */}
+            <div ref={chatAreaRef} /> {/* Scroll target */}
           </>
         )}
 

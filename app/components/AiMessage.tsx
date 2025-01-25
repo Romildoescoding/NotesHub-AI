@@ -1,6 +1,7 @@
 import { Copy } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import Spinner from "./Spinner";
 
 const AiMessage = ({ text }) => {
   return (
@@ -12,12 +13,16 @@ const AiMessage = ({ text }) => {
         alt="user-image"
         className="rounded-full border-2"
       />
-      <span className="h-fit w-full max-w-[40vw] ai-message relative">
-        {text}
-        <span className="absolute bottom-2 right-2 text-zinc-50">
-          <Copy size={15} />
+      {text.length > 0 ? (
+        <span className="h-fit w-full max-w-[40vw] ai-message relative">
+          {text}
+          <span className="absolute bottom-2 right-2 text-zinc-50">
+            <Copy size={15} />
+          </span>
         </span>
-      </span>
+      ) : (
+        <Spinner isWhite={false} height={24} width={24} />
+      )}
     </div>
   );
 };

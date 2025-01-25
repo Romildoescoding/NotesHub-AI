@@ -67,6 +67,9 @@ export async function POST(req: Request) {
     }
 
     const addedMessage = await addMessage(chatId, sender, content);
+    console.log("Added message is--------------------------------------");
+    console.log(addedMessage);
+    console.log("------------------------------------------------------");
     return NextResponse.json({ status: "success", data: addedMessage });
   } catch (error) {
     console.error("Error adding message:", error);

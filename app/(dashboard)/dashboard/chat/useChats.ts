@@ -17,5 +17,5 @@ export default function useChats(chatId) {
     fetchChats();
     setIsLoading(false);
   }, [chatId]);
-  return { chats, isLoading };
+  return { chats, isLoading, setChats };
 }
