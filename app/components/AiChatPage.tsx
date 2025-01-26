@@ -3,11 +3,13 @@ import React, { useEffect, useState } from "react";
 import ChatArea from "./ChatArea";
 import { Ellipsis, EllipsisVertical, Menu, SquarePen } from "lucide-react";
 import UserChatButton from "./UserChatButton";
+import useNewChat from "../(dashboard)/dashboard/chat/useNewChat";
 
-const AiChatPage = ({ chats }) => {
+const AiChatPage = ({ email, chats }) => {
   //  Create a selectedChat state and a hook that fetches all the messages/chats regarding that specific userChat
   const [selectedChat, setSelectedChat] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const { createNewChat, isCreating, error } = useNewChat();
 
   // Use useEffect to access localStorage only in the browser
   useEffect(() => {
@@ -22,6 +24,10 @@ const AiChatPage = ({ chats }) => {
     }
   }, [selectedChat]);
 
+  async function handleCreateNewChat() {
+    await createNewChat(email);
+  }
+
   return (
     <div className="h-full w-full flex relative">
       {/* button to toggle sidebar */}
@@ -33,7 +39,7 @@ const AiChatPage = ({ chats }) => {
       </button>
       <button
         className="fixed top-[81px] left-[44px] z-[99999999]"
-        onClick={() => setIsSidebarOpen((open) => !open)}
+        onClick={() => handleCreateNewChat()}
       >
         <SquarePen size={18} color="#18181b" />
       </button>
@@ -49,7 +55,7 @@ const AiChatPage = ({ chats }) => {
 
       {/* Actual sidebar */}
       <div
-        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-28 flex flex-col gap-2  items-center"
+        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-28 flex z-[9999] rounded-tr-lg flex-col gap-2 pt-2 bg-[#F9F9F9]  items-center"
         style={{
           height: "calc(100vh - 28px)",
           left: isSidebarOpen ? 0 : "-144px",
@@ -58,6 +64,7 @@ const AiChatPage = ({ chats }) => {
       >
         {chats?.chats?.map((chat, i) => (
           <UserChatButton
+            email={email}
             setSelectedChat={setSelectedChat}
             selectedChat={selectedChat}
             chat={chat}

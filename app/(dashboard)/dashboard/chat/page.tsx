@@ -22,9 +22,11 @@ const AIChat = async () => {
           placeholder="What this pdf is about?"
         />
       </div> */}
-      <AiChatPage chats={chats} />
+      <AiChatPage chats={chats} email={email} />
     </SessionProvider>
   );
 };
 
 export default AIChat;
+
+// export const revalidate = 0;

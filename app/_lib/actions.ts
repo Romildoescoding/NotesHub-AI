@@ -28,7 +28,7 @@ export const getUserClient = async () => {
 
 import { v4 as uuidv4 } from "uuid";
 
-function serializeData(data: any) {
+export function serializeData(data: any) {
   return JSON.parse(
     JSON.stringify(data, (key, value) =>
       key === "_id" ? value.toString() : value
@@ -86,6 +86,36 @@ export async function fetchUserChats(email: string) {
     return {
       success: false,
       message: "An error occurred while fetching chats.",
+    };
+  }
+}
+
+export async function renameChat(email, chatId, newName) {
+  try {
+    // Find the user by email and update the chat's title where chatId matches
+    const updatedChat = await UserChats.findOneAndUpdate(
+      { email, "chats.chatId": chatId }, // Match the document containing the email and specific chatId
+      { $set: { "chats.$.title": newName } }, // Use the $ operator to update the matched chat's title
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedChat) {
+      return {
+        success: false,
+        message: "Chat not found or email does not exist.",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Chat renamed successfully.",
+      updatedChat,
+    };
+  } catch (err) {
+    console.error("Error renaming chat:", err);
+    return {
+      success: false,
+      message: "An error occurred while renaming the chat.",
     };
   }
 }

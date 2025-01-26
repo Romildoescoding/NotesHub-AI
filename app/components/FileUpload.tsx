@@ -22,12 +22,7 @@ const FileUpload: React.FC = () => {
 
   // After successful upload, redirect to /dashboard/editor
   const [files, setFiles] = useState<FileType[]>([]);
-  const [ocrResults, setOcrResults] = useState<string[]>([
-    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
-    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
-    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
-    "DFHE RBHIJEJFHED BFHJENBDHUF REHBH",
-  ]);
+  const [ocrResults, setOcrResults] = useState<string[]>([]);
   const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -70,7 +65,7 @@ const FileUpload: React.FC = () => {
         results.push(`Error processing file: ${file.name}`);
       }
     }
-    router.push("/dashboard/editor");
+    // router.push("/dashboard/editor");
 
     setOcrResults(results);
     setShowModal("results");
@@ -195,8 +190,8 @@ const FileUpload: React.FC = () => {
             className=" bg-zinc-900 text-zinc-50 p-2 px-4 flex gap-1 items-center rounded-full"
             style={{ cursor: files.length == 0 ? "not-allowed" : "pointer" }}
             disabled={files.length == 0}
-            onClick={() => setShowModal("results")}
-            // onClick={handleGenerate}
+            // onClick={() => setShowModal("results")}
+            onClick={handleGenerate}
           >
             {/* img {
   max-width: 100%; 

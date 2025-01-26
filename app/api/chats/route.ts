@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/app/_lib/dbConnect";
 import Chat from "@/app/models/ChatsModel";
 import { NextApiRequest } from "next";
+import { addChatForUser, serializeData, renameChat } from "@/app/_lib/actions";
 
 // Function to fetch messages
 const fetchMessages = async (chatId: string) => {
@@ -80,11 +81,58 @@ export async function POST(req: Request) {
   }
 }
 
+export async function PUT(req: Request) {
+  try {
+    const body = await req.json();
+    const email = body.email;
+    const newUserChats = await addChatForUser(email);
+    return NextResponse.json({
+      status: "success",
+      data: serializeData(newUserChats),
+    });
+  } catch (error) {
+    console.error("Error creating new chat:", error);
+    return NextResponse.json(
+      { status: "error", message: "Failed to create note" },
+      { status: 500 }
+    );
+  }
+}
+
+//Renaming the chats using chatId
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    await dbConnect();
+
+    const { email, chatId, newName } = body;
+
+    if (!chatId || !newName) {
+      return NextResponse.json(
+        { status: "error", message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const renamedChat = await renameChat(email, chatId, newName);
+    console.log("Renamed chat is--------------------------------------");
+    console.log(renamedChat);
+    console.log("------------------------------------------------------");
+    return NextResponse.json({ status: "success", data: renamedChat });
+  } catch (error) {
+    console.error("Error adding message:", error);
+    return NextResponse.json(
+      { status: "error", message: "Failed to add message" },
+      { status: 500 }
+    );
+  }
+}
+
 // Handle OPTIONS requests
 export function OPTIONS() {
   return NextResponse.json(null, {
     headers: {
-      Allow: "GET, POST, OPTIONS",
+      Allow: "GET, POST, PUT, PATCH, DELETE, OPTIONS",
     },
   });
 }

@@ -117,13 +117,13 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
         <form
           onSubmit={handleSendMessage}
           style={{
-            left: !isSidebarOpen ? "50%" : "calc(50% + 62px)",
+            left: !isSidebarOpen ? "50%" : "calc(50% + 65px)",
             transition: "left 0.35s ease-in-out",
           }}
-          className="w-full max-w-[60vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-6 p-4 pt-4 rounded-t-lg"
+          className="w-full max-w-[60vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-6 p-4 pt-2 rounded-t-xl"
         >
           <textarea
-            placeholder="Enter Message.."
+            // placeholder="Enter Message.."
             className="w-full h-auto max-h-[150px] bg-zinc-100 outline-none resize-none overflow-y-auto  text-black rounded-lg p-2 scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent"
             rows={1}
             value={message}

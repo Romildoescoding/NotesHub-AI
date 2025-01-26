@@ -226,8 +226,11 @@ if __name__ == "__main__":
     try:
         image_path = sys.argv[1]
         extracted_text = extract_text(image_path)
+        # print("Text extraction complete")
         cleaned_data = clean_text(extracted_text)
+        # print("Cleaning text done")
         processed_text = post_process_to_string(cleaned_data)
+        # print("Post-Processing done too")
         print(processed_text)
     except Exception as e:
         print(f"Error: {e}")
