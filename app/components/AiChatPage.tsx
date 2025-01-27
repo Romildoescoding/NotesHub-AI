@@ -11,12 +11,15 @@ const AiChatPage = ({ email, chats }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { createNewChat, isCreating, error } = useNewChat();
 
+  //Simulate realtime update on new chats
+  const [chatsState, setChatsState] = useState(chats);
+
   // Use useEffect to access localStorage only in the browser
   useEffect(() => {
     const recentChatId =
-      localStorage.getItem("recentChatId") || chats.chats[0]?.chatId || "";
+      localStorage.getItem("recentChatId") || chatsState.chats[0]?.chatId || "";
     setSelectedChat(recentChatId);
-  }, [chats]);
+  }, [chatsState]);
 
   useEffect(() => {
     if (selectedChat) {
@@ -25,7 +28,12 @@ const AiChatPage = ({ email, chats }) => {
   }, [selectedChat]);
 
   async function handleCreateNewChat() {
-    await createNewChat(email);
+    const newChat = await createNewChat(email);
+    console.log("------------------------------------------------");
+    // console.log(newChat);
+    //Simulate realtime state update ><
+    setChatsState(newChat.data);
+    console.log("------------------------------------------------");
   }
 
   return (
@@ -62,7 +70,9 @@ const AiChatPage = ({ email, chats }) => {
           transition: "left 0.35s ease-in-out",
         }}
       >
-        {chats?.chats?.map((chat, i) => (
+        {/* Reversed so make the chats look like from the most recent made to top!! */}
+        {/* {chatsState?.chats?.reverse().map((chat, i) => ( */}
+        {chatsState?.chats?.map((chat, i) => (
           <UserChatButton
             email={email}
             setSelectedChat={setSelectedChat}
