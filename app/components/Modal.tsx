@@ -17,7 +17,7 @@ function Modal({
   return (
     // <AnimatePresence>
     <motion.div
-      className="z-[99999] bg-[#00000007] flex items-center justify-center backdrop-blur-sm h-full w-full fixed top-0 left-0"
+      className="z-[99999999] bg-[#00000017] flex items-center justify-center backdrop-blur-sm h-full w-full fixed top-0 left-0"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       // exit={{ opacity: 0, scale: 0.95 }}

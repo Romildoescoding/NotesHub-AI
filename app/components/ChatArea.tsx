@@ -13,6 +13,8 @@ import useChats from "../(dashboard)/dashboard/chat/useChats";
 import useSendMessage from "../(dashboard)/dashboard/chat/useSendMessage";
 import useGeminiAI from "../(dashboard)/dashboard/chat/useGeminiAI";
 import ChatInputForm from "./ChatInputForm";
+import Modal from "./Modal";
+import ModalUploadPdf from "./ModalUploadPdf";
 
 //OPTIMIZE IT TO PREVENT RE-RENDERS ON ENTERING THE DATA IN THE TEXTAREA
 
@@ -21,6 +23,7 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
 
   const { chats, isLoading, setChats } = useChats(chatId);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const { user, status } = useCurrentUser();
   const { sendMessage, isSending, error } = useSendMessage();
   const {
@@ -37,45 +40,56 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
 
   return (
     // <SessionProvider>
-    <div className="w-full relative flex justify-center h-fit pt-24 pb-28">
-      <div
-        className="w-full max-w-[60vw] h-fit flex flex-col gap-4"
-        style={{
-          alignItems:
-            !status || status === "loading" || status === "" ? "center" : "top",
-          justifyContent:
-            !status || status === "loading" || status === ""
-              ? "center"
-              : "start",
-        }}
-      >
-        {!status || status === "loading" || status === "" || !chats ? (
-          <Spinner height={24} width={24} isWhite={false} />
-        ) : (
-          <>
-            {chats.map((message, i) =>
-              message.sender === "ai" ? (
-                <AiMessage key={i} text={message.content} />
-              ) : (
-                <UserMessage key={i} user={user} text={message.content} />
-              )
-            )}
-            {isGeminiLoading && <AiMessage text={""} />}
-            {/* Scroll to the bottom yk */}
-            <div ref={chatAreaRef} /> {/* Scroll target */}
-          </>
-        )}
+    <>
+      {showModal && (
+        <Modal setShowModal={setShowModal}>
+          <ModalUploadPdf />
+        </Modal>
+      )}
 
-        <ChatInputForm
-          isSidebarOpen={isSidebarOpen}
-          sendMessage={sendMessage}
-          setChats={setChats}
-          setIsGeminiLoading={setIsGeminiLoading}
-          sendMessageAI={sendMessageAI}
-          chatId={chatId}
-        />
+      <div className="w-full relative flex justify-center h-fit pt-24 pb-28">
+        <div
+          className="w-full max-w-[60vw] h-fit flex flex-col gap-4"
+          style={{
+            alignItems:
+              !status || status === "loading" || status === ""
+                ? "center"
+                : "top",
+            justifyContent:
+              !status || status === "loading" || status === ""
+                ? "center"
+                : "start",
+          }}
+        >
+          {!status || status === "loading" || status === "" || !chats ? (
+            <Spinner height={24} width={24} isWhite={false} />
+          ) : (
+            <>
+              {chats.map((message, i) =>
+                message.sender === "ai" ? (
+                  <AiMessage key={i} text={message.content} />
+                ) : (
+                  <UserMessage key={i} user={user} text={message.content} />
+                )
+              )}
+              {isGeminiLoading && <AiMessage text={""} />}
+              {/* Scroll to the bottom yk */}
+              <div ref={chatAreaRef} /> {/* Scroll target */}
+            </>
+          )}
+
+          <ChatInputForm
+            isSidebarOpen={isSidebarOpen}
+            sendMessage={sendMessage}
+            setChats={setChats}
+            setIsGeminiLoading={setIsGeminiLoading}
+            sendMessageAI={sendMessageAI}
+            chatId={chatId}
+            setShowModal={setShowModal}
+          />
+        </div>
       </div>
-    </div>
+    </>
     // </SessionProvider>
   );
 };
