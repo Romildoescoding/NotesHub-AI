@@ -1,24 +1,39 @@
 import React, { useState } from "react";
+import { uploadFileToSupabase } from "../(dashboard)/dashboard/upload/uploadFile";
 
-const ModalUploadPdf = () => {
+const ModalUploadPdf = ({ setSelectedPdfFile }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
 
   // Mock data for cards
+  /**
+   * Paste one or more documents here
+   */
+
   const pdfFiles = [
-    { id: 1, name: "File 1.pdf", file: "https://placehold.co/600x400" },
-    { id: 2, name: "File 2.pdf", file: "https://placehold.co/600x400" },
-    { id: 3, name: "File 3.pdf", file: "https://placehold.co/600x400" },
-    // Add more as needed
+    {
+      title: "My First Note",
+      fileName: "uploads.pdf",
+      fileUrl:
+        "https://toedslmykfbanqvtpktp.supabase.co/storage/v1/object/public/pdfs/pdfs/1737617258167-uploads.pdf",
+      isPublic: true,
+      tags: ["learning", "typescript"],
+      uploadedBy: {
+        $oid: "67839448b5474a277037a82a",
+      },
+      uploaderEmail: "romilrajrana1@gmail.com",
+      description: "This is my first note uploaded to Supabase.",
+    },
   ];
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleCardClick = (id) => {
-    setSelectedPdf(id);
+  const handleCardClick = (url) => {
+    setSelectedPdf(url);
+    setSelectedPdfFile(url);
     setUploadedFile("");
   };
 
@@ -31,16 +46,21 @@ const ModalUploadPdf = () => {
   };
 
   const filteredPdfFiles = pdfFiles.filter((file) =>
-    file.name.toLowerCase().includes(searchTerm.toLowerCase())
+    file.fileName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  function handleUploadFile() {
+  async function handleUploadFile() {
     // https://toedslmykfbanqvtpktp.supabase.co/storage/v1/object/public/pdfs/pdfs/1737617258167-uploads.pdf
-    if (selectedPdf) {
-      //It means that the pdf seleceted alreay has a deployed url so we can already process it
-    } else if (uploadedFile) {
-      //First i need to upload the file to supabas storage and then make
-    } else return;
+    // let uploadedUrl = "";
+    // if (selectedPdf) {
+    //   uploadedUrl = selectedPdf;
+    //   //It means that the pdf seleceted alreay has a deployed url so we can already process it
+    // } else if (uploadedFile) {
+    //   const url = await uploadFileToSupabase(uploadedFile);
+    //   uploadedUrl = url;
+    //   //First i need to upload the file to supabas storage and then make
+    // } else return;
+    // setSelectedPdfFile(selectedPdf || uploadedUrl);
   }
 
   return (
@@ -60,20 +80,22 @@ const ModalUploadPdf = () => {
       {/* Cards Section */}
       <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
         <div className="grid grid-cols-3 gap-4">
-          {filteredPdfFiles.map((file) => (
+          {filteredPdfFiles.map((file, i) => (
             <div
-              key={file.id}
+              key={i}
               className={`flex flex-col items-center gap-4 p-4 border rounded-lg cursor-pointer ${
-                selectedPdf === file.id ? "border-black" : "border-gray-300"
+                selectedPdf === file.fileUrl
+                  ? "border-black"
+                  : "border-gray-300"
               } hover:shadow-md`}
-              onClick={() => handleCardClick(file.id)}
+              onClick={() => handleCardClick(file.fileUrl)}
             >
               <img
-                src={file.file}
-                alt={file.name}
+                src={file.fileUrl}
+                alt={file.fileName}
                 className="w-full h-auto object-cover rounded-md"
               />
-              <span className="text-sm font-medium">{file.name}</span>
+              <span className="text-sm font-medium">{file.fileName}</span>
             </div>
           ))}
         </div>

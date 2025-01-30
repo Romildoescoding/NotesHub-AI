@@ -15,6 +15,7 @@ import useGeminiAI from "../(dashboard)/dashboard/chat/useGeminiAI";
 import ChatInputForm from "./ChatInputForm";
 import Modal from "./Modal";
 import ModalUploadPdf from "./ModalUploadPdf";
+import usePdfGeminiAI from "../(dashboard)/dashboard/chat/usePdfGeminiAI";
 
 //OPTIMIZE IT TO PREVENT RE-RENDERS ON ENTERING THE DATA IN THE TEXTAREA
 
@@ -26,12 +27,20 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
   const [showModal, setShowModal] = useState(false);
   const { user, status } = useCurrentUser();
   const { sendMessage, isSending, error } = useSendMessage();
+  const [selectedPdfFile, setSelectedPdfFile] = useState();
   const {
     sendMessageAI,
     isSending: isSendingAI,
     error: errorAI,
   } = useGeminiAI();
 
+  const {
+    sendPDfMessageAI,
+    isSending: isSending2,
+    error: errorPDF,
+  } = usePdfGeminiAI();
+
+  //Scrolling into the latest message to bottom..
   useEffect(() => {
     if (chatAreaRef.current) {
       chatAreaRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -43,7 +52,7 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
     <>
       {showModal && (
         <Modal setShowModal={setShowModal}>
-          <ModalUploadPdf />
+          <ModalUploadPdf setSelectedPdfFile={setSelectedPdfFile} />
         </Modal>
       )}
 
@@ -79,6 +88,8 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
           )}
 
           <ChatInputForm
+            selectedPDfFile={selectedPdfFile}
+            sendPDfMessageAI={sendPDfMessageAI}
             isSidebarOpen={isSidebarOpen}
             sendMessage={sendMessage}
             setChats={setChats}

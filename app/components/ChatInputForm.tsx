@@ -9,10 +9,25 @@ const ChatInputForm = ({
   sendMessageAI,
   chatId,
   setShowModal,
+  selectedPDfFile,
+  sendPDfMessageAI,
 }) => {
   const [message, setMessage] = useState("");
+  console.log(selectedPDfFile);
+
+  const pdfUrlToBUffer = async (pdfUrl) => {
+    try {
+      const pdfResponse = await fetch(pdfUrl);
+      const pdfBuffer = await pdfResponse.arrayBuffer();
+      return pdfBuffer;
+    } catch (err) {
+      console.error("Error fetching or processing PDF:", err);
+    }
+  };
 
   const handleSendMessage = async (e: SubmitEvent) => {
+    console.log("Selected Pdf file is-->");
+    console.log(selectedPDfFile);
     e.preventDefault();
 
     if (!message.trim()) return;
@@ -37,7 +52,13 @@ const ChatInputForm = ({
       setIsGeminiLoading(true);
 
       console.log("GOING TO AI");
-      const data = await sendMessageAI(message.trim());
+      let data;
+      if (selectedPDfFile) {
+        const pdfBuffer = await pdfUrlToBUffer(selectedPDfFile);
+        data = await sendPDfMessageAI(pdfBuffer, message.trim());
+      } else {
+        data = await sendMessageAI(message.trim());
+      }
       console.log("GONE TO AI");
       console.log(data);
       const aiContent = data.candidates[0].content.parts[0].text;
@@ -58,6 +79,7 @@ const ChatInputForm = ({
       console.error("Failed to send message:", err);
     }
   };
+
   return (
     <form
       onSubmit={handleSendMessage}
