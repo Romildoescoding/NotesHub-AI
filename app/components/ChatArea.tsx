@@ -24,10 +24,10 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
 
   const { chats, isLoading, setChats } = useChats(chatId);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState("");
   const { user, status } = useCurrentUser();
   const { sendMessage, isSending, error } = useSendMessage();
-  const [selectedPdfFile, setSelectedPdfFile] = useState();
+  const [selectedPdfFile, setSelectedPdfFile] = useState(null);
   const {
     sendMessageAI,
     isSending: isSendingAI,
@@ -50,13 +50,21 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
   return (
     // <SessionProvider>
     <>
-      {showModal && (
+      {showModal === "select-file" && (
         <Modal setShowModal={setShowModal}>
-          <ModalUploadPdf setSelectedPdfFile={setSelectedPdfFile} />
+          <ModalUploadPdf
+            chatId={chatId}
+            setShowModal={setShowModal}
+            setSelectedPdfFile={setSelectedPdfFile}
+          />
         </Modal>
       )}
 
-      <div className="w-full relative flex justify-center h-fit pt-24 pb-28">
+      <div
+        className={`w-full relative flex justify-center h-fit pt-24 ${
+          selectedPdfFile ? "pb-40" : "pb-28"
+        }`}
+      >
         <div
           className="w-full max-w-[60vw] h-fit flex flex-col gap-4"
           style={{
@@ -89,6 +97,7 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
 
           <ChatInputForm
             selectedPDfFile={selectedPdfFile}
+            setSelectedPdfFile={setSelectedPdfFile}
             sendPDfMessageAI={sendPDfMessageAI}
             isSidebarOpen={isSidebarOpen}
             sendMessage={sendMessage}

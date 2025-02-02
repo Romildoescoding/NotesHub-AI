@@ -1,5 +1,6 @@
-import { File, Send } from "lucide-react";
-import React, { useState } from "react";
+import { File, FileText, Send, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { deleteFileFromSupabase } from "../(dashboard)/dashboard/upload/uploadFile";
 
 const ChatInputForm = ({
   isSidebarOpen,
@@ -10,6 +11,7 @@ const ChatInputForm = ({
   chatId,
   setShowModal,
   selectedPDfFile,
+  setSelectedPdfFile,
   sendPDfMessageAI,
 }) => {
   const [message, setMessage] = useState("");
@@ -54,7 +56,7 @@ const ChatInputForm = ({
       console.log("GOING TO AI");
       let data;
       if (selectedPDfFile) {
-        const pdfBuffer = await pdfUrlToBUffer(selectedPDfFile);
+        const pdfBuffer = await pdfUrlToBUffer(selectedPDfFile.fileUrl);
         data = await sendPDfMessageAI(pdfBuffer, message.trim());
       } else {
         data = await sendMessageAI(message.trim());
@@ -80,6 +82,12 @@ const ChatInputForm = ({
     }
   };
 
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [selectedPDfFile]);
+
   return (
     <form
       onSubmit={handleSendMessage}
@@ -89,7 +97,42 @@ const ChatInputForm = ({
       }}
       className="w-full max-w-[60vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-[36px] p-4 pt-2 rounded-t-xl"
     >
+      {/* Dispaly the selected pdf only in the chat session it was selected in yk.. */}
+      {selectedPDfFile && chatId === selectedPDfFile.chatId && (
+        <div className=" w-full flex justify-end">
+          <div className="relative bg-zinc-200 mt-2 ml-2 h-12 gap-2 flex items-center justify-start pl-[6px] w-fit pr-6 rounded-md">
+            <div className=" h-fit w-fit p-1 py-2 bg-zinc-900 rounded-md">
+              <FileText size={20} className="text-white" />
+            </div>
+            <span className=" text-sm">
+              {selectedPDfFile.title.length > 14
+                ? selectedPDfFile.title.slice(0, 15) + "..."
+                : selectedPDfFile.title}
+            </span>
+            <button
+              onClick={async (e) => {
+                e.preventDefault();
+                //It means the file had to be uploaded to supabase for this shit like why did you even select that file in first place dude...
+                if (!selectedPDfFile.isNote) {
+                  // The selectedPDfFile object would look like ... { fileUrl :"https://-----", title:"The File Name", isNote:false, chatId: "3ejfibd2y8ehnd"}
+                  //So, i bet it would need the use of fileUrl to delete right....
+                  await deleteFileFromSupabase(selectedPDfFile.fileUrl);
+                }
+                setSelectedPdfFile(null);
+              }}
+              className="absolute rounded-full  right-2 top-2"
+            >
+              <X
+                size={16}
+                className="hover:text-zinc-950 transition-all text-zinc-600"
+              />
+            </button>
+          </div>
+        </div>
+      )}
+
       <textarea
+        ref={inputRef}
         // placeholder="Enter Message.."
         className="w-full h-auto max-h-[150px] bg-zinc-100 outline-none resize-none overflow-y-auto text-black rounded-lg p-2 scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent"
         rows={1}
@@ -112,7 +155,7 @@ const ChatInputForm = ({
         className="p-1 flex items-center justify-center absolute bottom-2 left-2"
         onClick={(e) => {
           e.preventDefault();
-          setShowModal(true);
+          setShowModal("select-file");
         }}
       >
         <span className="w-fit h-fit relative tooltip">

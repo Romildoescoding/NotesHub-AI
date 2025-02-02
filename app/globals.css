@@ -272,3 +272,26 @@ body {
   border-right: 10px solid transparent;
   border-top: 10px solid #f3f3f3;
 } */
+
+iframe {
+  width: 224px; /* Or use your desired width */
+  height: 112px; /* Or use your desired height */
+  border: none;
+  overflow: hidden;
+  scrollbar-width: none; /* Hides scrollbar for Firefox */
+}
+
+iframe body {
+  overflow: hidden;
+}
+
+/* For Webkit browsers (Chrome, Safari, Opera) */
+iframe::-webkit-scrollbar {
+  display: none; /* Hides the scrollbar */
+}
+
+/* Sets the pdf to center of the container yk */
+.rpv-core__inner-page {
+  display: flex;
+  justify-content: center;
+}

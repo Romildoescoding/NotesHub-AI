@@ -1,45 +1,41 @@
-import Image from "next/image";
-import React from "react";
+"use client";
 
-// title: {
-//       type: String,
-//       required: true, // Ensure every note has a title
-//     },
-//     fileName: {
-//       type: String,
-//       required: true, // Store the name of the uploaded file
-//     },
-//     fileUrl: {
-//       type: String,
-//       required: true, // URL of the file on AWS S3
-//     },
-//     isPublic: {
-//       type: Boolean,
-//       default: false, // Whether the note is public or private
-//     },
-//     tags: {
-//       type: [String],
-//       default: ["notes", "pdfs"], // Default tags for AI-generated or user-added tags
-//     },
-//     uploadedBy: {
-//       type: mongoose.Schema.Types.ObjectId,
-//       ref: "User", // Reference to the User model
-//       required: true,
-//     },
-//     uploaderEmail: {
-//       type: String,
-//       required: true, // Store the uploader's email for redundancy and quick lookup
-//     },
-//     description: {
-//       type: String,
-//       default: "", // Optional description or summary of the note
-//     },
-const Note = ({ note }) => {
+import React from "react";
+import { Viewer, Worker } from "@react-pdf-viewer/core";
+
+const Note = ({ note, selectedPdf, onClick }) => {
   return (
-    <div className=" h-fit w-56 p-4 border-2 flex flex-col">
-      <iframe src={note.fileUrl} width="224" height="112" title="PDF Preview" />
-      <p>{note.fileName}</p>
-      <p>{note.uploaderEmail}</p>
+    <div
+      onClick={onClick}
+      className={`h-fit cursor-pointer hover:shadow-md shadow-black rounded-md transition-all w-56 border-2 flex flex-col ${
+        selectedPdf?.fileUrl === note.fileUrl ? "border-black" : "auto"
+      }`}
+      // className={`flex flex-col items-center gap-4 p-4 border rounded-lg cursor-pointer  hover:shadow-md`}
+    >
+      {/* PDf note */}
+      <div className="relative w-full h-44 overflow-hidden border-b-2 px-4">
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.js">
+          <div>
+            <Viewer defaultScale={0.3} fileUrl={note.fileUrl} />
+          </div>
+        </Worker>
+      </div>
+      <div className="p-2 px-4 flex flex-col gap-2">
+        <p className="">
+          {note.title.slice(0, 1).toUpperCase() + note.title.slice(1)}
+        </p>
+        <p className="w-full justify-end flex gap-1">
+          {note.tags.map((tag, i) => (
+            <span
+              key={i}
+              className="px-2 py-1 text-xs rounded-full capitalize"
+              style={{ color: tag.secondary, background: tag.primary }}
+            >
+              {tag.name}
+            </span>
+          ))}
+        </p>
+      </div>
     </div>
   );
 };

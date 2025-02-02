@@ -16,7 +16,7 @@ const MyNotes = async ({
     : {};
 
   // Fetch notes based on the filter
-  const data = await Notes.find(filter);
+  const data = JSON.parse(JSON.stringify(await Notes.find(filter)));
   console.log(data);
 
   //If the query is null, then all results should be there..
@@ -25,9 +25,10 @@ const MyNotes = async ({
   return (
     <div className="w-full items-center flex flex-col h-fit py-4 mt-40">
       <NotesSearchForm query={query} />
-      {data.map((note, i) => (
-        <Note key={i} note={note} />
-      ))}
+      {data.map((note, i) => {
+        // Convert the Mongoose document to a plain object
+        return <Note key={i} note={note} />;
+      })}
     </div>
   );
 };

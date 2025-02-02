@@ -12,16 +12,37 @@ export const uploadFileToSupabase = async (file: File): Promise<string> => {
       throw new Error(error.message);
     }
 
-    const res = supabase.storage.from("pdfs").getPublicUrl(filePath);
-    console.log(res);
+    const fileUrl = `https://toedslmykfbanqvtpktp.supabase.co/storage/v1/object/public/pdfs/${filePath}`;
 
-    if (!res.data.publicUrl) {
-      throw new Error("Failed to get public URL.");
-    }
-
-    return res.data.publicUrl;
+    return fileUrl;
   } catch (error) {
     console.error("Error uploading file:", error);
+    throw error;
+  }
+};
+
+export const deleteFileFromSupabase = async (
+  fileUrl: string
+): Promise<void> => {
+  try {
+    const urlParts = fileUrl.split("/pdfs/");
+
+    if (urlParts.length < 2) {
+      throw new Error("Invalid file URL format.");
+    }
+
+    const filePath = `${urlParts[1]}`;
+
+    const { error } = await supabase.storage.from("pdfs").remove([filePath]);
+
+    if (error) {
+      console.log(error);
+      throw new Error(error.message);
+    }
+
+    console.log(`File deleted successfully: ${filePath}`);
+  } catch (error) {
+    console.error("Error deleting file:", error);
     throw error;
   }
 };

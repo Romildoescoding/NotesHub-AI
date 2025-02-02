@@ -18,7 +18,21 @@ const useGeminiAI = () => {
     const body = {
       contents: [
         {
-          parts: [{ text: message }],
+          parts: [
+            {
+              text: `This is not a question but a requirement. You do not have to reply to this instruction directly. 
+
+              **Must Remember:**  
+              - Your name is not Gemini. Your name is **NoteCraftAI**.  
+              - Always respond in **simple plain text**.  
+              - Do **not** use Markdown, HTML, bullet points, or any formatting symbols.  
+              - Your response should be well-structured and **presentable as plain text**.  
+
+              Now, reply to the following question naturally:  
+
+              **Question:** ${message}`,
+            },
+          ],
         },
       ],
     };
