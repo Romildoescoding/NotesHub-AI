@@ -119,3 +119,37 @@ export async function renameChat(email, chatId, newName) {
     };
   }
 }
+
+export async function deleteChat(email, chatId) {
+  try {
+    // Find the user's chat object
+    const userChat = await UserChats.findOne({ email });
+    if (!userChat) {
+      return { success: false, message: "User not found." };
+    }
+
+    // Remove the chat with the given chatId
+    const updatedChatsArr = userChat.chats.filter(
+      (chat) => chat.chatId !== chatId
+    );
+
+    // Update the user's chat document
+    const updatedChats = await UserChats.findOneAndUpdate(
+      { email },
+      { $set: { chats: updatedChatsArr } },
+      { new: true } // Ensures the updated document is returned
+    );
+
+    return {
+      success: true,
+      message: "Chat deleted successfully.",
+      updatedChats,
+    };
+  } catch (err) {
+    console.error("Error deleting chat:", err);
+    return {
+      success: false,
+      message: "An error occurred while deleting the chat.",
+    };
+  }
+}

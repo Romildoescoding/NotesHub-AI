@@ -2,7 +2,12 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/app/_lib/dbConnect";
 import Chat from "@/app/models/ChatsModel";
 import { NextApiRequest } from "next";
-import { addChatForUser, serializeData, renameChat } from "@/app/_lib/actions";
+import {
+  addChatForUser,
+  serializeData,
+  deleteChat,
+  renameChat,
+} from "@/app/_lib/actions";
 
 // Function to fetch messages
 const fetchMessages = async (chatId: string) => {
@@ -123,6 +128,37 @@ export async function PATCH(req: Request) {
     console.error("Error adding message:", error);
     return NextResponse.json(
       { status: "error", message: "Failed to add message" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const body = await req.json();
+    await dbConnect();
+
+    const { chatId, email } = body;
+
+    if (!chatId) {
+      return NextResponse.json(
+        {
+          status: "error",
+          message: "Missing chatId in the body of the request",
+        },
+        { status: 400 }
+      );
+    }
+
+    const deletedChat = await deleteChat(email, chatId);
+    console.log("Deleted chat is--------------------------------------");
+    console.log(deletedChat);
+    console.log("------------------------------------------------------");
+    return NextResponse.json({ status: "success", data: deletedChat });
+  } catch (error) {
+    console.error("Error deleting chat:", error);
+    return NextResponse.json(
+      { status: "error", message: "Failed to delete chat" },
       { status: 500 }
     );
   }

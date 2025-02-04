@@ -5,12 +5,20 @@ import useRenameChat from "../(dashboard)/dashboard/chat/useRenameChat";
 import Modal from "./Modal";
 import ModalUploadPdf from "./ModalUploadPdf";
 import ModalConfirmDelete from "./ModalConfirmDelete";
+import useDeleteChat from "../(dashboard)/dashboard/chat/useDeleteChat";
 
-const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
-  const [showOptions, setShowOptions] = useState("options");
+const UserChatButton = ({
+  email,
+  chat,
+  setSelectedChat,
+  selectedChat,
+  setChatsState,
+}) => {
+  const [showOptions, setShowOptions] = useState("");
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState(chat.title || "");
   const { renameChat, isRenaming: isRenamingLoading } = useRenameChat();
+  const { deleteChat, isRenaming: isDeletingChat } = useDeleteChat();
   const [isHovered, setIsHovered] = useState(false);
 
   // Single ref to handle both rename input and options menu
@@ -22,7 +30,25 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
     }
   });
 
-  const handleDeleteChat = () => {};
+  const handleDeleteChat = () => {
+    console.log("deleted");
+    // deleteChat(email, chat.chatId);
+    //Filter the chat from the client side too to ensure responsive updates
+    console.log(chat.chatId);
+
+    setChatsState((prevChats) => {
+      if (!prevChats) return prevChats; // Prevent potential undefined errors
+
+      const newChats = [
+        ...[prevChats.filter((chat1) => chat1.chatId !== chat.chatId)], // Create a new filtered array
+      ];
+
+      console.log(newChats);
+      return newChats;
+    });
+
+    // setShowOptions("");
+  };
 
   const handleRenameEnd = () => {
     setIsRenaming(false);
@@ -42,10 +68,11 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
 
   return (
     <div
-      className="p-2 px-4 hover:bg-zinc-200 outline-none relative rounded-lg flex gap-3 text-xs items-center transition-all cursor-pointer min-w-[131px] max-w-[131px]"
+      className="p-2 px-4 hover:bg-zinc-200 outline-none relative rounded-lg flex gap-3 text-xs items-center transition-all cursor-pointer min-w-[131px] max-w-[131px] buttonClass"
       onClick={(e) => {
-        // if (e.target.tagName === "SPAN") return;
-        setSelectedChat(chat.chatId);
+        // This logic checks the if the element clicked cosnists a class called buttonClass and if so, only then it switches to a new chat...
+        if (e.target.attributes[0].nodeValue.includes("buttonClass"))
+          setSelectedChat(chat.chatId);
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -60,7 +87,7 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
     >
       <div
         ref={containerRef}
-        className="relative flex gap-2 items-center justify-start w-full"
+        className="relative flex gap-2 items-center buttonClass justify-start w-full chatButton"
       >
         {isRenaming ? (
           <input
@@ -96,7 +123,10 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
             </span>
             <span
               className="flex gap-2 pointer w-full rounded-md h-fit p-2 hover:bg-zinc-200"
-              onClick={() => setShowOptions("confirm-delete")}
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowOptions("confirm-delete");
+              }}
             >
               <Trash2 size={15} color="#18181b" /> Delete
             </span>

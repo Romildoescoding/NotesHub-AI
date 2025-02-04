@@ -9,9 +9,6 @@ import React from "react";
 const AIChat = async () => {
   const { email } = await getUser();
   const chats = await fetchUserChats(email);
-  console.log("------------------------------");
-  console.log(chats);
-  console.log("------------------------------");
 
   return (
     <SessionProvider>
