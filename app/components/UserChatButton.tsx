@@ -2,9 +2,12 @@ import { Ellipsis, Pen, Trash2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
 import useRenameChat from "../(dashboard)/dashboard/chat/useRenameChat";
+import Modal from "./Modal";
+import ModalUploadPdf from "./ModalUploadPdf";
+import ModalConfirmDelete from "./ModalConfirmDelete";
 
 const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
-  const [showOptions, setShowOptions] = useState(false);
+  const [showOptions, setShowOptions] = useState("options");
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState(chat.title || "");
   const { renameChat, isRenaming: isRenamingLoading } = useRenameChat();
@@ -15,9 +18,11 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
     if (isRenaming) {
       handleRenameEnd();
     } else if (showOptions) {
-      setShowOptions(false);
+      setShowOptions("");
     }
   });
+
+  const handleDeleteChat = () => {};
 
   const handleRenameEnd = () => {
     setIsRenaming(false);
@@ -78,7 +83,7 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
         )}
 
         {/* The options pop-up */}
-        {showOptions && (
+        {showOptions === "options" && (
           <span className="absolute flex flex-col gap-1 top-[75%] z-[9999] left-[90%] rounded-lg h-fit w-fit p-2 bg-zinc-50 shadow-md shadow-[#ccc]">
             <span
               className="flex gap-2 pointer w-full rounded-md h-fit p-2 hover:bg-zinc-200"
@@ -89,17 +94,30 @@ const UserChatButton = ({ email, chat, setSelectedChat, selectedChat }) => {
             >
               <Pen size={15} color="#18181b" /> Rename
             </span>
-            <span className="flex gap-2 pointer w-full rounded-md h-fit p-2 hover:bg-zinc-200">
+            <span
+              className="flex gap-2 pointer w-full rounded-md h-fit p-2 hover:bg-zinc-200"
+              onClick={() => setShowOptions("confirm-delete")}
+            >
               <Trash2 size={15} color="#18181b" /> Delete
             </span>
           </span>
         )}
+
+        {showOptions === "confirm-delete" && (
+          <Modal setShowModal={setShowOptions}>
+            <ModalConfirmDelete
+              setShowModal={setShowOptions}
+              handleDelete={handleDeleteChat}
+            />
+          </Modal>
+        )}
+
         {!isRenaming && (
           <span
             className="cursor-pointer tooltip"
             onClick={(e) => {
               e.stopPropagation();
-              setShowOptions(true);
+              setShowOptions("options");
             }}
           >
             {!showOptions && <span className="tooltiptext">Options</span>}
