@@ -14,10 +14,6 @@ const AiChatPage = ({ email, chats }) => {
   //Simulate realtime update on new chats
   const [chatsState, setChatsState] = useState(chats.chats);
 
-  useEffect(() => {
-    console.log(chatsState);
-  }, [chatsState]);
-
   // Use useEffect to access localStorage only in the browser
   useEffect(() => {
     const recentChatId =

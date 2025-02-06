@@ -16,10 +16,15 @@ const UserChatButton = ({
 }) => {
   const [showOptions, setShowOptions] = useState("");
   const [isRenaming, setIsRenaming] = useState(false);
-  const [renameValue, setRenameValue] = useState(chat.title || "");
+  const [renameValue, setRenameValue] = useState("");
   const { renameChat, isRenaming: isRenamingLoading } = useRenameChat();
   const { deleteChat, isRenaming: isDeletingChat } = useDeleteChat();
   const [isHovered, setIsHovered] = useState(false);
+
+  //The chats filtering bug caused due to the title not updating as it was a state...
+  useEffect(() => {
+    setRenameValue(chat.title);
+  }, [chat]);
 
   // Single ref to handle both rename input and options menu
   const containerRef = useOutsideClick(() => {
@@ -30,24 +35,16 @@ const UserChatButton = ({
     }
   });
 
-  const handleDeleteChat = () => {
-    console.log("deleted");
-    // deleteChat(email, chat.chatId);
-    //Filter the chat from the client side too to ensure responsive updates
-    console.log(chat.chatId);
-
+  const handleDeleteChat = async () => {
+    await deleteChat(email, chat.chatId);
     setChatsState((prevChats) => {
-      if (!prevChats) return prevChats; // Prevent potential undefined errors
-
+      if (!prevChats) return prevChats;
       const newChats = [
-        ...[prevChats.filter((chat1) => chat1.chatId !== chat.chatId)], // Create a new filtered array
+        ...prevChats.filter((chat1) => chat1.chatId !== chat.chatId),
       ];
-
-      console.log(newChats);
       return newChats;
     });
-
-    // setShowOptions("");
+    setShowOptions("");
   };
 
   const handleRenameEnd = () => {
@@ -73,6 +70,7 @@ const UserChatButton = ({
         // This logic checks the if the element clicked cosnists a class called buttonClass and if so, only then it switches to a new chat...
         if (e.target.attributes[0].nodeValue.includes("buttonClass"))
           setSelectedChat(chat.chatId);
+        // handleDeleteChat();
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

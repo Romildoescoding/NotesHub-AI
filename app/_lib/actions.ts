@@ -120,25 +120,21 @@ export async function renameChat(email, chatId, newName) {
   }
 }
 
-export async function deleteChat(email, chatId) {
+export async function deleteChat(email: string, chatId: string) {
   try {
-    // Find the user's chat object
-    const userChat = await UserChats.findOne({ email });
-    if (!userChat) {
-      return { success: false, message: "User not found." };
-    }
-
-    // Remove the chat with the given chatId
-    const updatedChatsArr = userChat.chats.filter(
-      (chat) => chat.chatId !== chatId
-    );
-
-    // Update the user's chat document
+    // Find the user's chat document and remove the specific chatId
     const updatedChats = await UserChats.findOneAndUpdate(
       { email },
-      { $set: { chats: updatedChatsArr } },
-      { new: true } // Ensures the updated document is returned
+      { $pull: { chats: { chatId } } }, // More efficient than filtering manually
+      { new: true } // Returns the updated document
     );
+
+    if (!updatedChats) {
+      return { success: false, message: "User not found or chat not found." };
+    }
+
+    // Also delete all messages related to this chatId
+    await Chat.deleteMany({ chatId });
 
     return {
       success: true,
