@@ -4,6 +4,7 @@
 
 import Link from "next/link";
 import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -26,9 +27,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <Navbar />
-      <main className="mt-4 text-zinc-900">{children}</main>
-    </>
+    <div className="bg-red-600 flex">
+      <Sidebar />
+      <main className="w-full relative bg-white flex flex-col">
+        <Navbar />
+        <main
+          // style={{ boxShadow: "-5px -5px 5px black" }}
+          className="pt-4 border-2 bg-white w-full text-zinc-900"
+        >
+          {children}
+        </main>
+      </main>
+    </div>
   );
 }

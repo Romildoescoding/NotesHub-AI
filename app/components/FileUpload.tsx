@@ -10,19 +10,24 @@ import Loader from "./Loader";
 import Confetti, { ConfettiButton } from "@/components/ui/confetti";
 import { ConfettiFireworks } from "./ConfettiFireworks";
 import SuccessfulUpload from "./SuccessfulUpload";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 // Define the type for the files state
 type FileType = File;
 
 const FileUpload: React.FC = () => {
+  const router = useRouter();
   // const router = useRouter();
 
   // Your file upload logic and result generation code here
 
   // After successful upload, redirect to /dashboard/editor
   const [files, setFiles] = useState<FileType[]>([]);
-  const [ocrResults, setOcrResults] = useState<string[]>([]);
+  const [ocrResults, setOcrResults] = useState<string[]>([
+    "hey there.. how you doin?? I am fine thank you",
+    "hey there.. how you doin?? I am fine thank you",
+    "hey there.. how you doin?? I am fine thank you",
+  ]);
   const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -98,11 +103,11 @@ const FileUpload: React.FC = () => {
         </Modal>
       )}
 
-      {showModal === "results" && (
+      {/* {showModal === "results" && (
         <Modal setShowModal={setShowModal}>
           <NotesSlider ocrResults={ocrResults} setShowModal={setShowModal} />
         </Modal>
-      )}
+      )} */}
 
       {showModal === "uploaded" && (
         <Modal setShowModal={setShowModal}>
@@ -191,7 +196,18 @@ const FileUpload: React.FC = () => {
             style={{ cursor: files.length == 0 ? "not-allowed" : "pointer" }}
             disabled={files.length == 0}
             // onClick={() => setShowModal("results")}
-            onClick={handleGenerate}
+            // onClick={handleGenerate}
+            // onClick={() =>
+            //   router.push(
+            //     `/dashboard/editor?data=${encodeURIComponent(
+            //       JSON.stringify(ocrResults)
+            //     )}`
+            //   )
+            // }
+            onClick={() => {
+              localStorage.setItem("results", JSON.stringify(ocrResults));
+              router.push("/dashboard/editor");
+            }}
           >
             {/* img {
   max-width: 100%; 

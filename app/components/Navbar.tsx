@@ -35,43 +35,17 @@ import ProfileButton from "./ProfileButton";
 const Navbar = async () => {
   const user = await getUser();
   return (
-    <nav className="fixed z-[9999] top-0 left-0 flex flex-col bg-transparent gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none">
-      {/* <nav className="fixed z-[9999] top-0 left-0 flex flex-col bg-gradient-to-b from-white via-[#ffffffef] to-[#ffffff00] gap-2 w-full h-fit text-zinc-900 items-center pointer-events-none"> */}
-      <div
-        className="pointer-events-auto relative w-full h-24 flex justify-between items-start pt-2 pl-2 pr-4 z-[2] transition-all"
-        // style={{
-        //   background: "linear-gradient(to bottom, white 0%, transparent 100%)",
-        // }}
-      >
-        {/* <div className="w-full absolute z-[9999999] h-7 left-0 top-0 bg-gradient-to-b from-white via-white to-[#ffffff90]"></div>
-        <div className="w-full absolute z-[9999999] h-7 left-0 bottom-0 bg-gradient-to-b from-[#ffffff90] via-[#ffffff30] to-transparent"></div> */}
-        <Link href="/">
-          <Image
-            src={"/App_Logo.svg"}
-            width={60}
-            height={60}
-            alt="avatar"
-            className=" antialiased"
-          />
-        </Link>
-
-        <div className="flex items-center gap-4 h-1/2 pt-4">
-          {/* <button className="flex gap-2 cursor-pointer p-2 bg-zinc-800 rounded-full text-zinc-50">
-            Logout
-            <Image
-              src={"/logout-svg.svg"}
-              width={24}
-              height={24}
-              alt="avatar"
-              className=" antialiased"
-            />
-          </button> */}
-          <ProfileButton user={user} />
-        </div>
+    <>
+      <div className="h-[66px] relative w-[calc(100vw-90px)]">
+        <nav className="fixed z-[999] pt-1 left-[88px] flex flex-col bg-zinc-400 gap-2 w-[calc(100vw-90px)] h-fit text-zinc-900 items-center pointer-events-none">
+          <div className="rounded-tl-xl pointer-events-auto relative bg-white w-[calc(100vw-90px)] pt-1 h-full bg-yellow flex justify-end items-start pr-4 z-[2] transition-all">
+            <div className="flex items-center gap-4 h-1/2 py-2">
+              <ProfileButton user={user} />
+            </div>
+          </div>
+        </nav>
       </div>
-
-      <FloatingNavbar />
-    </nav>
+    </>
   );
 };
 

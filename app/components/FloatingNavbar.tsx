@@ -78,7 +78,7 @@ const FloatingNavbar = () => {
     // </div>
 
     <div
-      className="fixed pointer-events-auto top-4 left-1/2 -translate-x-1/2 flex gap-16 items-center px-4 py-2  z-[99] bg-white rounded-full"
+      className="pointer-events-auto bg-red-500 flex gap-16 items-center px-4 py-2 z-[99] rounded-full"
       style={{
         boxShadow: "0px 2px 3px #00000040",
         borderTop: "1px solid #00000010",

@@ -20,16 +20,17 @@ body {
 
 .tooltip {
   position: relative;
-  display: inline-block;
+  display: flex;
+  /* display: inline-block; */
 }
 
 /* Tooltip text */
 .tooltip .tooltiptext {
   font-size: 10px;
-  /* white-space: nowrap; */
+  white-space: nowrap;
   visibility: hidden;
-  width: fit-content !important;
-  background-color: #27272a;
+  min-width: fit-content !important;
+  background-color: #303030;
   color: #fff;
   text-align: center;
   padding: 4px 6px;
@@ -294,4 +295,15 @@ iframe::-webkit-scrollbar {
 .rpv-core__inner-page {
   display: flex;
   justify-content: center;
+}
+
+.rounded-container::after {
+  content: "";
+  position: absolute;
+  top: -1rem;
+  left: 0;
+  width: 2rem;
+  height: 2rem;
+  background-color: white; /* Match background */
+  border-bottom-right-radius: 1.5rem; /* Create the curve */
 }
