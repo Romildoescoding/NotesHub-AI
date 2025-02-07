@@ -65,7 +65,7 @@ const UserChatButton = ({
 
   return (
     <div
-      className="p-2 px-4 hover:bg-zinc-200 outline-none relative rounded-lg flex gap-3 text-xs items-center transition-all cursor-pointer min-w-[131px] max-w-[131px] buttonClass"
+      className="p-2 px-4 hover:bg-zinc-200 outline-none relative rounded-lg flex gap-3 text-xs items-center transition-all cursor-pointer min-w-[131px] max-w-[131px] buttonClass bg-zinc-100"
       onClick={(e) => {
         // This logic checks the if the element clicked cosnists a class called buttonClass and if so, only then it switches to a new chat...
         if (e.target.attributes[0].nodeValue.includes("buttonClass"))
@@ -85,7 +85,7 @@ const UserChatButton = ({
     >
       <div
         ref={containerRef}
-        className="relative flex gap-2 items-center buttonClass justify-start w-full chatButton"
+        className="relative flex gap-2 items-center buttonClass justify-between w-full chatButton "
       >
         {isRenaming ? (
           <input

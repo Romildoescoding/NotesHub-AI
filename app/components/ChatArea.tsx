@@ -61,7 +61,7 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
       )}
 
       <div
-        className={`w-full relative flex justify-center h-fit pt-24 ${
+        className={`w-full relative flex justify-center h-fit min-h-[calc(100vh-80px)] pt-4 ${
           selectedPdfFile ? "pb-40" : "pb-28"
         }`}
       >

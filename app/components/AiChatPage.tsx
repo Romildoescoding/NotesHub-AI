@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import UserChatButton from "./UserChatButton";
 import useNewChat from "../(dashboard)/dashboard/chat/useNewChat";
+import { motion } from "framer-motion";
 
 const AiChatPage = ({ email, chats }) => {
   //  Create a selectedChat state and a hook that fetches all the messages/chats regarding that specific userChat
@@ -42,39 +43,46 @@ const AiChatPage = ({ email, chats }) => {
     //Simulate realtime state update ><
     // setChatsState(newChat.data);
     setChatsState(newChat.data.chats);
+    console.log(newChat.data.chats);
+    console.log(newChat.data.chats[newChat.data.chats.length - 1].chatId);
+    setSelectedChat(newChat.data.chats[newChat.data.chats.length - 1].chatId);
     console.log("------------------------------------------------");
   }
 
   return (
     <div className="h-full w-full flex relative overflow-hidden">
       {/* button to toggle sidebar */}
-      <button
-        className="fixed top-18 left-[104px] rounded-sm  z-[99999999] text-zinc-500 hover:text-zinc-950 transition-all"
+      <motion.button
+        className="fixed top-18 left-[104px] rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
         onClick={() => setIsSidebarOpen((open) => !open)}
         style={{
           left: isSidebarOpen ? "248px" : "104px",
           transition: "left 0.35s ease-in-out",
         }}
+        // initial={{ left: "104px" }}
+        // animate={{ left: "248px" }}
       >
         {isSidebarOpen ? (
           <ChevronsLeft size={20} />
         ) : (
           <ChevronsRight size={20} />
         )}
-      </button>
-      <button
-        className="fixed top-[79px] left-[138px] rounded-sm z-[99999999] text-zinc-500 hover:text-zinc-950 transition-all"
+      </motion.button>
+      <motion.button
+        className="fixed top-[79px] left-[138px] rounded-sm z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
         onClick={() => handleCreateNewChat()}
         style={{
           left: isSidebarOpen ? "282px" : "138px",
           transition: "left 0.35s ease-in-out",
         }}
+        // initial={{ left: "138px" }}
+        // animate={{ left: "282px" }}
       >
         <span className="relative tooltip h-full w-full">
           <span className="tooltiptext">New Chat</span>
         </span>
         <SquarePen size={17} />
-      </button>
+      </motion.button>
 
       {/* div to make the right moving effect after opening sidebar */}
       <div
@@ -85,15 +93,15 @@ const AiChatPage = ({ email, chats }) => {
         }}
       ></div>
 
-      {/* Actual sidebar */}
-      {/* <div className="h-screen relative w-36 bg-red-700"> */}
-      <div
-        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-2 bg-zinc-100  items-center"
+      <motion.div
+        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-2 bg-white border-r-2 border-zinc-100 items-center"
         style={{
           height: "calc(100vh - 28px)",
           left: isSidebarOpen ? "88px" : "-56px",
           transition: "left 0.35s ease-in-out",
         }}
+        // initial={{ left: "-56px" }}
+        // animate={{ left: "88px" }}
       >
         {/* Reversed so make the chats look like from the most recent made to top!! */}
         {/* {chatsState?.chats?.reverse().map((chat, i) => ( */}
@@ -107,7 +115,7 @@ const AiChatPage = ({ email, chats }) => {
             setChatsState={setChatsState}
           />
         ))}
-      </div>
+      </motion.div>
       {/* </div> */}
 
       {/* ChatArea */}

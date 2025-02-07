@@ -1,5 +1,4 @@
 "use client";
-import { RainbowButton } from "@/components/ui/rainbow-button";
 import {
   House,
   NotebookText,
@@ -9,12 +8,21 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const routes = useMemo(() => pathname.slice(1).split("/"), [pathname]);
+  const routeArr = useMemo(
+    () =>
+      routes.flatMap((item, index) =>
+        index < routes.length - 1 ? [item, "/"] : [item]
+      ),
+    [routes]
+  );
   const [collapsed, setCollapsed] = useState(true);
 
   function handleToggleSidebar() {
@@ -54,6 +62,34 @@ const Sidebar = () => {
               <SidebarCloseIcon size={24} />
             )}
           </button>
+
+          <div className="flex items-center justify-center rounded-md bg-red-500 top-5 -right-[75px] w-[0px] overflow-visible absolute z-[99999] transition-all text-zinc-500">
+            <div className="relative">
+              <div className="absolute top-0 flex gap-2 left-0 whitespace-nowrap">
+                {/* <span className=""> */}
+                {routeArr.map((route, i) => (
+                  <span
+                    className={
+                      route !== "/"
+                        ? i !== routeArr.length - 1
+                          ? "cursor-pointer capitalize hover:text-zinc-950"
+                          : "cursor-pointer min-w-fit text-zinc-950 font-semibold capitalize"
+                        : ""
+                    }
+                    onClick={() => {
+                      if (route === "/") return;
+                      const newPath = "/" + routeArr.slice(0, i + 1).join("");
+                      if (pathname.endsWith(route)) return;
+                      router.push(newPath);
+                    }}
+                    key={i}
+                  >
+                    {route}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
 
           <Link href="/" className="invert">
             <Image
