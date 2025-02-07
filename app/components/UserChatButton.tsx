@@ -115,6 +115,7 @@ const UserChatButton = ({
               onClick={(e) => {
                 e.stopPropagation();
                 setIsRenaming(true);
+                setShowOptions("");
               }}
             >
               <Pen size={15} color="#18181b" /> Rename

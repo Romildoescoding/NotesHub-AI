@@ -20,10 +20,14 @@ const fetchMessages = async (chatId: string) => {
 const addMessage = async (
   chatId: string,
   sender: "user" | "ai",
-  content: string
+  content: string,
+  document: string | undefined
 ) => {
   await dbConnect();
-  const message = new Chat({ chatId, sender, content });
+
+  const message = document
+    ? new Chat({ chatId, sender, content, document })
+    : new Chat({ chatId, sender, content });
   await message.save();
   return message;
 };
@@ -62,17 +66,29 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     await dbConnect();
-
+    console.log(body);
     const { chatId, sender, content } = body;
 
-    if (!chatId || !sender || !content) {
+    if (!chatId || !sender) {
       return NextResponse.json(
         { status: "error", message: "Missing required fields" },
         { status: 400 }
       );
     }
 
-    const addedMessage = await addMessage(chatId, sender, content);
+    if (!body?.document && !content) {
+      return NextResponse.json(
+        { status: "error", message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    const addedMessage = await addMessage(
+      chatId,
+      sender,
+      content,
+      body?.document
+    );
     console.log("Added message is--------------------------------------");
     console.log(addedMessage);
     console.log("------------------------------------------------------");

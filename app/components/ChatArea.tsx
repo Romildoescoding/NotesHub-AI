@@ -16,6 +16,7 @@ import ChatInputForm from "./ChatInputForm";
 import Modal from "./Modal";
 import ModalUploadPdf from "./ModalUploadPdf";
 import usePdfGeminiAI from "../(dashboard)/dashboard/chat/usePdfGeminiAI";
+import FileMessage from "./FileMessage";
 
 //OPTIMIZE IT TO PREVENT RE-RENDERS ON ENTERING THE DATA IN THE TEXTAREA
 
@@ -85,6 +86,12 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
               {chats.map((message, i) =>
                 message.sender === "ai" ? (
                   <AiMessage key={i} text={message.content} />
+                ) : message.document ? (
+                  <FileMessage
+                    key={i}
+                    user={user}
+                    document={message.document}
+                  />
                 ) : (
                   <UserMessage key={i} user={user} text={message.content} />
                 )

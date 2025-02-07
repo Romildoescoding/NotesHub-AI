@@ -38,6 +38,23 @@ const ChatInputForm = ({
     try {
       setMessage("");
       const sender = "user";
+      let fileMessage;
+      console.log(selectedPDfFile);
+      console.log(chatId === selectedPDfFile.chatId);
+      console.log({
+        chatId,
+        sender,
+        content: "",
+        document: selectedPDfFile.title,
+      });
+      if (selectedPDfFile && chatId === selectedPDfFile.chatId) {
+        fileMessage = await sendMessage({
+          chatId,
+          sender,
+          content: "",
+          document: selectedPDfFile.title,
+        });
+      }
       const newMessage = await sendMessage({
         chatId,
         sender,
@@ -48,7 +65,11 @@ const ChatInputForm = ({
       //Simulate realtime updates
       console.log(newMessage);
       console.log("USER MESSAGE-------------------------------------");
-      setChats((chats) => [...chats, newMessage.data]);
+      setChats((chats) => {
+        return fileMessage
+          ? [...chats, fileMessage.data, newMessage.data]
+          : [...chats, newMessage.data];
+      });
 
       //Set gemini to loading
       setIsGeminiLoading(true);

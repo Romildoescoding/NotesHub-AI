@@ -4,6 +4,7 @@ import mongoose, { Document, Schema } from "mongoose";
 interface IChat extends Document {
   chatId: string; // Group ID for a chat session
   sender: "user" | "ai"; // Message sender type
+  document: string;
   content: string; // Message content
   createdAt: Date; // Message timestamp
 }
@@ -20,9 +21,16 @@ const chatSchema = new Schema<IChat>({
     required: true,
     enum: ["user", "ai"], // Restrict values to 'user' or 'ai'
   },
+  document: {
+    type: String,
+    required: false,
+    default: "",
+  },
   content: {
     type: String,
-    required: true, // The actual message content
+    required: function () {
+      return !this.document; // If document is empty, content is required
+    },
   },
   createdAt: {
     type: Date,

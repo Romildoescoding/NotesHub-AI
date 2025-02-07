@@ -6,7 +6,7 @@ const useSendMessage = () => {
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(null);
 
-  const sendMessage = async ({ chatId, sender, content }) => {
+  const sendMessage = async ({ chatId, sender, content, document = "" }) => {
     setIsSending(true);
     setError(null);
 
@@ -18,7 +18,7 @@ const useSendMessage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ chatId, sender, content }),
+          body: JSON.stringify({ chatId, sender, content, document }),
         }
       );
 
