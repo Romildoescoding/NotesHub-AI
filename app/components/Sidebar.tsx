@@ -1,6 +1,12 @@
 "use client";
 import { RainbowButton } from "@/components/ui/rainbow-button";
-import { House, NotebookText, Sparkles } from "lucide-react";
+import {
+  House,
+  NotebookText,
+  SidebarOpenIcon,
+  Sparkles,
+  SidebarCloseIcon,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -19,7 +25,6 @@ const Sidebar = () => {
       <div className="h-[calc(100vh-60px)] w-[94px]"></div>
       <div
         className="pointer-events-auto z-[9999] fixed left-0 top-0 h-screen bg-zinc-400 w-fit flex flex-col gap-16 items-center p-1"
-        onClick={handleToggleSidebar}
         // style={{
         //   boxShadow: "0px 2px 3px #00000040",
         //   borderTop: "1px solid #00000010",
@@ -30,13 +35,25 @@ const Sidebar = () => {
             collapsed ? "gap-20" : "gap-16"
           } items-center ${
             collapsed ? "w-20" : "w-44"
-          } rounded-xl transition-all bg-[#181818] h-full py-4 px-4 justify-start`}
+          } rounded-xl transition-all duration-300 bg-[#181818] h-full py-4 px-4 justify-start`}
         >
+          {/* Button to make the rounded effect on the right side of the main content block of the app */}
           <div className="bg-zinc-400 absolute z-[99999] h-4 w-4 top-0 right-[-20px]">
             <div className="w-full h-full relative overflow-hidden">
               <div className="w-7 h-7 rounded-full bg-white absolute top-0 left-0"></div>
             </div>
           </div>
+
+          <button
+            className="w-8 h-8 flex items-center justify-center rounded-md top-4 -right-11 absolute z-[99999] hover:text-zinc-950 text-zinc-500 transition-all"
+            onClick={handleToggleSidebar}
+          >
+            {collapsed ? (
+              <SidebarOpenIcon size={24} />
+            ) : (
+              <SidebarCloseIcon size={24} />
+            )}
+          </button>
 
           <Link href="/" className="invert">
             <Image
@@ -44,20 +61,20 @@ const Sidebar = () => {
               width={collapsed ? 30 : 46}
               height={60}
               alt="avatar"
-              className=" antialiased transition-all"
+              className=" antialiased transition-all duration-300"
             />
           </Link>
           <div className="flex flex-col h-full gap-4 w-full ">
             <motion.div
               className={`${
                 collapsed ? "w-12" : "w-fit"
-              } transition-all h-fit oveflow-hidden`}
+              } transition-all duration-300 h-fit oveflow-hidden`}
               animate={{ width: collapsed ? "48px" : "100%" }}
-              transition={{ duration: 0.25 }}
+              // transition={{ duration: 0.15 }}
             >
               <Link
                 href="/dashboard/upload"
-                className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all text-zinc-100 ${
+                className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all duration-300 text-zinc-100 ${
                   pathname !== "/dashboard/upload"
                     ? " hover:bg-[#282828] "
                     : "bg-[#363636]"
@@ -76,9 +93,10 @@ const Sidebar = () => {
                     Dashboard
                   </span>
                 )}
-                <House size={24} className="w-fit" />
+                <House size={24} className="min-w-[24px]" />
                 {!collapsed && (
                   <motion.span
+                    transition={{ duration: 0.3 }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
@@ -90,13 +108,13 @@ const Sidebar = () => {
             <motion.div
               className={`${
                 collapsed ? "w-12" : "w-fit"
-              } transition-all h-fit oveflow-hidden`}
+              } transition-all duration-300 h-fit oveflow-hidden`}
               animate={{ width: collapsed ? "48px" : "100%" }}
               transition={{ duration: 0.25 }}
             >
               <Link
                 href="/dashboard/list"
-                className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all text-zinc-100 ${
+                className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all duration-300 text-zinc-100 ${
                   pathname !== "/dashboard/list"
                     ? " hover:bg-[#282828] "
                     : "bg-[#363636]"
@@ -115,9 +133,10 @@ const Sidebar = () => {
                     Notes
                   </span>
                 )}
-                <NotebookText size={24} />{" "}
+                <NotebookText size={24} className="min-w-[24px]" />{" "}
                 {!collapsed && (
                   <motion.span
+                    transition={{ duration: 0.3 }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >
@@ -129,13 +148,13 @@ const Sidebar = () => {
             <motion.div
               className={`${
                 collapsed ? "w-12" : "w-fit"
-              } transition-all h-fit oveflow-hidden`}
+              } transition-all duration-300 h-fit oveflow-hidden`}
               animate={{ width: collapsed ? "48px" : "100%" }}
               transition={{ duration: 0.25 }}
             >
               <Link
                 href="/dashboard/chat"
-                className={`tooltip gap-3 rounded-lg p-3 w-full whitespace-nowrap flex transition-all text-zinc-100 ${
+                className={`tooltip gap-3 rounded-lg p-3 w-full whitespace-nowrap flex transition-all duration-300 text-zinc-100 ${
                   pathname !== "/dashboard/chat"
                     ? " hover:bg-[#282828] "
                     : "bg-[#363636]"
@@ -154,9 +173,10 @@ const Sidebar = () => {
                     AI Feature
                   </span>
                 )}
-                <Sparkles size={24} />{" "}
+                <Sparkles size={24} className="min-w-[24px]" />{" "}
                 {!collapsed && (
                   <motion.span
+                    transition={{ duration: 0.3 }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                   >

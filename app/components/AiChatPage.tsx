@@ -1,7 +1,15 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import ChatArea from "./ChatArea";
-import { Ellipsis, EllipsisVertical, Menu, SquarePen } from "lucide-react";
+import {
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Ellipsis,
+  EllipsisVertical,
+  Menu,
+  SquarePen,
+} from "lucide-react";
 import UserChatButton from "./UserChatButton";
 import useNewChat from "../(dashboard)/dashboard/chat/useNewChat";
 
@@ -38,19 +46,34 @@ const AiChatPage = ({ email, chats }) => {
   }
 
   return (
-    <div className="h-full w-full flex relative">
+    <div className="h-full w-full flex relative overflow-hidden">
       {/* button to toggle sidebar */}
       <button
-        className="fixed top-20 left-[12px] z-[99999999]"
+        className="fixed top-18 left-[104px] rounded-sm  z-[99999999] text-zinc-500 hover:text-zinc-950 transition-all"
         onClick={() => setIsSidebarOpen((open) => !open)}
+        style={{
+          left: isSidebarOpen ? "248px" : "104px",
+          transition: "left 0.35s ease-in-out",
+        }}
       >
-        <Menu size={20} color="#18181b" />
+        {isSidebarOpen ? (
+          <ChevronsLeft size={20} />
+        ) : (
+          <ChevronsRight size={20} />
+        )}
       </button>
       <button
-        className="fixed top-[81px] left-[44px] z-[99999999]"
+        className="fixed top-[79px] left-[138px] rounded-sm z-[99999999] text-zinc-500 hover:text-zinc-950 transition-all"
         onClick={() => handleCreateNewChat()}
+        style={{
+          left: isSidebarOpen ? "282px" : "138px",
+          transition: "left 0.35s ease-in-out",
+        }}
       >
-        <SquarePen size={18} color="#18181b" />
+        <span className="relative tooltip h-full w-full">
+          <span className="tooltiptext">New Chat</span>
+        </span>
+        <SquarePen size={17} />
       </button>
 
       {/* div to make the right moving effect after opening sidebar */}
@@ -63,11 +86,12 @@ const AiChatPage = ({ email, chats }) => {
       ></div>
 
       {/* Actual sidebar */}
+      {/* <div className="h-screen relative w-36 bg-red-700"> */}
       <div
-        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-28 flex z-[9999] rounded-tr-lg flex-col gap-2 pt-2 bg-[#F9F9F9]  items-center"
+        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-2 bg-zinc-100  items-center"
         style={{
           height: "calc(100vh - 28px)",
-          left: isSidebarOpen ? 0 : "-144px",
+          left: isSidebarOpen ? "88px" : "-56px",
           transition: "left 0.35s ease-in-out",
         }}
       >
@@ -84,6 +108,7 @@ const AiChatPage = ({ email, chats }) => {
           />
         ))}
       </div>
+      {/* </div> */}
 
       {/* ChatArea */}
       <ChatArea isSidebarOpen={isSidebarOpen} chatId={selectedChat} />

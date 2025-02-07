@@ -80,7 +80,7 @@ const UserChatButton = ({
             ? "#e4e4e7"
             : isHovered
             ? "#efefef"
-            : "#fafafa",
+            : "#fff",
       }}
     >
       <div
@@ -102,7 +102,7 @@ const UserChatButton = ({
           />
         ) : //In order to simulate realtime update ><.. gonna have to do this a lot I guess..
         renameValue.length > 11 ? (
-          renameValue.slice(0, 11) + ".."
+          renameValue.slice(0, 10) + ".."
         ) : (
           renameValue
         )}
