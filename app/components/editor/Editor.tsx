@@ -1,4 +1,10 @@
+"use client";
 import React from "react";
+import "@blocknote/core/fonts/inter.css";
+import { useCreateBlockNote } from "@blocknote/react";
+import { BlockNote } from "@blocknote/core";
+import { BlockNoteView } from "@blocknote/mantine";
+import "@blocknote/mantine/style.css";
 
 interface EditorProps {
   onChange: () => void;
@@ -6,8 +12,8 @@ interface EditorProps {
   editable?: boolean;
 }
 
-const Editor: React.FC<EditorProps> = () => {
-  const editor = (BlockNote = useCreateBlockNote({
+const Editor: React.FC<EditorProps> = ({initialContent, onChange, editable}) => {
+  const editor :BlockNote = useCreateBlockNote({
     initialContent: initialContent
       ? (JSON.parse(initialContent) as PartialBlock[])
       : undefined,

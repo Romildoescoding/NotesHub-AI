@@ -40,7 +40,7 @@ export default function RootLayout({
             <Navbar />
             <main
               // style={{ boxShadow: "-5px -5px 5px black" }}
-              className="pt-4 border-2 bg-white w-full text-zinc-900"
+              className="pt-4 bg-white w-full text-zinc-900"
             >
               {children}
             </main>
