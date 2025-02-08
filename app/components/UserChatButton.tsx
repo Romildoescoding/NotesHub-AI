@@ -1,11 +1,11 @@
 import { Ellipsis, Pen, Trash2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
 import useOutsideClick from "../hooks/useOutsideClick";
-import useRenameChat from "../(dashboard)/dashboard/chat/useRenameChat";
+import useRenameChat from "../(root)/ai/chat/useRenameChat";
 import Modal from "./Modal";
 import ModalUploadPdf from "./ModalUploadPdf";
 import ModalConfirmDelete from "./ModalConfirmDelete";
-import useDeleteChat from "../(dashboard)/dashboard/chat/useDeleteChat";
+import useDeleteChat from "../(root)/ai/chat/useDeleteChat";
 
 const UserChatButton = ({
   email,

@@ -4,12 +4,11 @@
 // import "./globals.css";
 
 // import Link from "next/link";
-import { SessionProvider } from "next-auth/react";
 import Navbar from "../components/Navbar";
-import SessionWrapper from "../components/SessionWrapper";
 import Sidebar from "../components/Sidebar";
-import SidebarWrapper from "../components/SidebarWrapper";
+// import { useState } from "react";
 import { SidebarProvider } from "../context/SidebarContext";
+import { SessionProvider } from "next-auth/react";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -31,22 +30,23 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const [collapsed, setCollapsed] = useState(true);
   return (
     <SidebarProvider>
-      <div className="bg-red-600 flex">
-        <Sidebar />
-        <main className="w-full relative bg-white flex flex-col">
-          <SessionProvider>
+      <SessionProvider>
+        <div className="bg-red-600 flex">
+          <Sidebar />
+          <main className="w-full relative bg-white flex flex-col">
             <Navbar />
-          </SessionProvider>
-          <main
-            // style={{ boxShadow: "-5px -5px 5px black" }}
-            className="pt-4 border-2 bg-white w-full text-zinc-900"
-          >
-            {children}
+            <main
+              // style={{ boxShadow: "-5px -5px 5px black" }}
+              className="pt-4 border-2 bg-white w-full text-zinc-900"
+            >
+              {children}
+            </main>
           </main>
-        </main>
-      </div>
+        </div>
+      </SessionProvider>
     </SidebarProvider>
   );
 }

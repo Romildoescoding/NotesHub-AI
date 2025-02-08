@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { uploadFileToSupabase } from "../(dashboard)/dashboard/upload/uploadFile";
 import Note from "./Note";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
+import { uploadFileToSupabase } from "../(root)/notes/upload/uploadFile";
 
 // Implement local storage for selected file yk...
 

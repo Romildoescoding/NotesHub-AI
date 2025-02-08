@@ -6,7 +6,7 @@ import { jsPDF } from "jspdf";
 import { PDFDocument } from "pdf-lib";
 import Spinner from "./Spinner";
 import { getUser } from "../_data/user";
-import { uploadFileToSupabase } from "../(dashboard)/dashboard/upload/uploadFile";
+import { uploadFileToSupabase } from "../(root)/notes/upload/uploadFile";
 
 const NotesSlider = ({
   ocrResults,

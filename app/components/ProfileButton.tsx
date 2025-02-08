@@ -11,7 +11,7 @@ const ProfileButton = ({ user }) => {
     // <Link href="/dashboard/profile" className="">
     <button className=" relative cursor-default outline-none">
       <Image
-        src={user.image}
+        src={user?.image}
         width={42}
         height={42}
         alt="avatar"

@@ -9,11 +9,17 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
+import { useSidebar } from "../context/SidebarContext";
 
 const Sidebar = () => {
+  const { collapsed, setCollapsed } = useSidebar();
   const pathname = usePathname();
+  // const sidebarContext = useSidebar();
+  // useEffect(()=>{
+  //   console.log(sidebarContext.collapsed);
+  // },[sidebarContext])
   const router = useRouter();
   const routes = useMemo(() => pathname.slice(1).split("/"), [pathname]);
   const routeArr = useMemo(
@@ -23,7 +29,10 @@ const Sidebar = () => {
       ),
     [routes]
   );
-  const [collapsed, setCollapsed] = useState(true);
+
+  useEffect(() => {
+    localStorage.setItem("isSidebarOpen", `${!collapsed}`);
+  }, [collapsed]);
 
   function handleToggleSidebar() {
     setCollapsed((collapsed) => !collapsed);
@@ -109,9 +118,9 @@ const Sidebar = () => {
               // transition={{ duration: 0.15 }}
             >
               <Link
-                href="/dashboard/upload"
+                href="/dashboard"
                 className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all duration-300 text-zinc-100 ${
-                  pathname !== "/dashboard/upload"
+                  pathname !== "/dashboard"
                     ? " hover:bg-[#282828] "
                     : "bg-[#363636]"
                 }`}
@@ -149,9 +158,9 @@ const Sidebar = () => {
               transition={{ duration: 0.25 }}
             >
               <Link
-                href="/dashboard/list"
+                href="/notes"
                 className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all duration-300 text-zinc-100 ${
-                  pathname !== "/dashboard/list"
+                  pathname !== "/notes"
                     ? " hover:bg-[#282828] "
                     : "bg-[#363636]"
                 }`}
@@ -189,9 +198,9 @@ const Sidebar = () => {
               transition={{ duration: 0.25 }}
             >
               <Link
-                href="/dashboard/chat"
+                href="/ai/chat"
                 className={`tooltip gap-3 rounded-lg p-3 w-full whitespace-nowrap flex transition-all duration-300 text-zinc-100 ${
-                  pathname !== "/dashboard/chat"
+                  pathname !== "/ai/chat"
                     ? " hover:bg-[#282828] "
                     : "bg-[#363636]"
                 }`}

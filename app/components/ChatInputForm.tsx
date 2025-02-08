@@ -1,6 +1,7 @@
 import { File, FileText, Send, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
-import { deleteFileFromSupabase } from "../(dashboard)/dashboard/upload/uploadFile";
+import { deleteFileFromSupabase } from "../(root)/notes/upload/uploadFile";
+import { useSidebar } from "../context/SidebarContext";
 
 const ChatInputForm = ({
   isSidebarOpen,
@@ -15,6 +16,7 @@ const ChatInputForm = ({
   sendPDfMessageAI,
 }) => {
   const [message, setMessage] = useState("");
+  const { collapsed } = useSidebar();
   console.log(selectedPDfFile);
 
   const pdfUrlToBUffer = async (pdfUrl) => {
@@ -40,14 +42,14 @@ const ChatInputForm = ({
       const sender = "user";
       let fileMessage;
       console.log(selectedPDfFile);
-      console.log(chatId === selectedPDfFile.chatId);
+      console.log(chatId === selectedPDfFile?.chatId);
       console.log({
         chatId,
         sender,
         content: "",
-        document: selectedPDfFile.title,
+        document: selectedPDfFile?.title,
       });
-      if (selectedPDfFile && chatId === selectedPDfFile.chatId) {
+      if (selectedPDfFile && chatId === selectedPDfFile?.chatId) {
         fileMessage = await sendMessage({
           chatId,
           sender,
@@ -76,7 +78,9 @@ const ChatInputForm = ({
 
       console.log("GOING TO AI");
       let data;
+      console.log(selectedPDfFile);
       if (selectedPDfFile) {
+        console.log("The file has been attache dude!!!");
         const pdfBuffer = await pdfUrlToBUffer(selectedPDfFile.fileUrl);
         data = await sendPDfMessageAI(pdfBuffer, message.trim());
       } else {
@@ -113,8 +117,14 @@ const ChatInputForm = ({
     <form
       onSubmit={handleSendMessage}
       style={{
-        left: !isSidebarOpen ? "50%" : "calc(50% + 65px)",
-        transition: "left 0.35s ease-in-out",
+        left: collapsed
+          ? !isSidebarOpen
+            ? "50.25%"
+            : "calc(50.25% + 65px)"
+          : !isSidebarOpen
+          ? "53.1%"
+          : "calc(53.1% + 65px)",
+        transition: "left 0.3s",
       }}
       className="w-full max-w-[60vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-[36px] p-4 pt-2 rounded-t-xl"
     >
@@ -184,7 +194,7 @@ const ChatInputForm = ({
             className="tooltiptext"
             style={{
               top: "0%",
-              right: "115%",
+              right: "-70px",
               left: "unset",
               minWidth: "64px",
               display: "flex",

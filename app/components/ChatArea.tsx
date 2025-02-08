@@ -9,13 +9,13 @@ import { getUserClient } from "../_lib/actions";
 import { SessionProvider, useSession } from "next-auth/react";
 import Spinner from "./Spinner";
 import { useCurrentUser } from "../auth/useCurrentUser";
-import useChats from "../(dashboard)/dashboard/chat/useChats";
-import useSendMessage from "../(dashboard)/dashboard/chat/useSendMessage";
-import useGeminiAI from "../(dashboard)/dashboard/chat/useGeminiAI";
+import useChats from "../(root)/ai/chat/useChats";
+import useSendMessage from "../(root)/ai/chat/useSendMessage";
+import useGeminiAI from "../(root)/ai/chat/useGeminiAI";
 import ChatInputForm from "./ChatInputForm";
 import Modal from "./Modal";
 import ModalUploadPdf from "./ModalUploadPdf";
-import usePdfGeminiAI from "../(dashboard)/dashboard/chat/usePdfGeminiAI";
+import usePdfGeminiAI from "../(root)/ai/chat/usePdfGeminiAI";
 import FileMessage from "./FileMessage";
 
 //OPTIMIZE IT TO PREVENT RE-RENDERS ON ENTERING THE DATA IN THE TEXTAREA
