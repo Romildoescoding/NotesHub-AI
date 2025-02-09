@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { NotesProvider } from "@/app/context/NotesContext";
 
 export default function RootLayout({
   children,
@@ -44,92 +45,94 @@ export default function RootLayout({
   const pathname = usePathname();
   const { collapsed } = useSidebar();
   return (
-    <div className=" relative w-full flex h-full">
-      <motion.button
-        className="fixed top-18 left-[104px] rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
-        onClick={() => setIsSidebarOpen((open) => !open)}
-        style={{
-          left: collapsed
-            ? isSidebarOpen
-              ? "248px"
-              : "104px"
-            : isSidebarOpen
-            ? "348px"
-            : "204px",
-          transition: "left 0.3s",
-        }}
-        // initial={{ left: "104px" }}
-        // animate={{ left: "248px" }}
-      >
-        {isSidebarOpen ? (
-          <ChevronsLeft size={20} />
-        ) : (
-          <ChevronsRight size={20} />
-        )}
-      </motion.button>
+    <NotesProvider>
+      <div className=" relative w-full flex h-full">
+        <motion.button
+          className="fixed top-18 left-[104px] rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
+          onClick={() => setIsSidebarOpen((open) => !open)}
+          style={{
+            left: collapsed
+              ? isSidebarOpen
+                ? "248px"
+                : "104px"
+              : isSidebarOpen
+              ? "348px"
+              : "204px",
+            transition: "left 0.3s",
+          }}
+          // initial={{ left: "104px" }}
+          // animate={{ left: "248px" }}
+        >
+          {isSidebarOpen ? (
+            <ChevronsLeft size={20} />
+          ) : (
+            <ChevronsRight size={20} />
+          )}
+        </motion.button>
 
-      {/* div to make the right moving effect after opening sidebar */}
-      <div
-        className="h-[calc(100vh - 28px)] w-38 mt-24"
-        style={{
-          width: collapsed
-            ? isSidebarOpen
-              ? "144px"
-              : "0px"
-            : isSidebarOpen
-            ? "244px"
-            : "100px",
-          // width: isSidebarOpen ? "144px" : 0,
-          transition: "width 0.3s",
-        }}
-      ></div>
+        {/* div to make the right moving effect after opening sidebar */}
+        <div
+          className="h-[calc(100vh - 28px)] w-38 mt-24"
+          style={{
+            width: collapsed
+              ? isSidebarOpen
+                ? "144px"
+                : "0px"
+              : isSidebarOpen
+              ? "244px"
+              : "100px",
+            // width: isSidebarOpen ? "144px" : 0,
+            transition: "width 0.3s",
+          }}
+        ></div>
 
-      <motion.div
-        className="h-[calc(100vh - 28px)] px-2 left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm"
-        style={{
-          height: "calc(100vh - 28px)",
-          left: collapsed
-            ? isSidebarOpen
-              ? "88px"
-              : "-56px"
-            : isSidebarOpen
-            ? "188px"
-            : "44px",
-          transition: "left 0.3s",
-        }}
-      >
-        <Link
-          href="/notes"
-          className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
-            pathname === "/notes"
-              ? "text-zinc-900 hover:text-zinc-900"
-              : "text-zinc-400 hover:text-zinc-700"
-          } rounded-md`}
+        <motion.div
+          className="h-[calc(100vh - 28px)] px-2 left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm"
+          style={{
+            height: "calc(100vh - 28px)",
+            left: collapsed
+              ? isSidebarOpen
+                ? "88px"
+                : "-56px"
+              : isSidebarOpen
+              ? "188px"
+              : "44px",
+            transition: "left 0.3s",
+          }}
         >
-          <LayoutDashboardIcon size={18} /> Collection
-        </Link>
-        <Link
-          href="/notes/upload"
-          className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
-            pathname === "/notes/upload"
-              ? "text-zinc-900 hover:text-zinc-900"
-              : "text-zinc-400 hover:text-zinc-700"
-          } rounded-md`}
-        >
-          <Upload size={18} /> Upload
-        </Link>
-        <Link
-          href="/notes/editor"
-          className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
-            pathname === "/notes/editor"
-              ? "text-zinc-900 hover:text-zinc-900"
-              : "text-zinc-400 hover:text-zinc-700"
-          }   rounded-md`}
-        >
-          <Pencil size={18} /> Editor
-        </Link>
-      </motion.div>
-      {children}
-    </div>
+          <Link
+            href="/notes"
+            className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
+              pathname === "/notes"
+                ? "text-zinc-900 hover:text-zinc-900"
+                : "text-zinc-400 hover:text-zinc-700"
+            } rounded-md`}
+          >
+            <LayoutDashboardIcon size={18} /> Collection
+          </Link>
+          <Link
+            href="/notes/upload"
+            className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
+              pathname === "/notes/upload"
+                ? "text-zinc-900 hover:text-zinc-900"
+                : "text-zinc-400 hover:text-zinc-700"
+            } rounded-md`}
+          >
+            <Upload size={18} /> Upload
+          </Link>
+          <Link
+            href="/notes/editor"
+            className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
+              pathname === "/notes/editor"
+                ? "text-zinc-900 hover:text-zinc-900"
+                : "text-zinc-400 hover:text-zinc-700"
+            }   rounded-md`}
+          >
+            <Pencil size={18} /> Editor
+          </Link>
+        </motion.div>
+        {children}
+      </div>
+    </NotesProvider>
   );
 }

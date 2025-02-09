@@ -4,7 +4,8 @@
 import dynamic from "next/dynamic";
 // import { useRouter } from "next/navigation";
 
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+// import useExportPdf from "./useExportPdf";
 
 const Page = () => {
   const Editor = useMemo(
@@ -13,10 +14,10 @@ const Page = () => {
     []
   );
   // const [showModal, setShowModal] = useState("");
-  const [ocrResults, setOcrResults] = useState([]);
-  useEffect(() => {
-    setOcrResults(JSON.parse(localStorage.getItem("results") || "[]"));
-  }, []);
+  // const [ocrResults, setOcrResults] = useState([]);
+  // useEffect(() => {
+  //   setOcrResults(JSON.parse(localStorage.getItem("results") || "[]"));
+  // }, []);
   //   const router = useRouter();
   //   console.log(router.query);
   //   const ocrResults = router.query.data ? JSON.parse(router.query.data) : null;
@@ -39,12 +40,20 @@ const Page = () => {
       children: [],
     },
   ]);
+
+  // const editorRefs = useRef([]);
   return (
-    <>
-      <Editor initialContent={initialContent} />
-      {/* <div>App</div> */}
-      {/* <NotesSlider ocrResults={ocrResults} setShowModal={setShowModal} /> */}
-    </>
+    // <div className="w-full h-full" ref={(el) => (editorRefs.current[index] = el)}>
+    <div className="w-full h-full relative pt-16">
+      <div
+        className="w-full h-full relative"
+        // ref={(el) => (editorRefs.current[0] = el)}
+      >
+        <Editor initialContent={initialContent} />
+        {/* <div>App</div> */}
+        {/* <NotesSlider ocrResults={ocrResults} setShowModal={setShowModal} /> */}
+      </div>
+    </div>
   );
 };
 
