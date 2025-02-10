@@ -26,8 +26,10 @@ import { useState } from "react";
 
 import { motion } from "framer-motion";
 import {
+  ChevronDown,
   ChevronsLeft,
   ChevronsRight,
+  ChevronUp,
   LayoutDashboardIcon,
   Pencil,
   Upload,
@@ -35,6 +37,7 @@ import {
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { NotesProvider } from "@/app/context/NotesContext";
+import CollapseButton from "@/app/components/CollapseButton";
 
 export default function RootLayout({
   children,
@@ -120,16 +123,7 @@ export default function RootLayout({
           >
             <Upload size={18} /> Upload
           </Link>
-          <Link
-            href="/notes/editor"
-            className={`w-full flex gap-2 items-center py-1 justify-start pl-2 bg-white ${
-              pathname === "/notes/editor"
-                ? "text-zinc-900 hover:text-zinc-900"
-                : "text-zinc-400 hover:text-zinc-700"
-            }   rounded-md`}
-          >
-            <Pencil size={18} /> Editor
-          </Link>
+          <CollapseButton />
         </motion.div>
         {children}
       </div>

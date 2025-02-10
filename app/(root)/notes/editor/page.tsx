@@ -1,4 +1,5 @@
 "use client";
+import { useNotes } from "@/app/context/NotesContext";
 // import Editor from "@/app/components/editor/Editor";
 // import NotesSlider from "@/app/components/NotesSlider";
 import dynamic from "next/dynamic";
@@ -13,6 +14,8 @@ const Page = () => {
       dynamic(() => import("@/app/components/editor/Editor"), { ssr: false }),
     []
   );
+
+  const { notes, selectedNote } = useNotes();
   // const [showModal, setShowModal] = useState("");
   // const [ocrResults, setOcrResults] = useState([]);
   // useEffect(() => {
@@ -21,6 +24,7 @@ const Page = () => {
   //   const router = useRouter();
   //   console.log(router.query);
   //   const ocrResults = router.query.data ? JSON.parse(router.query.data) : null;
+
   const initialContent = JSON.stringify([
     {
       id: "edd0f77d-0d7f-4430-a516-d2accc849010",
@@ -33,7 +37,9 @@ const Page = () => {
       content: [
         {
           type: "text",
-          text: "Welcome to this demo!",
+          text: `${
+            notes?.[selectedNote] ?? `No note found at index ${selectedNote}`
+          }`,
           styles: {},
         },
       ],

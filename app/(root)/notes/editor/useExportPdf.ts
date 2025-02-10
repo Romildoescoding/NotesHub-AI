@@ -219,6 +219,30 @@ export default function useExportPdf(editor: BlockNoteEditor) {
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
 
+      const user = {
+        email: "romilrajrana1@gmail.com",
+        id: "67839448b5474a277037a82a",
+      };
+
+      const uploadNoteRes = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "My First BlockNote Scan :D",
+          fileName: "blocknote.pdf",
+          fileUrl: data.fileUrl,
+          isPublic: true,
+          tags: ["blocknote", "testing"],
+          uploadedBy: user.id,
+          uploaderEmail: user.email,
+          description: "This is my first note uploaded to Supabase.",
+        }),
+      });
+
+      const uploadNoteData = await res.json();
+      console.log(uploadNoteData);
+      // setResponse(data);
+
       console.log("✅ PDF Exported Successfully!", data.fileUrl);
       setExportSuccess(true);
     } catch (error) {
