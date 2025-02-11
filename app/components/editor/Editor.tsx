@@ -47,7 +47,7 @@
 
 // export default Editor;
 
-import React from "react";
+import React, { useEffect } from "react";
 import "@blocknote/core/fonts/inter.css";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
@@ -72,6 +72,24 @@ const Editor: React.FC<EditorProps> = ({
 
   const { exportToPDF, isLoading, exportSuccess } = useExportPdf(editor);
 
+  const handleContentChange = () => {
+    const updatedContent = JSON.stringify(editor.document);
+    localStorage.setItem("savedNote", updatedContent);
+    // onChange();
+  };
+
+  useEffect(() => {
+    if (initialContent) {
+      const savedNote = localStorage.getItem("savedNote");
+      if (savedNote) {
+        const parsedContent = JSON.parse(savedNote) as PartialBlock[];
+        const blocks = editor.document;
+        const blockIds = blocks.map((block) => block.id);
+        editor.replaceBlocks(blockIds, parsedContent);
+      }
+    }
+  }, [editor, initialContent]);
+
   return (
     <div className="h-full w-full flex flex-col gap-4 pl-16">
       {/* <button
@@ -84,7 +102,7 @@ const Editor: React.FC<EditorProps> = ({
         editor={editor}
         editable={editable}
         theme="light"
-        onChange={onChange}
+        onChange={handleContentChange}
       />
     </div>
   );
