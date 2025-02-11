@@ -1,5 +1,7 @@
 "use client";
 import { useNotes } from "@/app/context/NotesContext";
+import { useSidebar } from "@/app/context/SidebarContext";
+import { Edit } from "lucide-react";
 // import Editor from "@/app/components/editor/Editor";
 // import NotesSlider from "@/app/components/NotesSlider";
 import dynamic from "next/dynamic";
@@ -7,6 +9,11 @@ import dynamic from "next/dynamic";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 // import useExportPdf from "./useExportPdf";
+import { motion } from "framer-motion";
+
+function generateUniqueId() {
+  return crypto.randomUUID(); // Generates a unique ID
+}
 
 const Page = () => {
   const Editor = useMemo(
@@ -16,6 +23,7 @@ const Page = () => {
   );
 
   const { notes, selectedNote } = useNotes();
+  const { collapsed } = useSidebar();
   // const [showModal, setShowModal] = useState("");
   // const [ocrResults, setOcrResults] = useState([]);
   // useEffect(() => {
@@ -25,40 +33,263 @@ const Page = () => {
   //   console.log(router.query);
   //   const ocrResults = router.query.data ? JSON.parse(router.query.data) : null;
 
-  const initialContent = JSON.stringify([
-    {
-      id: "edd0f77d-0d7f-4430-a516-d2accc849010",
-      type: "paragraph",
-      props: {
-        textColor: "default",
-        backgroundColor: "default",
-        textAlignment: "left",
-      },
-      content: [
-        {
-          type: "text",
-          text: `${
-            notes?.[selectedNote] ?? `No note found at index ${selectedNote}`
-          }`,
-          styles: {},
-        },
-      ],
-      children: [],
-    },
-  ]);
+  // const initialContent = JSON.stringify([
+  //   {
+  //     id: "edd0f77d-0d7f-4430-a516-d2accc849099",
+  //     type: "heading1",
+  //     props: {
+  //       textColor: "default",
+  //       backgroundColor: "default",
+  //       textAlignment: "left",
+  //     },
+  //     content: [
+  //       {
+  //         type: "text",
+  //         text: `${
+  //           notes?.[selectedNote] ?? `No note found at index ${selectedNote}`
+  //         }`,
+  //         styles: {},
+  //       },
+  //     ],
+  //     children: [],
+  //   },
+  //   {
+  //     id: "edd0f77d-0d7f-4430-a516-d2accc849010",
+  //     type: "paragraph",
+  //     props: {
+  //       textColor: "default",
+  //       backgroundColor: "default",
+  //       textAlignment: "left",
+  //     },
+  //     content: [
+  //       {
+  //         type: "text",
+  //         text: `${
+  //           notes?.[selectedNote] ?? `No note found at index ${selectedNote}`
+  //         }`,
+  //         styles: {},
+  //       },
+  //     ],
+  //     children: [],
+  //   },
+  // ]);
+
+  // const [initialContent, setInitialContent] = useState<string>();
+  // useEffect(() => {
+  //   setInitialContent(
+  //     JSON.stringify([
+  //       {
+  //         id: generateUniqueId(),
+  //         type: "heading",
+  //         props: {
+  //           level: 1, // Default to H1
+  //           textColor: "default",
+  //           backgroundColor: "default",
+  //           textAlignment: "left",
+  //         },
+  //         content: [
+  //           {
+  //             type: "text",
+  //             text: `${
+  //               notes?.[selectedNote]?.title ??
+  //               `No note found at index ${selectedNote}`
+  //             }`,
+
+  //             styles: {},
+  //           },
+  //         ],
+  //         children: [],
+  //       },
+  //       {
+  //         id: generateUniqueId(),
+  //         type: "paragraph",
+  //         props: {
+  //           textColor: "default",
+  //           backgroundColor: "default",
+  //           textAlignment: "left",
+  //         },
+  //         content: [
+  //           {
+  //             type: "text",
+  //             text: `${
+  //               notes?.[selectedNote]?.text ??
+  //               `No note found at index ${selectedNote}`
+  //             }`,
+  //             styles: {},
+  //           },
+  //         ],
+  //         children: [],
+  //       },
+  //     ])
+  //   );
+  // }, [notes, selectedNote]);
+  // const initialContent = JSON.stringify([
+
+  //   {
+  //     id: generateUniqueId(),
+  //     type: "heading",
+  //     props: {
+  //       level: 1, // Default to H1
+  //       textColor: "default",
+  //       backgroundColor: "default",
+  //       textAlignment: "left",
+  //     },
+  //     content: [
+  //       {
+  //         type: "text",
+  //         text: `${
+  //           notes?.[selectedNote]?.title ??
+  //           `No note found at index ${selectedNote}`
+  //         }`,
+
+  //         styles: {},
+  //       },
+  //     ],
+  //     children: [],
+  //   },
+  //   {
+  //     id: generateUniqueId(),
+  //     type: "paragraph",
+  //     props: {
+  //       textColor: "default",
+  //       backgroundColor: "default",
+  //       textAlignment: "left",
+  //     },
+  //     content: [
+  //       {
+  //         type: "text",
+  //         text: `${
+  //           notes?.[selectedNote]?.text ??
+  //           `No note found at index ${selectedNote}`
+  //         }`,
+  //         styles: {},
+  //       },
+  //     ],
+  //     children: [],
+  //   },
+  // ]);
+
+  // console.log(initialContent);
 
   // const editorRefs = useRef([]);
   return (
     // <div className="w-full h-full" ref={(el) => (editorRefs.current[index] = el)}>
-    <div className="w-full h-full relative pt-16">
-      <div
-        className="w-full h-full relative"
-        // ref={(el) => (editorRefs.current[0] = el)}
+    <div className="w-full overflow-x-hidden h-full relative pt-16">
+      <motion.div
+        // Here, tranition-all would maeke smooth effect while if i do not use it, then i would make a sudden switching effect making it feel like i switched editors while keeping their states even...
+        className={`w-fit h-full pb-[30vh] bg-green-500 flex transition-all duration-300 flex-nowrap  -translate-x-[${
+          selectedNote * 100
+        }vw]}`}
+        // style={{ translateX: -`${selectedNote * 100}%` }}
+        style={{ translateX: `-${selectedNote * 100}vw` }}
+        // transition={{ ease: "easeInOut", duration: 300 }}
       >
-        <Editor initialContent={initialContent} />
+        {/* <div
+        // className="w-full h-full relative pb-[30vh] bg-red-500"
+        // ref={(el) => (editorRefs.current[0] = el)}
+      // > */}
+        {notes?.map((note, i) => (
+          <div
+            key={i}
+            className={`w-[calc(100vw-130px)] ${
+              collapsed ? "pl-[100px]" : "pl-[130px]"
+            } h-full relative bg-yellow-500 transition-all duration-300`}
+          >
+            <Editor
+              key={i}
+              initialContent={JSON.stringify([
+                {
+                  id: generateUniqueId(),
+                  type: "heading",
+                  props: {
+                    level: 1, // Default to H1
+                    textColor: "default",
+                    backgroundColor: "default",
+                    textAlignment: "left",
+                  },
+                  content: [
+                    {
+                      type: "text",
+                      text: `${
+                        note?.title ?? `No note found at index ${selectedNote}`
+                      }`,
+
+                      styles: {},
+                    },
+                  ],
+                  children: [],
+                },
+                {
+                  id: generateUniqueId(),
+                  type: "paragraph",
+                  props: {
+                    textColor: "default",
+                    backgroundColor: "default",
+                    textAlignment: "left",
+                  },
+                  content: [
+                    {
+                      type: "text",
+                      text: `${
+                        note?.text ?? `No note found at index ${selectedNote}`
+                      }`,
+                      styles: {},
+                    },
+                  ],
+                  children: [],
+                },
+              ])}
+            />
+          </div>
+        ))}
+        {/* <Editor key={selectedNote} initialContent={JSON.stringify([
+        {
+          id: generateUniqueId(),
+          type: "heading",
+          props: {
+            level: 1, // Default to H1
+            textColor: "default",
+            backgroundColor: "default",
+            textAlignment: "left",
+          },
+          content: [
+            {
+              type: "text",
+              text: `${
+                notes?.[selectedNote]?.title ??
+                `No note found at index ${selectedNote}`
+              }`,
+
+              styles: {},
+            },
+          ],
+          children: [],
+        },
+        {
+          id: generateUniqueId(),
+          type: "paragraph",
+          props: {
+            textColor: "default",
+            backgroundColor: "default",
+            textAlignment: "left",
+          },
+          content: [
+            {
+              type: "text",
+              text: `${
+                notes?.[selectedNote]?.text ??
+                `No note found at index ${selectedNote}`
+              }`,
+              styles: {},
+            },
+          ],
+          children: [],
+        },
+      ])} /> */}
         {/* <div>App</div> */}
         {/* <NotesSlider ocrResults={ocrResults} setShowModal={setShowModal} /> */}
-      </div>
+        {/* </div> */}
+      </motion.div>
     </div>
   );
 };

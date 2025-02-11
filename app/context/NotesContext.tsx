@@ -2,7 +2,7 @@
 import { createContext, useContext, useState } from "react";
 
 const NotesContext = createContext<{
-  notes: string[];
+  notes: [];
   setNotes: React.Dispatch<React.SetStateAction<string[]>>;
   editorCollapsed: boolean;
   setEditorCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
@@ -12,12 +12,15 @@ const NotesContext = createContext<{
 
 export function NotesProvider({ children }: { children: React.ReactNode }) {
   const [notes, setNotes] = useState([
-    " Hey there! how you doing ;D",
-    "I am good. What about you man? :)",
-    "I am good too dude. How have you been doing lately :o",
+    { title: "Introduction", text: " Hey there! how you doing ;D" },
+    { title: "Reply Back", text: "I am good. What about you man? :)" },
+    {
+      title: "Welcoming response",
+      text: "I am good too dude. How have you been doing lately :o",
+    },
   ]);
   const [editorCollapsed, setEditorCollapsed] = useState<boolean>(false);
-  const [selectedNote, setSelectedNote] = useState<number>(1);
+  const [selectedNote, setSelectedNote] = useState<number>(0);
 
   return (
     <NotesContext.Provider
