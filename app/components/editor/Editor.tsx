@@ -74,12 +74,12 @@ const Editor: React.FC<EditorProps> = ({
 
   return (
     <div className="h-full w-full flex flex-col gap-4 pl-16">
-      <button
+      {/* <button
         className="bg-zinc-950 text-zinc-50 rounded-md p-2 px-3"
         onClick={exportToPDF}
       >
         {isLoading ? "Uploading.." : "Upload"}
-      </button>
+      </button> */}
       <BlockNoteView
         editor={editor}
         editable={editable}

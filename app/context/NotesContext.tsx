@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from "react";
 
 const NotesContext = createContext<{
   notes: [];
-  setNotes: React.Dispatch<React.SetStateAction<string[]>>;
+  setNotes: React.Dispatch<React.SetStateAction<[]>>;
   editorCollapsed: boolean;
   setEditorCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
   selectedNote: number;

@@ -1,5 +1,12 @@
 "use client";
-import { ChevronDown, ChevronUp, Pencil } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  Ellipsis,
+  Pencil,
+  Plus,
+  PlusCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React from "react";
@@ -11,6 +18,7 @@ const CollapseButton = () => {
   const router = useRouter();
   const {
     notes,
+    setNotes,
     selectedNote,
     setSelectedNote,
     editorCollapsed,
@@ -48,15 +56,38 @@ const CollapseButton = () => {
           <div className="h-fit flex flex-col w-full relative">
             {notes.map((_, i) => (
               <button
-                className={`w-full p-2 flex justify-start pl-4 ${
+                className={`w-full p-2 flex justify-start pl-4 relative ${
                   selectedNote === i ? "text-zinc-900" : "text-zinc-400"
                 }`}
                 onClick={() => setSelectedNote(i)}
                 key={Math.random() * i + i}
               >
+                {selectedNote === i && (
+                  <span
+                    className={`absolute top-1/2 -translate-y-1/2 right-2 ${
+                      selectedNote === i ? "text-zinc-900" : "text-zinc-400"
+                    }`}
+                  >
+                    <Ellipsis size={15} />
+                  </span>
+                )}
                 Page {i + 1}
               </button>
             ))}
+            <button
+              onClick={() =>
+                setNotes((prev) => [
+                  ...prev,
+                  {
+                    title: "New Note",
+                    text: " Feel free to edit and add more content here",
+                  },
+                ])
+              }
+              className="w-full p-2 text-zinc-400 hover:text-zinc-900 transition-all flex items-center gap-2 justify-start pl-4"
+            >
+              <PlusCircle size={16} /> Add Note
+            </button>
           </div>
         </motion.div>
       )}
