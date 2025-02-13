@@ -24,152 +24,7 @@ const Page = () => {
 
   const { notes, selectedNote } = useNotes();
   const { collapsed } = useSidebar();
-  // const [showModal, setShowModal] = useState("");
-  // const [ocrResults, setOcrResults] = useState([]);
-  // useEffect(() => {
-  //   setOcrResults(JSON.parse(localStorage.getItem("results") || "[]"));
-  // }, []);
-  //   const router = useRouter();
-  //   console.log(router.query);
-  //   const ocrResults = router.query.data ? JSON.parse(router.query.data) : null;
-
-  // const initialContent = JSON.stringify([
-  //   {
-  //     id: "edd0f77d-0d7f-4430-a516-d2accc849099",
-  //     type: "heading1",
-  //     props: {
-  //       textColor: "default",
-  //       backgroundColor: "default",
-  //       textAlignment: "left",
-  //     },
-  //     content: [
-  //       {
-  //         type: "text",
-  //         text: `${
-  //           notes?.[selectedNote] ?? `No note found at index ${selectedNote}`
-  //         }`,
-  //         styles: {},
-  //       },
-  //     ],
-  //     children: [],
-  //   },
-  //   {
-  //     id: "edd0f77d-0d7f-4430-a516-d2accc849010",
-  //     type: "paragraph",
-  //     props: {
-  //       textColor: "default",
-  //       backgroundColor: "default",
-  //       textAlignment: "left",
-  //     },
-  //     content: [
-  //       {
-  //         type: "text",
-  //         text: `${
-  //           notes?.[selectedNote] ?? `No note found at index ${selectedNote}`
-  //         }`,
-  //         styles: {},
-  //       },
-  //     ],
-  //     children: [],
-  //   },
-  // ]);
-
-  // const [initialContent, setInitialContent] = useState<string>();
-  // useEffect(() => {
-  //   setInitialContent(
-  //     JSON.stringify([
-  //       {
-  //         id: generateUniqueId(),
-  //         type: "heading",
-  //         props: {
-  //           level: 1, // Default to H1
-  //           textColor: "default",
-  //           backgroundColor: "default",
-  //           textAlignment: "left",
-  //         },
-  //         content: [
-  //           {
-  //             type: "text",
-  //             text: `${
-  //               notes?.[selectedNote]?.title ??
-  //               `No note found at index ${selectedNote}`
-  //             }`,
-
-  //             styles: {},
-  //           },
-  //         ],
-  //         children: [],
-  //       },
-  //       {
-  //         id: generateUniqueId(),
-  //         type: "paragraph",
-  //         props: {
-  //           textColor: "default",
-  //           backgroundColor: "default",
-  //           textAlignment: "left",
-  //         },
-  //         content: [
-  //           {
-  //             type: "text",
-  //             text: `${
-  //               notes?.[selectedNote]?.text ??
-  //               `No note found at index ${selectedNote}`
-  //             }`,
-  //             styles: {},
-  //           },
-  //         ],
-  //         children: [],
-  //       },
-  //     ])
-  //   );
-  // }, [notes, selectedNote]);
-  // const initialContent = JSON.stringify([
-
-  //   {
-  //     id: generateUniqueId(),
-  //     type: "heading",
-  //     props: {
-  //       level: 1, // Default to H1
-  //       textColor: "default",
-  //       backgroundColor: "default",
-  //       textAlignment: "left",
-  //     },
-  //     content: [
-  //       {
-  //         type: "text",
-  //         text: `${
-  //           notes?.[selectedNote]?.title ??
-  //           `No note found at index ${selectedNote}`
-  //         }`,
-
-  //         styles: {},
-  //       },
-  //     ],
-  //     children: [],
-  //   },
-  //   {
-  //     id: generateUniqueId(),
-  //     type: "paragraph",
-  //     props: {
-  //       textColor: "default",
-  //       backgroundColor: "default",
-  //       textAlignment: "left",
-  //     },
-  //     content: [
-  //       {
-  //         type: "text",
-  //         text: `${
-  //           notes?.[selectedNote]?.text ??
-  //           `No note found at index ${selectedNote}`
-  //         }`,
-  //         styles: {},
-  //       },
-  //     ],
-  //     children: [],
-  //   },
-  // ]);
-
-  // console.log(initialContent);
+  console.log(notes);
 
   // const editorRefs = useRef([]);
   const uploadBtnRef = useRef<HTMLDivElement | null>(null);
@@ -199,18 +54,18 @@ const Page = () => {
       </button>
       <motion.div
         // Here, tranition-all would maeke smooth effect while if i do not use it, then i would make a sudden switching effect making it feel like i switched editors while keeping their states even...
-        className={`w-fit h-full overflow-y-hidden  pb-[30vh]  flex  flex-nowrap  -translate-x-[${
+        className={`w-fit h-full overflow-y-hidden  pb-[30vh] transition-all  flex  flex-nowrap  -translate-x-[${
           selectedNote * 100
         }vw]}`}
         // style={{ translateX: -`${selectedNote * 100}%` }}
-        style={{ translateX: `-${(selectedNote * 100) / notes.length}%` }}
+        style={{ translateX: `-${(selectedNote * 100) / notes?.[0]?.length}%` }}
         // transition={{ ease: "easeInOut", duration: 300 }}
       >
         {/* <div
         // className="w-full h-full relative pb-[30vh] bg-red-500"
         // ref={(el) => (editorRefs.current[0] = el)}
       // > */}
-        {notes?.map((note, i) => (
+        {notes?.[0]?.map((note, i) => (
           <div
             key={i}
             className={`w-[calc(100vw-130px)] ${
@@ -219,6 +74,7 @@ const Page = () => {
           >
             <Editor
               key={i}
+              page={i}
               initialContent={JSON.stringify([
                 {
                   id: generateUniqueId(),

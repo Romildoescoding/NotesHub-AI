@@ -13,6 +13,10 @@ import React from "react";
 import { useNotes } from "../context/NotesContext";
 import { AnimatePresence, motion } from "framer-motion";
 
+function generateUniqueId() {
+  return crypto.randomUUID(); // Generates a unique ID
+}
+
 const CollapseButton = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -54,7 +58,7 @@ const CollapseButton = () => {
         >
           <div className="w-[1px] h-full bg-zinc-300"></div>
           <div className="h-fit flex flex-col w-full relative">
-            {notes.map((_, i) => (
+            {notes?.[0]?.map((_, i) => (
               <button
                 className={`w-full p-2 flex justify-start pl-4 relative ${
                   selectedNote === i ? "text-zinc-900" : "text-zinc-400"
@@ -76,13 +80,34 @@ const CollapseButton = () => {
             ))}
             <button
               onClick={() =>
-                setNotes((prev) => [
-                  ...prev,
-                  {
-                    title: "New Note",
-                    text: " Feel free to edit and add more content here",
-                  },
-                ])
+                setNotes((prev) => {
+                  console.log(prev);
+                  const returnValue = [
+                    ...prev[0],
+                    [
+                      {
+                        id: generateUniqueId(),
+                        type: "heading",
+                        props: {
+                          level: 1, // Default to H1
+                          textColor: "default",
+                          backgroundColor: "default",
+                          textAlignment: "left",
+                        },
+                        content: [
+                          {
+                            type: "text",
+                            text: "New Note",
+                            styles: {},
+                          },
+                        ],
+                      },
+                    ],
+                  ];
+                  console.log([returnValue]);
+                  localStorage.setItem("notes", JSON.stringify(returnValue));
+                  return [returnValue];
+                })
               }
               className="w-full p-2 text-zinc-400 hover:text-zinc-900 transition-all flex items-center gap-2 justify-start pl-4"
             >

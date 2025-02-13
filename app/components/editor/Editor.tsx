@@ -59,12 +59,14 @@ interface EditorProps {
   onChange: () => void;
   initialContent?: string;
   editable?: boolean;
+  page: number;
 }
 
 const Editor: React.FC<EditorProps> = ({
   initialContent,
   onChange,
   editable,
+  page,
 }) => {
   const editor = useCreateBlockNote({
     initialContent: initialContent ? JSON.parse(initialContent) : undefined,
@@ -72,23 +74,36 @@ const Editor: React.FC<EditorProps> = ({
 
   const { exportToPDF, isLoading, exportSuccess } = useExportPdf(editor);
 
+  // const handleContentChange = () => {
+  //   const updatedContent = JSON.stringify(editor.document);
+  //   localStorage.setItem(`note-${page}`, updatedContent);
+  // };
+
   const handleContentChange = () => {
-    const updatedContent = JSON.stringify(editor.document);
-    localStorage.setItem("savedNote", updatedContent);
-    // onChange();
+    // Get existing notes from localStorage
+    const storedNotes = JSON.parse(localStorage.getItem("notes") ?? "[]");
+
+    // Update the specific page's content
+    // storedNotes[page] = JSON.stringify(editor.document);
+    storedNotes[page] = editor.document;
+    console.log(storedNotes);
+    // Save back to localStorage
+    localStorage.setItem("notes", JSON.stringify(storedNotes));
   };
 
   useEffect(() => {
     if (initialContent) {
-      const savedNote = localStorage.getItem("savedNote");
+      const savedNote = localStorage.getItem("notes");
       if (savedNote) {
-        const parsedContent = JSON.parse(savedNote) as PartialBlock[];
+        const parsedContent = JSON.parse(savedNote)[page] as PartialBlock[];
+        console.log("PARSED CONTENT");
+        console.log(parsedContent);
         const blocks = editor.document;
         const blockIds = blocks.map((block) => block.id);
         editor.replaceBlocks(blockIds, parsedContent);
       }
     }
-  }, [editor, initialContent]);
+  }, [editor, initialContent, page]);
 
   return (
     <div className="h-full w-full flex flex-col gap-4 pl-16">
