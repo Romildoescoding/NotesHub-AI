@@ -54,7 +54,7 @@ const Page = () => {
       </button>
       <motion.div
         // Here, tranition-all would maeke smooth effect while if i do not use it, then i would make a sudden switching effect making it feel like i switched editors while keeping their states even...
-        className={`w-fit h-full overflow-y-hidden  pb-[30vh] transition-all  flex  flex-nowrap  -translate-x-[${
+        className={`w-fit h-full overflow-y-hidden pb-[30vh] flex flex-nowrap -translate-x-[${
           selectedNote * 100
         }vw]}`}
         // style={{ translateX: -`${selectedNote * 100}%` }}
@@ -75,48 +75,49 @@ const Page = () => {
             <Editor
               key={i}
               page={i}
-              initialContent={JSON.stringify([
-                {
-                  id: generateUniqueId(),
-                  type: "heading",
-                  props: {
-                    level: 1, // Default to H1
-                    textColor: "default",
-                    backgroundColor: "default",
-                    textAlignment: "left",
-                  },
-                  content: [
-                    {
-                      type: "text",
-                      text: `${
-                        note?.title ?? `No note found at index ${selectedNote}`
-                      }`,
+              initialContent={note}
+              // initialContent={JSON.stringify([
+              //   {
+              //     id: generateUniqueId(),
+              //     type: "heading",
+              //     props: {
+              //       level: 1, // Default to H1
+              //       textColor: "default",
+              //       backgroundColor: "default",
+              //       textAlignment: "left",
+              //     },
+              //     content: [
+              //       {
+              //         type: "text",
+              //         text: `${
+              //           note?.title ?? `No note found at index ${selectedNote}`
+              //         }`,
 
-                      styles: {},
-                    },
-                  ],
-                  children: [],
-                },
-                {
-                  id: generateUniqueId(),
-                  type: "paragraph",
-                  props: {
-                    textColor: "default",
-                    backgroundColor: "default",
-                    textAlignment: "left",
-                  },
-                  content: [
-                    {
-                      type: "text",
-                      text: `${
-                        note?.text ?? `No note found at index ${selectedNote}`
-                      }`,
-                      styles: {},
-                    },
-                  ],
-                  children: [],
-                },
-              ])}
+              //         styles: {},
+              //       },
+              //     ],
+              //     children: [],
+              //   },
+              //   {
+              //     id: generateUniqueId(),
+              //     type: "paragraph",
+              //     props: {
+              //       textColor: "default",
+              //       backgroundColor: "default",
+              //       textAlignment: "left",
+              //     },
+              //     content: [
+              //       {
+              //         type: "text",
+              //         text: `${
+              //           note?.text ?? `No note found at index ${selectedNote}`
+              //         }`,
+              //         styles: {},
+              //       },
+              //     ],
+              //     children: [],
+              //   },
+              // ])}
             />
           </div>
         ))}
