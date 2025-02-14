@@ -195,53 +195,89 @@
 import { useState } from "react";
 import { BlockNoteEditor } from "@blocknote/core";
 
-export default function useExportPdf(editor: BlockNoteEditor) {
+// export default function useExportPdf(editor: BlockNoteEditor) {
+//   const [isLoading, setIsLoading] = useState(false);
+//   const [exportSuccess, setExportSuccess] = useState<boolean | null>(null);
+
+//   const exportToPDF = async () => {
+//     try {
+//       setIsLoading(true);
+//       console.log("🔄 Generating PDF...");
+
+//       // Get the blocks directly from the editor
+//       const blocks = editor.document;
+
+//       console.log("Blocks to be exported:", blocks);
+
+//       // Send request to server action
+//       const res = await fetch("/api/notes", {
+//         method: "PUT",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ blocks }),
+//       });
+
+//       const data = await res.json();
+//       if (!data.success) throw new Error(data.error);
+
+//       const user = {
+//         email: "romilrajrana1@gmail.com",
+//         id: "67839448b5474a277037a82a",
+//       };
+
+//       const uploadNoteRes = await fetch("/api/notes", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           title: "My First BlockNote Scan :D",
+//           fileName: "blocknote.pdf",
+//           fileUrl: data.fileUrl,
+//           isPublic: true,
+//           tags: ["blocknote", "testing"],
+//           uploadedBy: user.id,
+//           uploaderEmail: user.email,
+//           description: "This is my first note uploaded to Supabase.",
+//         }),
+//       });
+
+//       const uploadNoteData = await res.json();
+//       console.log(uploadNoteData);
+//       // setResponse(data);
+
+//       console.log("✅ PDF Exported Successfully!", data.fileUrl);
+//       setExportSuccess(true);
+//     } catch (error) {
+//       console.error("❌ PDF Export Error:", error);
+//       setExportSuccess(false);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+
+//   return { exportToPDF, isLoading, exportSuccess };
+// }
+
+export default function useExportPdf() {
   const [isLoading, setIsLoading] = useState(false);
   const [exportSuccess, setExportSuccess] = useState<boolean | null>(null);
 
-  const exportToPDF = async () => {
+  const exportToPDF = async (notes: string[][]) => {
     try {
       setIsLoading(true);
       console.log("🔄 Generating PDF...");
 
-      // Get the blocks directly from the editor
-      const blocks = editor.document;
-
-      console.log("Blocks to be exported:", blocks);
+      // Collect ALL notes from the notes state
+      const allBlocks = notes.flat(); // Flatten to send as a single array
+      console.log("Blocks to be exported:", allBlocks);
 
       // Send request to server action
       const res = await fetch("/api/notes", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ blocks }),
+        body: JSON.stringify({ blocks: allBlocks }),
       });
 
       const data = await res.json();
       if (!data.success) throw new Error(data.error);
-
-      const user = {
-        email: "romilrajrana1@gmail.com",
-        id: "67839448b5474a277037a82a",
-      };
-
-      const uploadNoteRes = await fetch("/api/notes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: "My First BlockNote Scan :D",
-          fileName: "blocknote.pdf",
-          fileUrl: data.fileUrl,
-          isPublic: true,
-          tags: ["blocknote", "testing"],
-          uploadedBy: user.id,
-          uploaderEmail: user.email,
-          description: "This is my first note uploaded to Supabase.",
-        }),
-      });
-
-      const uploadNoteData = await res.json();
-      console.log(uploadNoteData);
-      // setResponse(data);
 
       console.log("✅ PDF Exported Successfully!", data.fileUrl);
       setExportSuccess(true);
