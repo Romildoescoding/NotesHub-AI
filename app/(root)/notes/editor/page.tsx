@@ -66,7 +66,7 @@ const Page = () => {
               collapsed ? "pl-[100px]" : "pl-[130px]"
             } h-fit relative  transition-all duration-300`}
           >
-            <Editor key={i * i + 2} page={i} initialContent={note} />
+            <Editor key={i} page={i} initialContent={note} />
           </div>
         ))}
       </motion.div>

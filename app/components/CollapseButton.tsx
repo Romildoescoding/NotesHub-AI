@@ -6,12 +6,16 @@ import {
   Pencil,
   Plus,
   PlusCircle,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNotes } from "../context/NotesContext";
 import { AnimatePresence, motion } from "framer-motion";
+import useOutsideClick from "../hooks/useOutsideClick";
+import Modal from "./Modal";
+import ModalConfirmDelete from "./ModalConfirmDelete";
 
 function generateUniqueId() {
   return crypto.randomUUID(); // Generates a unique ID
@@ -28,6 +32,59 @@ const CollapseButton = () => {
     editorCollapsed,
     setEditorCollapsed,
   } = useNotes();
+
+  const [showOptions, setShowOptions] = useState("");
+  const modalRef = useOutsideClick(() => {
+    if (showOptions) {
+      setShowOptions("");
+    }
+  });
+  // setShowOptions("options");
+
+  function handleDeletePage() {
+    let notesLength = 0;
+    setNotes(() => {
+      // Remove the selected note
+      const prev = JSON.parse(localStorage.getItem("notes") ?? "[]");
+      console.log(prev);
+      console.log("selected note!", selectedNote);
+      const updatedNotes = prev[0].filter((_, i) => i !== selectedNote);
+
+      console.log([updatedNotes]);
+      notesLength = updatedNotes[0]?.length ?? 1;
+
+      // Update localStorage
+      // localStorage.setItem("notes", JSON.stringify([updatedNotes]));
+
+      return [updatedNotes];
+    });
+
+    // Done to make sure this shit updates, got me debugging like for 3 hours, earlier this was not updating the state properly.. idk why. Will check later but my guess right now is that this happens
+    // probably due to re-render after the setNotes and since setNotes deletes the note in the same instant,
+    // this gets vut off is what i presume but will come to this later.
+    setTimeout(() => {
+      setSelectedNote((prevSelected) => {
+        // console.log("Previous value:-->", prevSelected);
+        if (prevSelected > 0) {
+          return prevSelected - 1;
+        } else if (prevSelected === 0 && prevSelected < notesLength - 1) {
+          return prevSelected + 1;
+        } else {
+          return 1;
+        }
+      });
+    }, 0);
+
+    setShowOptions("");
+  }
+
+  useEffect(() => {
+    console.log("New note index-->", selectedNote);
+  }, [selectedNote]);
+
+  useEffect(() => {
+    setNotes(JSON.parse(localStorage.getItem("notes") ?? "[]"));
+  }, [selectedNote, setNotes]); // Trigger when `selectedNote` changes
 
   return (
     <AnimatePresence>
@@ -59,24 +116,54 @@ const CollapseButton = () => {
           <div className="w-[1px] h-full bg-zinc-300"></div>
           <div className="h-fit flex flex-col w-full relative">
             {notes?.[0]?.map((_, i) => (
-              <button
+              <div
                 className={`w-full p-2 flex justify-start pl-4 relative ${
                   selectedNote === i ? "text-zinc-900" : "text-zinc-400"
                 }`}
                 onClick={() => setSelectedNote(i)}
                 key={Math.random() * i + i}
               >
+                {showOptions === "confirm-delete" && selectedNote === i && (
+                  <Modal setShowModal={setShowOptions}>
+                    <ModalConfirmDelete
+                      setShowModal={setShowOptions}
+                      handleDelete={handleDeletePage}
+                    />
+                  </Modal>
+                )}
+                {/* OPTIONS MODAL */}
+                {showOptions === "options" && selectedNote === i && (
+                  <span
+                    ref={modalRef}
+                    className="absolute flex flex-col gap-1 top-[75%] z-[9999] left-[90%] rounded-lg h-fit w-fit p-2 bg-zinc-50 shadow-md shadow-[#ccc]"
+                  >
+                    <span
+                      className="flex cursor-pointer gap-2 pointer w-full rounded-md h-fit p-2 hover:bg-zinc-200"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowOptions("confirm-delete");
+                      }}
+                    >
+                      <Trash2 size={15} color="#18181b" /> Delete
+                    </span>
+                  </span>
+                )}
                 {selectedNote === i && (
                   <span
-                    className={`absolute top-1/2 -translate-y-1/2 right-2 ${
+                    className={`absolute cursor-pointer top-1/2 -translate-y-1/2 right-2 ${
                       selectedNote === i ? "text-zinc-900" : "text-zinc-400"
                     }`}
+                    // onClick={() => handleDeletePage(i)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowOptions("options");
+                    }}
                   >
                     <Ellipsis size={15} />
                   </span>
                 )}
                 Page {i + 1}
-              </button>
+              </div>
             ))}
             <button
               onClick={() =>

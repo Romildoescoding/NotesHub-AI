@@ -280,6 +280,31 @@ export default function useExportPdf() {
       if (!data.success) throw new Error(data.error);
 
       console.log("✅ PDF Exported Successfully!", data.fileUrl);
+      // User details
+      const user = {
+        email: "romilrajrana1@gmail.com",
+        id: "67839448b5474a277037a82a",
+      };
+
+      // Save to database
+      const notesRes = await fetch("/api/notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: "My First Note",
+          fileName: "user-file",
+          fileUrl: data.fileUrl,
+          isPublic: true,
+          tags: ["learning", "typescript"],
+          uploadedBy: user.id,
+          uploaderEmail: user.email,
+          description: "This is my first note uploaded to Supabase.",
+        }),
+      });
+
+      const notesData = await res.json();
+      // setResponse(data);
+      console.log("✅ COMPLETED THE PDF MAKING :D :D :D :D :D");
       setExportSuccess(true);
     } catch (error) {
       console.error("❌ PDF Export Error:", error);
