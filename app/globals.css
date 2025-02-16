@@ -307,3 +307,8 @@ iframe::-webkit-scrollbar {
   background-color: white; /* Match background */
   border-bottom-right-radius: 1.5rem; /* Create the curve */
 }
+
+.options {
+  border: none !important;
+  box-shadow: none !important;
+}
