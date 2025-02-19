@@ -5,8 +5,10 @@ import { ArrowUp } from "lucide-react";
 import dynamic from "next/dynamic";
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import useExportPdf from "./useExportPdf";
+import Modal from "@/app/components/Modal";
+import ModalExportPdf from "@/app/components/ModalExportPdf";
 
 const Page = () => {
   const Editor = useMemo(
@@ -30,23 +32,7 @@ const Page = () => {
   return (
     // <div className="w-full h-full" ref={(el) => (editorRefs.current[index] = el)}>
     <div className="w-full overflow-x-hidden h-full relative pt-16 ">
-      {exportModal && (
-        <>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="w-[600px] p-4 h-[400px] fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-md z-[9999999]"
-          >
-            <h1 className="text-xl font-semibold">Export Note</h1>
-          </motion.div>
-          <motion.div
-            onClick={() => setExportModal(false)}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="w-full h-full fixed left-0 top-0 bg-[#18181b75] z-[9999998]"
-          ></motion.div>
-        </>
-      )}
+      {exportModal && <ModalExportPdf setShowModal={setExportModal} />}
       <div ref={uploadBtnRef} className="absolute -top-[60px] right-0"></div>
       <button
         className="absolute top-5 right-5 bg-zinc-950 text-zinc-50 rounded-md p-2 px-3"

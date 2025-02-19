@@ -10,7 +10,7 @@ const ModalWrapper = ({
   setShowModal: any;
 }) => {
   return (
-    <div className="relative rounded-md border-[1px] w-fit h-fit ">
+    <div className="relative rounded-md w-fit h-fit ">
       <button
         className="absolute top-4 right-4 z-[9999]"
         onClick={() => setShowModal("")}
