@@ -13,8 +13,8 @@ const pdfFiles = [
       "https://toedslmykfbanqvtpktp.supabase.co/storage/v1/object/public/pdfs/pdfs/0_Resume_Romil_v1.pdf",
     isPublic: true,
     tags: [
-      { name: "learning", primary: "#b8fff0", secondary: "#429583" },
-      { name: "typescipt", primary: "#ffd9b6", secondary: "#956742" },
+      { category: "learning", primary: "#429583", secondary: "#b8fff0" },
+      { category: "typescipt", primary: "#956742", secondary: "#ffd9b6" },
     ],
     uploadedBy: {
       $oid: "67839448b5474a277037a82a",

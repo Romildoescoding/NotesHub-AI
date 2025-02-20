@@ -11,9 +11,16 @@ import Confetti, { ConfettiButton } from "@/components/ui/confetti";
 import { ConfettiFireworks } from "./ConfettiFireworks";
 import SuccessfulUpload from "./SuccessfulUpload";
 import { useRouter } from "next/navigation";
+import { useNotes } from "../context/NotesContext";
+import { generateNotes } from "../context/defaultNote";
 
 // Define the type for the files state
 type FileType = File;
+
+interface INote {
+  title: string;
+  text: string;
+}
 
 const FileUpload: React.FC = () => {
   const router = useRouter();
@@ -30,6 +37,7 @@ const FileUpload: React.FC = () => {
   ]);
   const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+  const { setNotes } = useNotes();
 
   // OCR UPLOAD URL IS http://localhost:3000/api/ocr/upload
   useEffect(() => {
@@ -52,7 +60,7 @@ const FileUpload: React.FC = () => {
   const handleGenerate = async () => {
     setIsLoading(true);
     setShowModal("loading");
-    const results: string[] = [];
+    const results: INote[] = [];
 
     for (const file of files) {
       const formData = new FormData();
@@ -64,15 +72,25 @@ const FileUpload: React.FC = () => {
           body: formData,
         });
         const data = await response.json();
-        results.push(data.text || "No text found");
+
+        results.push({
+          title: data.text.slice(0, 15) || "Placeholder Title",
+          text: data.text,
+        });
+        //Go to the editor
       } catch (error) {
         console.error("Error processing file:", file.name, error);
-        results.push(`Error processing file: ${file.name}`);
+        // results.push(`Error processing file: ${file.name}`);
       }
     }
+    console.log(results);
+    const results2 = generateNotes(results);
+    console.log(results2);
+    setNotes(JSON.parse(results2));
+    router.push("/notes/editor");
     // router.push("/dashboard/editor");
 
-    setOcrResults(results);
+    // setOcrResults(results);
     setShowModal("results");
     setIsLoading(false);
   };
@@ -87,7 +105,7 @@ const FileUpload: React.FC = () => {
   };
 
   return (
-    <div className="z-2 flex flex-col items-center justify-center w-full pt-24 relative">
+    <div className="z-2 flex flex-col items-center justify-center w-full pt-4 relative">
       {showModal === "loading" && (
         <Modal setShowModal={setShowModal}>
           <div className="w-[60vw] h-[90vh] flex flex-col items-center justify-center bg-white text-zinc-500 rounded-md">
@@ -196,7 +214,7 @@ const FileUpload: React.FC = () => {
             style={{ cursor: files.length == 0 ? "not-allowed" : "pointer" }}
             disabled={files.length == 0}
             // onClick={() => setShowModal("results")}
-            // onClick={handleGenerate}
+            onClick={handleGenerate}
             // onClick={() =>
             //   router.push(
             //     `/dashboard/editor?data=${encodeURIComponent(
@@ -204,10 +222,10 @@ const FileUpload: React.FC = () => {
             //     )}`
             //   )
             // }
-            onClick={() => {
-              localStorage.setItem("results", JSON.stringify(ocrResults));
-              router.push("/dashboard/editor");
-            }}
+            // onClick={() => {
+            //   localStorage.setItem("results", JSON.stringify(ocrResults));
+            //   router.push("/notes/editor");
+            // }}
           >
             {/* img {
   max-width: 100%; 

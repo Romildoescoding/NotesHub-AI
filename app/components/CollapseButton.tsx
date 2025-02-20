@@ -118,7 +118,9 @@ const CollapseButton = () => {
             {notes?.[0]?.map((_, i) => (
               <div
                 className={`w-full p-2 flex justify-start pl-4 relative ${
-                  selectedNote === i ? "text-zinc-900" : "text-zinc-400"
+                  selectedNote === i
+                    ? "text-zinc-900 cursor-text"
+                    : "text-zinc-400 cursor-pointer"
                 }`}
                 onClick={() => setSelectedNote(i)}
                 key={Math.random() * i + i}
