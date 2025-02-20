@@ -25,15 +25,14 @@ const Note = ({ note, selectedPdf, onClick }) => {
           {note.title.slice(0, 1).toUpperCase() + note.title.slice(1)}
         </p>
         <p className="w-full justify-end flex gap-1">
-          {note.tags.map((tag, i) => (
+          {note.tags.slice(0, 3).map((tag, i) => (
             <span
               key={i}
               className="px-2 py-1 text-xs rounded-full capitalize"
-              style={{ background: "#a3d2ff", color: "#0084ff" }}
+              style={{ background: tag.secondary, color: tag.primary }}
               // style={{ background: tag.primary, color: tag.secondary }}
             >
-              {tag}
-              {/* {tag.name} */}
+              {tag.category}
             </span>
           ))}
         </p>

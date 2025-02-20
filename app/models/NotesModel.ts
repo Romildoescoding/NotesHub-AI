@@ -1,12 +1,19 @@
 import mongoose, { Document, model, models, Schema } from "mongoose";
 
+// Define the interface for a tag object
+interface ITag {
+  category: string;
+  primary: string;
+  secondary: string;
+}
+
 // Define the interface for the Notes model
 export interface INote extends Document {
   title: string; // Title of the note
   fileName: string; // Name of the uploaded file
   fileUrl: string; // URL of the file stored in AWS S3
   isPublic: boolean; // Whether the note is public or private
-  tags: string[]; // Tags for the note
+  tags: ITag[]; // Tags for the note as an array of objects
   uploadedBy: mongoose.Types.ObjectId; // Reference to the uploader's User ID
   uploaderEmail: string; // Email of the uploader
   description?: string; // Optional description for the note
@@ -34,8 +41,17 @@ const notesSchema = new Schema<INote>(
       default: false, // Whether the note is public or private
     },
     tags: {
-      type: [String],
-      default: ["notes", "pdfs"], // Default tags for AI-generated or user-added tags
+      type: [
+        {
+          category: { type: String, required: true }, // Category name
+          primary: { type: String, required: true }, // Primary color
+          secondary: { type: String, required: true }, // Secondary color
+        },
+      ],
+      default: [
+        { category: "notes", primary: "#1E3A8A", secondary: "#BFDBFE" },
+        { category: "pdfs", primary: "#6B21A8", secondary: "#E9D5FF" },
+      ],
     },
     uploadedBy: {
       type: mongoose.Schema.Types.ObjectId,

@@ -8,21 +8,44 @@ import Spinner from "./Spinner";
 
 const ModalExportPdf = ({ setShowModal }) => {
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [isPublic, setIsPublic] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [categoryInput, setCategoryInput] = useState("");
-  const [error, setError] = useState(""); // For validation messages
+  const [error, setError] = useState({}); // For validation messages
 
-  const { exportToPDF, isLoading } = useExportPdf();
+  const { exportToPDF, isLoading, exportSuccess } = useExportPdf();
   const { notes } = useNotes();
 
-  const handleExport = () => {
+  const handleExport = async () => {
+    let errors = {};
+
     if (!title.trim()) {
-      setError("Title is required.");
+      errors.title = "Title is required.";
+    }
+    if (!description.trim()) {
+      errors.description = "Description is required.";
+    }
+    if (!selectedCategories.length) {
+      errors.categories = "Categories are required";
+    }
+
+    if (Object.keys(errors).length) {
+      setError(errors);
       return;
     }
-    setError(""); // Clear error if valid
-    exportToPDF(notes);
+
+    // No validation errors were found. So, process further
+    setError({});
+    const success = await exportToPDF(
+      notes,
+      title,
+      selectedCategories,
+      description,
+      isPublic
+    );
+    if (success) setShowModal("success");
+    else setShowModal("error");
   };
 
   return (
@@ -37,11 +60,25 @@ const ModalExportPdf = ({ setShowModal }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           className={`border p-2 rounded-md w-full ${
-            error ? "border-red-500" : "border-gray-300"
+            error.title ? "border-red-500" : "border-gray-300"
           }`}
           placeholder="Enter note title"
         />
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error.title && <p className="text-red-500 text-sm">{error.title}</p>}
+
+        <label className="text-sm font-medium">Description</label>
+        <textarea
+          // type="text"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className={`border p-2 rounded-md w-full max-h-28 ${
+            error.description ? "border-red-500" : "border-gray-300"
+          }`}
+          placeholder="Enter note description"
+        />
+        {error.description && (
+          <p className="text-red-500 text-sm">{error.description}</p>
+        )}
 
         {/* Public/Private Toggle */}
         <div className="flex items-center gap-2">
@@ -85,10 +122,14 @@ const ModalExportPdf = ({ setShowModal }) => {
           setCategoryInput={setCategoryInput}
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
+          error={error}
         />
+        {error.categories && (
+          <p className="text-red-500 text-sm">{error.categories}</p>
+        )}
 
         <button
-          className="mt-2 rounded-md gap-2 w-full flex items-center justify-center h-fit px-2 py-2 bg-black text-zinc-50"
+          className="mt-2 rounded-md gap-2 w-full flex items-center justify-center h-fit px-2 py-2 hover:bg-zinc-800 transition bg-black text-zinc-50"
           onClick={handleExport}
         >
           {isLoading ? (

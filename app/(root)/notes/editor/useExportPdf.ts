@@ -194,6 +194,7 @@
 // useExportPdf.ts
 import { useState } from "react";
 import { BlockNoteEditor } from "@blocknote/core";
+import { useCurrentUser } from "@/app/auth/useCurrentUser";
 
 // export default function useExportPdf(editor: BlockNoteEditor) {
 //   const [isLoading, setIsLoading] = useState(false);
@@ -259,14 +260,22 @@ import { BlockNoteEditor } from "@blocknote/core";
 export default function useExportPdf() {
   const [isLoading, setIsLoading] = useState(false);
   const [exportSuccess, setExportSuccess] = useState<boolean | null>(null);
+  // const {user} = useCurrentUser();
 
-  const exportToPDF = async (notes: string[][]) => {
+  const exportToPDF = async (
+    notes: string[][],
+    title: string,
+    tags: object[],
+    description: string,
+    isPublic: boolean
+  ) => {
     try {
       setIsLoading(true);
       console.log("🔄 Generating PDF...");
+      const notes1 = JSON.parse(localStorage.getItem("notes") ?? "[]");
 
       // Collect ALL notes from the notes state
-      const allBlocks = notes.flat(); // Flatten to send as a single array
+      const allBlocks = notes1.flat(); // Flatten to send as a single array
       console.log("Blocks to be exported:", allBlocks);
 
       // Send request to server action
@@ -291,24 +300,27 @@ export default function useExportPdf() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          title: "My First Note",
+          title,
           fileName: "user-file",
           fileUrl: data.fileUrl,
-          isPublic: true,
-          tags: ["learning", "typescript"],
+          isPublic,
+          tags,
           uploadedBy: user.id,
           uploaderEmail: user.email,
-          description: "This is my first note uploaded to Supabase.",
+          description,
         }),
       });
 
-      const notesData = await res.json();
+      const notesData = await notesRes.json();
+      console.log(notesData);
       // setResponse(data);
       console.log("✅ COMPLETED THE PDF MAKING :D :D :D :D :D");
-      setExportSuccess(true);
+      // setExportSuccess(true);
+      return true;
     } catch (error) {
       console.error("❌ PDF Export Error:", error);
-      setExportSuccess(false);
+      // setExportSuccess(false);
+      return false;
     } finally {
       setIsLoading(false);
     }

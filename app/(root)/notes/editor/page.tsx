@@ -9,6 +9,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import useExportPdf from "./useExportPdf";
 import Modal from "@/app/components/Modal";
 import ModalExportPdf from "@/app/components/ModalExportPdf";
+import ModalExportError from "@/app/components/ModalExportError";
+import ModalExportSuccess from "@/app/components/ModalExportSuccess";
 
 const Page = () => {
   const Editor = useMemo(
@@ -18,9 +20,9 @@ const Page = () => {
   );
 
   const { notes, selectedNote } = useNotes();
-  const { exportToPDF, isLoading, exportSuccess } = useExportPdf();
+  // const { exportToPDF, isLoading, exportSuccess } = useExportPdf();
   const { collapsed } = useSidebar();
-  const [exportModal, setExportModal] = useState<boolean>(false);
+  const [exportModal, setExportModal] = useState<boolean | string>("");
 
   // const editorRefs = useRef([]);
   const uploadBtnRef = useRef<HTMLDivElement | null>(null);
@@ -32,7 +34,18 @@ const Page = () => {
   return (
     // <div className="w-full h-full" ref={(el) => (editorRefs.current[index] = el)}>
     <div className="w-full overflow-x-hidden h-full relative pt-16 ">
-      {exportModal && <ModalExportPdf setShowModal={setExportModal} />}
+      {exportModal === "export-pdf" && (
+        <ModalExportPdf setShowModal={setExportModal} />
+      )}
+
+      {exportModal === "error" && (
+        <ModalExportError setShowModal={setExportModal} />
+      )}
+
+      {exportModal === "success" && (
+        <ModalExportSuccess setShowModal={setExportModal} />
+      )}
+
       <div ref={uploadBtnRef} className="absolute -top-[60px] right-0"></div>
       <button
         className="absolute top-5 right-5 bg-zinc-950 text-zinc-50 rounded-md p-2 px-3"
@@ -42,10 +55,10 @@ const Page = () => {
         //     JSON.parse(localStorage.getItem("notes") ?? "[]") ?? notes
         //   )
         // }
-        onClick={() => setExportModal(true)}
+        onClick={() => setExportModal("export-pdf")}
         // ref={uploadBtnRef}
       >
-        {isLoading ? "Uploading.." : "Export"}
+        {"Export"}
       </button>
       <button
         onClick={() =>

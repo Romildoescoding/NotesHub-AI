@@ -29,48 +29,46 @@ const Categories = ({
   setCategoryInput,
   selectedCategories,
   setSelectedCategories,
+  error,
 }) => {
-  const [allCategories, setAllCategories] = useState([
-    "Tech",
-    "Health",
-    "Finance",
-    "Education",
-  ]);
-  const [categoryColors, setCategoryColors] = useState({});
+  const allCategories = useRef(new Set(["Tech", "Health", "Finance"]));
+  const selectedSet = new Set(
+    selectedCategories.map((c) => c.category.toLowerCase())
+  );
+
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
   const inputRef = useRef(null);
 
-  const filteredCategories = allCategories.filter((cat) =>
-    cat.toLowerCase().includes(categoryInput.toLowerCase())
-  );
+  const handleAddCategory = (categoryName) => {
+    const lowerCaseName = categoryName.toLowerCase();
 
-  const handleAddCategory = (category) => {
-    if (category && !selectedCategories.includes(category)) {
-      setSelectedCategories([...selectedCategories, category]);
-
-      // Assign color only if not already assigned
-      setCategoryColors((prevColors) => ({
-        ...prevColors,
-        [category]: prevColors[category] || getRandomColor(),
-      }));
-
-      setCategoryInput("");
-      setShowSuggestions(false);
-      setHighlightedIndex(-1);
+    if (!selectedSet.has(lowerCaseName)) {
+      const { primary, secondary } = getRandomColor();
+      setSelectedCategories((prev) => [
+        ...prev,
+        { category: categoryName, primary, secondary },
+      ]);
     }
+
+    setCategoryInput("");
+    setShowSuggestions(false);
+    setHighlightedIndex(-1);
   };
 
-  const handleRemoveCategory = (category) => {
-    setSelectedCategories(selectedCategories.filter((cat) => cat !== category));
-
-    // Optionally, keep colors or remove them from state
-    setCategoryColors((prevColors) => {
-      const newColors = { ...prevColors };
-      delete newColors[category];
-      return newColors;
-    });
+  const handleRemoveCategory = (categoryName) => {
+    setSelectedCategories((prev) =>
+      prev.filter(
+        (cat) => cat.category.toLowerCase() !== categoryName.toLowerCase()
+      )
+    );
   };
+
+  const filteredCategories = Array.from(allCategories.current).filter(
+    (cat) =>
+      cat.toLowerCase().includes(categoryInput.toLowerCase()) &&
+      !selectedSet.has(cat.toLowerCase())
+  );
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -88,7 +86,9 @@ const Categories = ({
       !categoryInput &&
       selectedCategories.length > 0
     ) {
-      handleRemoveCategory(selectedCategories[selectedCategories.length - 1]);
+      handleRemoveCategory(
+        selectedCategories[selectedCategories.length - 1].category
+      );
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       setHighlightedIndex((prev) =>
@@ -106,28 +106,23 @@ const Categories = ({
     <div className="flex flex-col gap-2 relative">
       <label className="text-sm font-medium">Categories</label>
       <div
-        className="flex flex-wrap gap-2 border p-2 max-h-60 overflow-y-scroll rounded-md cursor-text"
-        onClick={(e) => {
-          if (e.target.tagName === "BUTTON") return;
-          inputRef.current.focus();
-        }}
+        className={`flex flex-wrap gap-2 border p-2 max-h-40 overflow-y-scroll rounded-md cursor-text ${
+          error.categories ? "border-2 border-red-500" : "border-none"
+        }`}
+        onClick={() => inputRef.current.focus()}
       >
-        {selectedCategories.map((category) => {
-          const { primary, secondary } =
-            categoryColors[category] || getRandomColor();
-          return (
-            <div
-              key={category}
-              style={{ backgroundColor: secondary, color: primary }}
-              className="pr-3 pl-2 py-1 rounded-full flex items-center gap-2"
-            >
-              {category}
-              <button onClick={() => handleRemoveCategory(category)}>
-                <Cancel height={15} width={15} color={primary} />
-              </button>
-            </div>
-          );
-        })}
+        {selectedCategories.map(({ category, primary, secondary }) => (
+          <div
+            key={category}
+            style={{ backgroundColor: secondary, color: primary }}
+            className="pr-3 pl-2 py-1 rounded-full flex items-center gap-2"
+          >
+            {category}
+            <button onClick={() => handleRemoveCategory(category)}>
+              <Cancel height={15} width={15} color={primary} />
+            </button>
+          </div>
+        ))}
         <input
           ref={inputRef}
           type="text"

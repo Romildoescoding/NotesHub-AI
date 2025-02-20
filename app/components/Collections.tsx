@@ -158,9 +158,13 @@ const Collections = ({ notes }) => {
                   {selectedNote.tags.map((tag, i) => (
                     <span
                       className="bg-blue-300 text-md p-2 px-3 rounded-full text-blue-900 border-blue-400"
+                      style={{
+                        backgroundColor: tag.secondary,
+                        color: tag.primary,
+                      }}
                       key={i}
                     >
-                      {tag}
+                      {tag.category}
                     </span>
                   ))}
                 </div>
