@@ -30,7 +30,8 @@ const Collections = ({ notes }) => {
       if (
         category &&
         category !== "All" &&
-        !note.tags.includes(category.toLowerCase())
+        !note.tags.some((tag) => tag.category === category.toLowerCase())
+        // !note.tags.category.includes(category.toLowerCase())
       ) {
         return false;
       }
@@ -197,7 +198,7 @@ const Collections = ({ notes }) => {
       </AnimatePresence>
 
       {/* <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> */}
-      <div className="w-full flex flex-wrap gap-6">
+      <div className="w-full flex flex-wrap gap-6 pb-4">
         {notesState.length === 0 ? (
           <p className="text-center text-gray-500">No notes found.</p>
         ) : (
