@@ -51,7 +51,7 @@ const ModalExportPdf = ({ setShowModal }) => {
   return (
     <Modal setShowModal={setShowModal}>
       <div className="w-[600px] p-4 rounded-md h-auto bg-white flex flex-col gap-4">
-        <h1 className="text-xl font-semibold">Export Note</h1>
+        <h1 className="text-xl font-semibold">Export Notes</h1>
 
         {/* Title Input */}
         <label className="text-sm font-medium">Title</label>

@@ -14,7 +14,7 @@ export interface INote extends Document {
   fileUrl: string; // URL of the file stored in AWS S3
   isPublic: boolean; // Whether the note is public or private
   tags: ITag[]; // Tags for the note as an array of objects
-  uploadedBy: mongoose.Types.ObjectId; // Reference to the uploader's User ID
+  // uploadedBy: mongoose.Types.ObjectId; // Reference to the uploader's User ID
   uploaderEmail: string; // Email of the uploader
   description?: string; // Optional description for the note
   createdAt: Date; // Timestamp when the note was created
@@ -53,11 +53,11 @@ const notesSchema = new Schema<INote>(
         { category: "pdfs", primary: "#6B21A8", secondary: "#E9D5FF" },
       ],
     },
-    uploadedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // Reference to the User model
-      required: true,
-    },
+    // uploadedBy: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "User", // Reference to the User model
+    //   required: true,
+    // },
     uploaderEmail: {
       type: String,
       required: true, // Store the uploader's email for redundancy and quick lookup

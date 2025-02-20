@@ -12,7 +12,7 @@ import { ConfettiFireworks } from "./ConfettiFireworks";
 import SuccessfulUpload from "./SuccessfulUpload";
 import { useRouter } from "next/navigation";
 import { useNotes } from "../context/NotesContext";
-import { generateNotes } from "../context/defaultNote";
+import { generateNotes, getTitle } from "../context/defaultNote";
 
 // Define the type for the files state
 type FileType = File;
@@ -74,7 +74,7 @@ const FileUpload: React.FC = () => {
         const data = await response.json();
 
         results.push({
-          title: data.text.slice(0, 15) || "Placeholder Title",
+          title: getTitle(data.text) || "Placeholder Title",
           text: data.text,
         });
         //Go to the editor

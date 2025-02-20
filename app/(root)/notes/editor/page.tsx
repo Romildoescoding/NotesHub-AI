@@ -58,7 +58,7 @@ const Page = () => {
         onClick={() => setExportModal("export-pdf")}
         // ref={uploadBtnRef}
       >
-        {"Export"}
+        {"Export Notes"}
       </button>
       <button
         onClick={() =>

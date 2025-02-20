@@ -17,6 +17,12 @@ function escapeText(text: string): string {
     .replace(/"/g, '\\"'); // Escape double quotes
 }
 
+export function getTitle(text: string): string {
+  if (!text) return "";
+  const words = text.trim().split(/\s+/);
+  return words.slice(0, 2).join(" ");
+}
+
 export function generateNotes(notes: INote[]) {
   let outputStr = "";
 

@@ -260,7 +260,7 @@ import { useCurrentUser } from "@/app/auth/useCurrentUser";
 export default function useExportPdf() {
   const [isLoading, setIsLoading] = useState(false);
   const [exportSuccess, setExportSuccess] = useState<boolean | null>(null);
-  // const {user} = useCurrentUser();
+  const { user } = useCurrentUser();
 
   const exportToPDF = async (
     notes: string[][],
@@ -290,10 +290,10 @@ export default function useExportPdf() {
 
       console.log("✅ PDF Exported Successfully!", data.fileUrl);
       // User details
-      const user = {
-        email: "romilrajrana1@gmail.com",
-        id: "67839448b5474a277037a82a",
-      };
+      // const user = {
+      //   email: "romilrajrana1@gmail.com",
+      //   // id: "67839448b5474a277037a82a",
+      // };
 
       // Save to database
       const notesRes = await fetch("/api/notes", {
@@ -305,7 +305,7 @@ export default function useExportPdf() {
           fileUrl: data.fileUrl,
           isPublic,
           tags,
-          uploadedBy: user.id,
+          // uploadedBy: user.id,
           uploaderEmail: user.email,
           description,
         }),
