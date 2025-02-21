@@ -20,6 +20,7 @@ import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { formatDate } from "../_lib/actions";
 import useDeleteNote from "../(root)/notes/useDeleteNote";
 import ModalEditNote from "./ModalEditNote";
+import ModalConfirmDelete from "./ModalConfirmDelete";
 
 const Collections = ({ notes }) => {
   const {
@@ -93,6 +94,7 @@ const Collections = ({ notes }) => {
       setNotes((prev) => prev.filter((note) => note._id !== noteId));
     }
     setSelectedNote(null);
+    setShowModal(false);
   }
   function handleEditNote(selectedNote) {
     setShowModal("editing");
@@ -108,12 +110,20 @@ const Collections = ({ notes }) => {
     setShowModal(false); // Close the modal
   }
 
+  useEffect(() => {
+    if (showModal || selectedNote) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+  }, [showModal, selectedNote]);
+
   return (
     <div className="w-full min-h-screen bg-white relative text-black flex flex-col gap-8 pl-24">
       <NotesSearchForm />
 
       <AnimatePresence>
-        {selectedNote && showModal !== "editing" && (
+        {selectedNote && !showModal && (
           <motion.div
             // ref={ref}
             initial={{ bottom: "-100%" }}
@@ -138,11 +148,11 @@ const Collections = ({ notes }) => {
                     className="
                       flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-full text-zinc-500 hover:text-zinc-900 p1 px-2 text-sm"
                     onClick={() =>
-                      handleDelete(selectedNote?._id, selectedNote.fileUrl)
+                      // handleDelete(selectedNote?._id, selectedNote.fileUrl)
+                      setShowModal("deleting")
                     }
                   >
-                    <Trash2 size={20} />{" "}
-                    {isDeleting ? "Deleting Note.." : "Delete Note"}
+                    <Trash2 size={20} /> {"Delete Note"}
                   </button>
 
                   <span
@@ -246,10 +256,9 @@ const Collections = ({ notes }) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {selectedNote && showModal !== "editing" && (
+        {selectedNote && !showModal && (
           <motion.div
             onClick={() => {
-              document.body.style.overflowY = "auto";
               setSelectedNote(null);
             }}
             initial={{ opacity: 0 }}
@@ -268,6 +277,18 @@ const Collections = ({ notes }) => {
         />
       )}
 
+      {showModal === "deleting" && (
+        <ModalConfirmDelete
+          isLoading={isDeleting}
+          setShowModal={setShowModal}
+          handleDelete={() =>
+            handleDelete(selectedNote?._id, selectedNote.fileUrl)
+          }
+          title="Delete Note"
+          text="This action will permanently delete the note and related data. Are you sure you want to proceed?"
+        />
+      )}
+
       {/* <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> */}
       <div className="w-full flex flex-wrap gap-6 pb-4">
         {notesState.length === 0 ? (
@@ -276,7 +297,7 @@ const Collections = ({ notes }) => {
           notesState.map((note, i) => (
             <Note
               onClick={() => {
-                document.body.style.overflowY = "hidden";
+                // document.body.style.overflowY = "hidden";
                 setSelectedNote(note);
               }}
               key={i}

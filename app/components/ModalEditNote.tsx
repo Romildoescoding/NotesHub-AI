@@ -98,7 +98,7 @@ const ModalEditNote = ({ selectedNote, setShowModal, onSave }) => {
           // type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className={`border p-2 rounded-md w-full max-h-28 ${
+          className={`border p-2 rounded-md w-full min-h-28 max-h-28 ${
             error.description ? "border-red-500" : "border-gray-300"
           }`}
           placeholder="Enter note description"

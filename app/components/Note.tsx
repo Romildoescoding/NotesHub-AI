@@ -21,8 +21,8 @@ const Note = ({ note, selectedPdf, onClick }) => {
         </Worker>
       </div>
       <div className="p-2 px-4 flex flex-col gap-2">
-        <p className="">
-          {note.title.slice(0, 1).toUpperCase() + note.title.slice(1)}
+        <p className="capitalize">
+          {note.title.length > 22 ? note.title.slice(0, 22) + ".." : note.title}
         </p>
         <p className="w-full justify-end flex gap-1">
           {note.tags.slice(0, 3).map((tag, i) => (

@@ -1,32 +1,45 @@
 import React from "react";
+import Modal from "./Modal";
+import Spinner from "./Spinner";
 
-const ModalConfirmDelete = ({ setShowModal, handleDelete }) => {
+const ModalConfirmDelete = ({
+  isLoading = false,
+  setShowModal,
+  handleDelete,
+  title = "Delete Chat?",
+  text = "This action will permanently delete all messages and related data. Are you sure you want to proceed?",
+}) => {
   return (
-    <div className="w-[full] max-w-md bg-white rounded-md p-6 flex flex-col ">
-      <h2 className="text-xl font-bold text-zinc-600 border-b-2">
-        Delete Chat?
-      </h2>
-      <p className="text-gray-600 mt-2  text-sm">
-        This action will permanently delete all messages and related data. Are
-        you sure you want to proceed?
-      </p>
+    // <div className="w-[full] max-w-md bg-white rounded-md p-6 flex flex-col ">
 
-      {/* Buttons */}
-      <div className="flex justify-end gap-4 mt-6">
-        <button
-          className="px-5 py-2 bg-zinc-200 text-gray-800 text-base rounded-lg hover:bg-zinc-300 transition"
-          onClick={() => setShowModal("")}
-        >
-          Cancel
-        </button>
-        <button
-          className="px-5 py-2 bg-red-600 text-white text-base rounded-lg hover:bg-red-700 transition"
-          onClick={handleDelete}
-        >
-          Delete
-        </button>
+    // </div>
+
+    <Modal setShowModal={setShowModal}>
+      <div className="w-[500px] p-4 rounded-md h-auto bg-white flex flex-col gap-2">
+        <h2 className="text-2xl font-bold text-zinc-900 border-b-2">{title}</h2>
+        <p className="text-gray-600 mt-2  text-md">{text}</p>
+
+        {/* Buttons */}
+        <div className="flex justify-end gap-4 mt-6">
+          <button
+            className="px-5 py-2 bg-zinc-200 text-gray-800 text-base rounded-lg hover:bg-zinc-300 transition"
+            onClick={() => setShowModal("")}
+          >
+            Cancel
+          </button>
+          <button
+            className="px-5 py-2 flex items-center justify-center bg-red-600 min-w-[88px] text-white text-base rounded-lg hover:bg-red-700 transition"
+            onClick={handleDelete}
+          >
+            {isLoading ? (
+              <Spinner isWhite={true} height={22} width={22} />
+            ) : (
+              "Delete"
+            )}
+          </button>
+        </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 
