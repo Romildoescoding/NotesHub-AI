@@ -98,6 +98,16 @@ const Collections = ({ notes }) => {
     setShowModal("editing");
   }
 
+  function updateLocalStates(updatedNote) {
+    setNotes((prevNotes) =>
+      prevNotes.map((note) =>
+        note._id === updatedNote._id ? updatedNote : note
+      )
+    );
+    setSelectedNote(updatedNote);
+    setShowModal(false); // Close the modal
+  }
+
   return (
     <div className="w-full min-h-screen bg-white relative text-black flex flex-col gap-8 pl-24">
       <NotesSearchForm />
@@ -254,6 +264,7 @@ const Collections = ({ notes }) => {
         <ModalEditNote
           selectedNote={selectedNote}
           setShowModal={setShowModal}
+          onSave={updateLocalStates}
         />
       )}
 

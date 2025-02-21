@@ -6,7 +6,7 @@ import { useNotes } from "../context/NotesContext";
 import Spinner from "./Spinner";
 import useEditNote from "../(root)/notes/useEditNote";
 
-const ModalEditNote = ({ selectedNote, setShowModal }) => {
+const ModalEditNote = ({ selectedNote, setShowModal, onSave }) => {
   //   console.log(selectedNote);
   const [title, setTitle] = useState(selectedNote.title ?? "");
   const [description, setDescription] = useState(
@@ -58,13 +58,18 @@ const ModalEditNote = ({ selectedNote, setShowModal }) => {
       //   notes,
     });
 
-    const new1 = editNote({
+    const new1 = await editNote({
       ...selectedNote,
       title,
       description,
       isPublic,
       tags: selectedCategories,
     });
+
+    console.log(new1);
+
+    onSave(new1);
+    setShowModal(false);
 
     // if (success) setShowModal("success");
     // else setShowModal("error");
