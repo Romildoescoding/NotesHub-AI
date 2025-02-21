@@ -128,10 +128,48 @@ export async function PUT(req: Request) {
   }
 }
 
+export async function PATCH(req: Request) {
+  try {
+    const body = await req.json();
+    await dbConnect();
+
+    // Ensure the ID exists
+    if (!body._id) {
+      return NextResponse.json(
+        { status: "error", message: "Note ID is required" },
+        { status: 400 }
+      );
+    }
+
+    // Update the note
+    const updatedNote = await Notes.findOneAndReplace(
+      { _id: body._id }, // Query filter
+      body, // New document
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedNote) {
+      return NextResponse.json(
+        { status: "error", message: "Note not found" },
+        { status: 404 }
+      );
+    }
+
+    console.log("✅ Note updated:", updatedNote);
+    return NextResponse.json({ status: "success", data: updatedNote });
+  } catch (error) {
+    console.error("❌ Error updating note:", error);
+    return NextResponse.json(
+      { status: "error", message: "Failed to update note" },
+      { status: 500 }
+    );
+  }
+}
+
 export function OPTIONS() {
   return NextResponse.json(null, {
     headers: {
-      Allow: "POST, PUT, OPTIONS",
+      Allow: "POST, PUT, PATCH, OPTIONS",
     },
   });
 }

@@ -11,6 +11,7 @@ import {
   Link,
   Lock,
   LockOpen,
+  Pencil,
   Trash2,
 } from "lucide-react";
 import { useCurrentUser } from "../auth/useCurrentUser";
@@ -18,6 +19,7 @@ import Image from "next/image";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { formatDate } from "../_lib/actions";
 import useDeleteNote from "../(root)/notes/useDeleteNote";
+import ModalEditNote from "./ModalEditNote";
 
 const Collections = ({ notes }) => {
   const {
@@ -70,6 +72,7 @@ const Collections = ({ notes }) => {
 
   const { user } = useCurrentUser();
   const [copyUrl, setCopyUrl] = useState(false);
+  const [showModal, setShowModal] = useState<string | boolean>();
 
   useEffect(() => {
     if (copyUrl) {
@@ -91,13 +94,16 @@ const Collections = ({ notes }) => {
     }
     setSelectedNote(null);
   }
+  function handleEditNote(selectedNote) {
+    setShowModal("editing");
+  }
 
   return (
     <div className="w-full min-h-screen bg-white relative text-black flex flex-col gap-8 pl-24">
       <NotesSearchForm />
 
       <AnimatePresence>
-        {selectedNote && (
+        {selectedNote && showModal !== "editing" && (
           <motion.div
             // ref={ref}
             initial={{ bottom: "-100%" }}
@@ -106,9 +112,18 @@ const Collections = ({ notes }) => {
             className="fixed bottom-0 overflow-y-scroll left-0 z-[999999999] w-full h-[90%]  bg-white rounded-t-xl"
           >
             <div className="w-full h-fit p-8 pb-4 flex flex-col gap-4 items-center">
-              <p className="font-bold text-3xl w-full flex pb-4 justify-between border-b-2 border-zinc-200">
+              <div className="font-bold text-3xl w-full flex pb-4 justify-between border-b-2 border-zinc-200">
                 <span className="capitalize">{selectedNote.title}</span>
                 <div className="flex gap-2">
+                  <button
+                    className="
+                      flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-full text-zinc-500 hover:text-zinc-900 p1 px-2 text-sm"
+                    onClick={() => handleEditNote(selectedNote)}
+                  >
+                    <Pencil size={20} />
+                    Edit Note
+                  </button>
+
                   <button
                     className="
                       flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-full text-zinc-500 hover:text-zinc-900 p1 px-2 text-sm"
@@ -135,7 +150,7 @@ const Collections = ({ notes }) => {
                     {selectedNote.isPublic ? "Public" : "Private"}
                   </span>
                 </div>
-              </p>
+              </div>
               <div className="w-full h-fit flex justify-between">
                 <div className="h-fit flex gap-6 items-center">
                   <Image
@@ -221,7 +236,7 @@ const Collections = ({ notes }) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {selectedNote && (
+        {selectedNote && showModal !== "editing" && (
           <motion.div
             onClick={() => {
               document.body.style.overflowY = "auto";
@@ -234,6 +249,13 @@ const Collections = ({ notes }) => {
           ></motion.div>
         )}
       </AnimatePresence>
+
+      {showModal === "editing" && (
+        <ModalEditNote
+          selectedNote={selectedNote}
+          setShowModal={setShowModal}
+        />
+      )}
 
       {/* <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> */}
       <div className="w-full flex flex-wrap gap-6 pb-4">
