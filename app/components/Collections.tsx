@@ -5,11 +5,19 @@ import { useSearchNotes } from "../context/SearchNotesContext";
 import Note from "./Note";
 import { motion, AnimatePresence } from "framer-motion";
 import useOutsideClick from "../hooks/useOutsideClick";
-import { Check, ExternalLink, Link, Lock, LockOpen } from "lucide-react";
+import {
+  Check,
+  ExternalLink,
+  Link,
+  Lock,
+  LockOpen,
+  Trash2,
+} from "lucide-react";
 import { useCurrentUser } from "../auth/useCurrentUser";
 import Image from "next/image";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { formatDate } from "../_lib/actions";
+import useDeleteNote from "../(root)/notes/useDeleteNote";
 
 const Collections = ({ notes }) => {
   const {
@@ -21,6 +29,8 @@ const Collections = ({ notes }) => {
     selectedNote,
     setSelectedNote,
   } = useSearchNotes();
+
+  const { deleteNote, isDeleting } = useDeleteNote();
 
   //   const ref = useOutsideClick(() => setSelectedNote(null));
 
@@ -67,6 +77,21 @@ const Collections = ({ notes }) => {
     }
   }, [copyUrl]);
 
+  useEffect(() => {
+    console.log(selectedNote?._id);
+  }, [selectedNote]);
+
+  async function handleDelete(noteId: string, fileUrl: string): Promise<void> {
+    const res = await deleteNote(noteId, fileUrl);
+    if (!res) {
+      console.log("note was not deleted dude!");
+    } else {
+      //Update the state in the app..
+      setNotes((prev) => prev.filter((note) => note._id !== noteId));
+    }
+    setSelectedNote(null);
+  }
+
   return (
     <div className="w-full min-h-screen bg-white relative text-black flex flex-col gap-8 pl-24">
       <NotesSearchForm />
@@ -82,21 +107,34 @@ const Collections = ({ notes }) => {
           >
             <div className="w-full h-fit p-8 pb-4 flex flex-col gap-4 items-center">
               <p className="font-bold text-3xl w-full flex pb-4 justify-between border-b-2 border-zinc-200">
-                <span>{selectedNote.title}</span>
-                <span
-                  className={`${
-                    selectedNote.isPublic
-                      ? "text-red-900 bg-red-300 border-red-400"
-                      : "text-green-900 bg-green-300 border-green-400"
-                  } rounded-full border-2 text-sm items-center px-3 flex gap-2`}
-                >
-                  {selectedNote.isPublic ? (
-                    <LockOpen size={16} />
-                  ) : (
-                    <Lock size={16} />
-                  )}
-                  {selectedNote.isPublic ? "Public" : "Private"}
-                </span>
+                <span className="capitalize">{selectedNote.title}</span>
+                <div className="flex gap-2">
+                  <button
+                    className="
+                      flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-full text-zinc-500 hover:text-zinc-900 p1 px-2 text-sm"
+                    onClick={() =>
+                      handleDelete(selectedNote?._id, selectedNote.fileUrl)
+                    }
+                  >
+                    <Trash2 size={20} />{" "}
+                    {isDeleting ? "Deleting Note.." : "Delete Note"}
+                  </button>
+
+                  <span
+                    className={`${
+                      selectedNote.isPublic
+                        ? "text-red-900 bg-red-300 border-red-400"
+                        : "text-green-900 bg-green-300 border-green-400"
+                    } rounded-full border-2 text-sm items-center px-3 flex gap-2`}
+                  >
+                    {selectedNote.isPublic ? (
+                      <LockOpen size={16} />
+                    ) : (
+                      <Lock size={16} />
+                    )}
+                    {selectedNote.isPublic ? "Public" : "Private"}
+                  </span>
+                </div>
               </p>
               <div className="w-full h-fit flex justify-between">
                 <div className="h-fit flex gap-6 items-center">

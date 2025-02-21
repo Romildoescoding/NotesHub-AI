@@ -23,7 +23,7 @@ export const uploadFileToSupabase = async (file: File): Promise<string> => {
 
 export const deleteFileFromSupabase = async (
   fileUrl: string
-): Promise<void> => {
+): Promise<boolean> => {
   try {
     const urlParts = fileUrl.split("/pdfs/");
 
@@ -37,12 +37,15 @@ export const deleteFileFromSupabase = async (
 
     if (error) {
       console.log(error);
-      throw new Error(error.message);
+      return false;
+      // throw new Error(error.message);
     }
 
     console.log(`File deleted successfully: ${filePath}`);
+    return true;
   } catch (error) {
     console.error("Error deleting file:", error);
-    throw error;
+    return false;
+    // throw error;
   }
 };
