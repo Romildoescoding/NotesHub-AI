@@ -312,3 +312,40 @@ iframe::-webkit-scrollbar {
   border: none !important;
   box-shadow: none !important;
 }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.fade-icon {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: all 0.15s linear;
+}
+
+.fade-parent:hover .fade-icon {
+  opacity: 1;
+  transform: translateX(0px);
+}
+
+.skeleton {
+  background-color: #f9f9f9;
+  animation: skeleton 1.75s infinite linear;
+}
+
+@keyframes skeleton {
+  0% {
+    background-color: #f9f9f9;
+  }
+  50% {
+    background-color: #eeeeee;
+  }
+  100% {
+    background-color: #f9f9f9;
+  }
+}

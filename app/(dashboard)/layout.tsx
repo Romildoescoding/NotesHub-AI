@@ -41,7 +41,7 @@ export default function RootLayout({
           </SessionProvider>
           <main
             // style={{ boxShadow: "-5px -5px 5px black" }}
-            className="pt-4 border-2 bg-white w-full text-zinc-900"
+            className="border-2 bg-white w-full text-zinc-900"
           >
             {children}
           </main>

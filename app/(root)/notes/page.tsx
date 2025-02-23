@@ -34,18 +34,18 @@
 
 // export default MyNotes;
 
+import { getUser } from "@/app/_data/user";
 import Collections from "@/app/components/Collections";
-import Note from "@/app/components/Note";
-import NotesSearchForm from "@/app/components/NotesSearchForm";
 import { SearchNotesProvider } from "@/app/context/SearchNotesContext";
 import Notes from "@/app/models/NotesModel";
+import { useReactNodeView } from "@tiptap/react";
 // import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 
 export const dynamic = "force-dynamic"; // Ensures server rendering
 
 async function fetchNotes(query, category) {
-  const filter = {};
+  const user = await getUser();
+  const filter = { uploaderEmail: user.email };
   if (query) {
     filter.$or = [{ title: { $regex: query, $options: "i" } }, { tags: query }];
   }

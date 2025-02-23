@@ -41,7 +41,7 @@ const Sidebar = () => {
     <>
       <div className="h-[calc(100vh-60px)] w-[94px]"></div>
       <div
-        className="pointer-events-auto z-[9999] fixed left-0 top-0 h-screen bg-zinc-400 w-fit flex flex-col gap-16 items-center p-1"
+        className="pointer-events-auto z-[9999] bg-zinc-950 fixed left-0 top-0 p-1 h-screen w-fit flex flex-col gap-16 items-center"
         // style={{
         //   boxShadow: "0px 2px 3px #00000040",
         //   borderTop: "1px solid #00000010",
@@ -52,14 +52,14 @@ const Sidebar = () => {
             collapsed ? "gap-20" : "gap-16"
           } items-center ${
             collapsed ? "w-20" : "w-44"
-          } rounded-xl transition-all duration-300 bg-[#181818] h-full py-4 px-4 justify-start`}
+          } transition-all duration-300 bg-zinc-950 h-full py-4 px-4 justify-start`}
         >
           {/* Button to make the rounded effect on the right side of the main content block of the app */}
-          <div className="bg-zinc-400 absolute z-[99999] h-4 w-4 top-0 right-[-20px]">
+          {/* <div className="bg-zinc-400 absolute z-[99999] h-4 w-4 top-0 right-[-20px]">
             <div className="w-full h-full relative overflow-hidden">
               <div className="w-7 h-7 rounded-full bg-white absolute top-0 left-0"></div>
             </div>
-          </div>
+          </div> */}
 
           <button
             className="w-8 h-8 flex items-center justify-center rounded-md top-4 -right-11 absolute z-[99999] hover:text-zinc-950 text-zinc-500 transition-all"
@@ -121,8 +121,8 @@ const Sidebar = () => {
                 href="/dashboard"
                 className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all duration-300 text-zinc-100 ${
                   pathname !== "/dashboard"
-                    ? " hover:bg-[#282828] "
-                    : "bg-[#363636]"
+                    ? " hover:bg-[#181818] "
+                    : "bg-[#202020]"
                 }`}
               >
                 {collapsed && (
@@ -161,8 +161,8 @@ const Sidebar = () => {
                 href="/notes"
                 className={`tooltip gap-3 rounded-lg p-3 w-full flex transition-all duration-300 text-zinc-100 ${
                   pathname !== "/notes"
-                    ? " hover:bg-[#282828] "
-                    : "bg-[#363636]"
+                    ? " hover:bg-[#181818] "
+                    : "bg-[#202020]"
                 }`}
               >
                 {collapsed && (
@@ -201,8 +201,8 @@ const Sidebar = () => {
                 href="/ai/chat"
                 className={`tooltip gap-3 rounded-lg p-3 w-full whitespace-nowrap flex transition-all duration-300 text-zinc-100 ${
                   pathname !== "/ai/chat"
-                    ? " hover:bg-[#282828] "
-                    : "bg-[#363636]"
+                    ? " hover:bg-[#181818] "
+                    : "bg-[#202020]"
                 }`}
               >
                 {collapsed && (

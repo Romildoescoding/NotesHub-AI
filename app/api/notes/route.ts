@@ -71,6 +71,7 @@ import { uploadFileToSupabase } from "@/app/(root)/notes/upload/uploadFile";
 // }
 
 import { PDFDocument } from "pdf-lib"; // Library for merging PDFs
+import { verifySession } from "@/app/_lib/session";
 
 // Function to merge multiple PDF buffers
 async function mergePDFs(pdfBuffers: Buffer[]) {
@@ -166,10 +167,27 @@ export async function PATCH(req: Request) {
   }
 }
 
+export async function GET() {
+  try {
+    await dbConnect();
+    const decoded = await verifySession();
+    const user = decoded.user;
+
+    const notes = await Notes.find({ uploaderEmail: user?.email });
+    return NextResponse.json({ status: "success", data: notes });
+  } catch (error) {
+    console.error("❌ Error fetching notes:", error);
+    return NextResponse.json(
+      { status: "error", message: "Error fetching notes" },
+      { status: 500 }
+    );
+  }
+}
+
 export function OPTIONS() {
   return NextResponse.json(null, {
     headers: {
-      Allow: "POST, PUT, PATCH, OPTIONS",
+      Allow: "GET, POST, PUT, PATCH, OPTIONS",
     },
   });
 }

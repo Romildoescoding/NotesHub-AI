@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function useUserChats() {
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     async function fetchUserChats() {

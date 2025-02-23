@@ -103,7 +103,7 @@ const Categories = ({
   };
 
   return (
-    <div className="flex flex-col gap-2 relative">
+    <div className="flex flex-col gap-2 relative pb-4">
       <label className="text-sm font-medium">Categories</label>
       <div
         className={`flex flex-wrap gap-2 border p-2 max-h-40 overflow-y-scroll rounded-md cursor-text ${

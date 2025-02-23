@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Note from "./Note";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { uploadFileToSupabase } from "../(root)/notes/upload/uploadFile";
+import useFetchNotes from "../(root)/notes/useFetchNotes";
 
 // Implement local storage for selected file yk...
 
@@ -29,6 +30,8 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
 
+  const { notes, isFetching } = useFetchNotes();
+
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -47,7 +50,7 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
     }
   };
 
-  const filteredPdfFiles = pdfFiles.filter((file) =>
+  const filteredPdfFiles = notes.filter((file) =>
     file.fileName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -98,7 +101,7 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
 
           {/* Cards Section */}
           <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
-            <div className="grid grid-cols-3 gap-4">
+            <div className="flex flex-wrap gap-6 justify-center">
               {filteredPdfFiles.map((file, i) => (
                 <Note
                   selectedPdf={selectedPdf}
