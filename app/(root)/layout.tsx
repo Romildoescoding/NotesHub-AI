@@ -34,13 +34,13 @@ export default function RootLayout({
   return (
     <SidebarProvider>
       <SessionProvider>
-        <div className="bg-red-600 flex">
+        <div className="bg-red-600 flex w-full">
           <Sidebar />
-          <main className="w-full relative bg-white flex flex-col">
+          <main className="items-center w-full relative bg-white flex flex-col">
             <Navbar />
             <main
               // style={{ boxShadow: "-5px -5px 5px black" }}
-              className="pt-4 bg-white w-full text-zinc-900"
+              className="pt-4 bg-white w-full text-zinc-900 max-w-[1500px]"
             >
               {children}
             </main>

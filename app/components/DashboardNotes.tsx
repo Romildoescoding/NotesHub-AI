@@ -8,7 +8,7 @@ import Link from "next/link";
 const DashboardNotes = () => {
   const { notes, isFetching } = useFetchNotes();
   return (
-    <div className="rounded-lg max-h-fit border-[1px] flex flex-col gap-2 p-6 w-full max-w-sm">
+    <div className="rounded-lg max-h-fit order-3 min-[810px]:order-2 border-[1px] flex flex-col gap-2 p-6 w-full">
       <CardTitle>Recent Notes</CardTitle>
       <CardDescription>
         The following are your latest exported notes

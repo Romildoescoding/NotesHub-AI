@@ -57,11 +57,12 @@ export function ChartCard() {
             {currentYear.current}
           </CardDescription>
         ) : (
-          <div className="w-full h-5 rounded-md skeleton"></div>
+          // <div className="w-full h-5 rounded-md skeleton"></div>
+          <></>
         )}
       </CardHeader>
       {isFetching ? (
-        <div className="flex items-center h-[293px] w-full justify-center">
+        <div className="flex items-center h-[317px] w-full justify-center">
           <Spinner height={20} width={20} isWhite={false} />
         </div>
       ) : (

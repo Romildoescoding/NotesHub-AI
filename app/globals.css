@@ -151,7 +151,7 @@ body {
 /* Scrollbar for Firefox */
 * {
   scrollbar-width: thin; /* Thin scrollbar */
-  scrollbar-color: #27272a #fff; /* Thumb color and track color */
+  scrollbar-color: #bfbfbf #fff; /* Thumb color and track color */
 }
 @layer base {
   :root {

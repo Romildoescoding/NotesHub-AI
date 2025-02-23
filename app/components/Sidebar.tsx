@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useSidebar } from "../context/SidebarContext";
 
 const Sidebar = () => {
@@ -39,13 +39,22 @@ const Sidebar = () => {
   }
   return (
     <>
-      <div className="h-[calc(100vh-60px)] w-[94px]"></div>
+      <div className="h-[calc(100vh-60px)] w-0 min-[450px]:w-[94px]"></div>
+      <AnimatePresence>
+        {!collapsed && (
+          <motion.div
+            onClick={handleToggleSidebar}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="h-full w-full  fixed left-0 top-0 min-[600px]:hidden z-[9998] bg-[#00000075]"
+          ></motion.div>
+        )}
+      </AnimatePresence>
       <div
-        className="pointer-events-auto z-[9999] bg-zinc-950 fixed left-0 top-0 p-1 h-screen w-fit flex flex-col gap-16 items-center"
-        // style={{
-        //   boxShadow: "0px 2px 3px #00000040",
-        //   borderTop: "1px solid #00000010",
-        // }}
+        className={`pointer-events-auto z-[9999] bg-zinc-950 ${
+          collapsed ? "left-[-88px]" : "left-[0px]"
+        } fixed min-[450px]:left-0 top-0 p-1 h-screen w-fit flex flex-col gap-16 items-center`}
       >
         <div
           className={`flex flex-col relative ${
@@ -62,7 +71,7 @@ const Sidebar = () => {
           </div> */}
 
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-md top-4 -right-11 absolute z-[99999] hover:text-zinc-950 text-zinc-500 transition-all"
+            className="w-8 h-8 flex items-center justify-center rounded-md top-4 -right-11 absolute z-[99999] min-[600px]:hover:text-zinc-950 min-[600px]:text-zinc-500 transition-all"
             onClick={handleToggleSidebar}
           >
             {collapsed ? (

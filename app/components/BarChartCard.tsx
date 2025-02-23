@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { Activity, NotebookText, TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 import {
@@ -79,6 +79,10 @@ export function BarChartCard() {
         {/* <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}
+        <div className="flex gap-2 font-medium leading-none">
+          Maximum notes belong to {categories[0]?.category?.slice(0, 10)}{" "}
+          category <Activity size={15} />
+        </div>
         <div className="leading-none text-muted-foreground">
           Showing category wise number of notes
         </div>
