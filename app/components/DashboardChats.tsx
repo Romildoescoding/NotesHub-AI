@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import useUserChats from "../(root)/ai/chat/useUserChats";
 
-const DashboardChats = () => {
+const DashboardChats = ({ chats, isLoading }) => {
   const router = useRouter();
-  const { chats, isLoading } = useUserChats();
+
   console.log(chats);
   return (
     <div className="rounded-lg max-h-fit border-[1px] flex flex-col gap-2 p-6 w-full">

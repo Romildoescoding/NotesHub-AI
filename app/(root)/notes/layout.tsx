@@ -51,16 +51,24 @@ export default function RootLayout({
     <NotesProvider>
       <div className=" relative w-full flex h-full">
         <motion.button
-          className="fixed top-18 left-[104px] rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
+          className={`fixed top-18 ${
+            collapsed
+              ? isSidebarOpen
+                ? "left-[16px] min-[480px]:left-[248px]"
+                : "left-[16px] min-[480px]:left-[104px]"
+              : isSidebarOpen
+              ? "left-[16px] min-[480px]:left-[348px]"
+              : "left-[16px] min-[480px]:left-[204px]"
+          } rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all`}
           onClick={() => setIsSidebarOpen((open) => !open)}
           style={{
-            left: collapsed
-              ? isSidebarOpen
-                ? "248px"
-                : "104px"
-              : isSidebarOpen
-              ? "348px"
-              : "204px",
+            // left: collapsed
+            //   ? isSidebarOpen
+            //     ? "248px"
+            //     : "104px"
+            //   : isSidebarOpen
+            //   ? "348px"
+            //   : "204px",
             transition: "left 0.3s",
           }}
           // initial={{ left: "104px" }}
@@ -75,31 +83,47 @@ export default function RootLayout({
 
         {/* div to make the right moving effect after opening sidebar */}
         <div
-          className="h-[calc(100vh - 28px)] w-38 mt-24"
-          style={{
-            width: collapsed
+          className={`h-[calc(100vh - 28px)] ${
+            collapsed
               ? isSidebarOpen
-                ? "144px"
-                : "0px"
+                ? "width-0 min-[480px]:width-[144px]"
+                : "width-0 min-[480px]:width-[0px]"
               : isSidebarOpen
-              ? "244px"
-              : "100px",
+              ? "width-0 min-[480px]:width-[244px]"
+              : "width-0 min-[480px]:width-[100px]"
+          } w-38 mt-24`}
+          style={{
+            // width: collapsed
+            //   ? isSidebarOpen
+            //     ? "144px"
+            //     : "0px"
+            //   : isSidebarOpen
+            //   ? "244px"
+            //   : "100px",
             // width: isSidebarOpen ? "144px" : 0,
             transition: "width 0.3s",
           }}
         ></div>
 
         <motion.div
-          className="h-[calc(100vh - 28px)] px-2 left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm"
+          className={`h-[calc(100vh - 28px) ${
+            collapsed
+              ? isSidebarOpen
+                ? "left-[0px] min-[480px]:left-[248px]"
+                : "-left-36 min-[480px]:left-[104px]"
+              : isSidebarOpen
+              ? "left-[0px] min-[480px]:left-[348px]"
+              : "left-[-56px] min-[480px]:left-[204px]"
+          }] px-2 left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm`}
           style={{
             height: "calc(100vh - 28px)",
-            left: collapsed
-              ? isSidebarOpen
-                ? "88px"
-                : "-56px"
-              : isSidebarOpen
-              ? "188px"
-              : "44px",
+            // left: collapsed
+            //   ? isSidebarOpen
+            //     ? "88px"
+            //     : "-56px"
+            //   : isSidebarOpen
+            //   ? "188px"
+            //   : "44px",
             transition: "left 0.3s",
           }}
         >

@@ -8,9 +8,11 @@ import { CardDescription, CardTitle } from "@/components/ui/card";
 import { CircleAlert } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import useUserChats from "../(root)/ai/chat/useUserChats";
 
 const DashboardComponent = ({ user }) => {
   const { collapsed, setIsCollapsed } = useSidebar();
+  const { chats, isLoading } = useUserChats();
   return (
     <div
       className={` ${
@@ -37,7 +39,7 @@ const DashboardComponent = ({ user }) => {
             The number of notes you have exported till date.
           </CardDescription>
           <h1 className="w-full flex text-3xl font-bold">
-            {Number(1322).toLocaleString()} notes
+            {Number(chats.chats?.length).toLocaleString()} notes
           </h1>
         </div>
       </div>
@@ -47,7 +49,7 @@ const DashboardComponent = ({ user }) => {
           <ChartCard />
         </div>
 
-        <DashboardChats />
+        <DashboardChats chats={chats} isLoading={isLoading} />
       </div>
 
       <div className="w-full h-fit flex sm:col-span-1 min-[810px]:flex-row min-[810px]:col-span-2 min-[1160px]:flex-col min-[1160px]:col-span-1 flex-col gap-4">
@@ -90,7 +92,6 @@ const DashboardComponent = ({ user }) => {
       />
     </div> */}
       </div>
-      {/* Welcome to the dashboard, User ID: {user.name || "Not logged in"} */}
     </div>
   );
 };

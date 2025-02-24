@@ -119,7 +119,7 @@ const Collections = ({ notes }) => {
   }, [showModal, selectedNote]);
 
   return (
-    <div className="w-full min-h-screen bg-white relative text-black flex flex-col gap-8 pl-24">
+    <div className="w-full h-full bg-white relative text-black flex flex-col gap-8 pl-24">
       <NotesSearchForm />
 
       <AnimatePresence>
