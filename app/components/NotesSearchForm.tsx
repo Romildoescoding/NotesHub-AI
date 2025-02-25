@@ -78,7 +78,7 @@ const NotesSearchForm = () => {
       </div>
 
       {/* Filters and other */}
-      <div className=" w-full justify-end min-[1050px]:w-fit min-[1050px]:justify-start flex gap-2">
+      <div className=" w-full justify-end flex-col min-[600px]:flex-col min-[965px]:flex-row min-[1050px]:w-fit min-[1050px]:justify-start flex gap-2">
         <div className="flex gap-1 border-[1px] items-center px-[6px] rounded-full shadow-sm">
           <button
             onClick={(e) => {

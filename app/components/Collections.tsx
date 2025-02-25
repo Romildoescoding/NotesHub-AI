@@ -119,7 +119,8 @@ const Collections = ({ notes }) => {
   }, [showModal, selectedNote]);
 
   return (
-    <div className="w-full h-full bg-white relative text-black flex flex-col gap-8 pl-24">
+    //  pl-24
+    <div className="w-full h-full bg-white relative text-black flex flex-col gap-8">
       <NotesSearchForm />
 
       <AnimatePresence>
@@ -264,7 +265,7 @@ const Collections = ({ notes }) => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
-            className="fixed bottom-0 cursor-pointer left-0 z-[999999998] w-full h-full  bg-zinc-950"
+            className="fixed bottom-0 cursor-pointer left-0 z-[999999998] w-full h-full bg-zinc-950"
           ></motion.div>
         )}
       </AnimatePresence>
@@ -290,7 +291,7 @@ const Collections = ({ notes }) => {
       )}
 
       {/* <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"> */}
-      <div className="w-full flex flex-wrap gap-6 pb-4">
+      <div className="w-full flex flex-wrap gap-6 justify-center pb-4">
         {notesState.length === 0 ? (
           <p className="text-center text-gray-500">No notes found.</p>
         ) : (

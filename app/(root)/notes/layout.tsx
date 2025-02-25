@@ -51,14 +51,15 @@ export default function RootLayout({
     <NotesProvider>
       <div className=" relative w-full flex h-full">
         <motion.button
-          className={`fixed top-18 ${
+          className={`fixed z-[99999999999] top-18 ${
             collapsed
               ? isSidebarOpen
-                ? "left-[16px] min-[480px]:left-[248px]"
-                : "left-[16px] min-[480px]:left-[104px]"
+                ? "left-[160px] min-[450px]:left-[248px]"
+                : "left-[16px] min-[450px]:left-[104px]"
               : isSidebarOpen
-              ? "left-[16px] min-[480px]:left-[348px]"
-              : "left-[16px] min-[480px]:left-[204px]"
+              ? // + 176px
+                "left-[336px] min-[450px]:left-[348px]"
+              : "left-[192px] min-[450px]:left-[204px]"
           } rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all`}
           onClick={() => setIsSidebarOpen((open) => !open)}
           style={{
@@ -83,49 +84,46 @@ export default function RootLayout({
 
         {/* div to make the right moving effect after opening sidebar */}
         <div
-          className={`h-[calc(100vh - 28px)] ${
-            collapsed
-              ? isSidebarOpen
-                ? "width-0 min-[480px]:width-[144px]"
-                : "width-0 min-[480px]:width-[0px]"
-              : isSidebarOpen
-              ? "width-0 min-[480px]:width-[244px]"
-              : "width-0 min-[480px]:width-[100px]"
-          } w-38 mt-24`}
-          style={{
-            // width: collapsed
-            //   ? isSidebarOpen
-            //     ? "144px"
-            //     : "0px"
-            //   : isSidebarOpen
-            //   ? "244px"
-            //   : "100px",
-            // width: isSidebarOpen ? "144px" : 0,
-            transition: "width 0.3s",
-          }}
+          className={`h-[calc(100vh - 28px)] 
+            ${
+              collapsed
+                ? isSidebarOpen
+                  ? "w-[0px] min-[600px]:w-[54px] "
+                  : "w-[0px] min-[600px]:w-[54px]" // +54px
+                : isSidebarOpen
+                ? // +110px
+
+                  "w-[0px] min-[600px]:w-[204px] "
+                : "w-[0px] min-[600px]:w-[204px]" // +54px
+              //   "w-[0px] min-[600px]:w-[480px]"
+              // : "w-[0px] min-[600px]:w-[230px]" // +54px
+            } transition-left bg-white duration-300 ease-in-out`}
+          // style={{
+          //   width: collapsed
+          //     ? isSidebarOpen
+          //       ? "144px"
+          //       : "0px"
+          //     : isSidebarOpen
+          //     ? "244px"
+          //     : "100px",
+          //   // width: isSidebarOpen ? "144px" : 0,
+          //   transition: "width 0.3s",
+          // }}
         ></div>
 
         <motion.div
-          className={`h-[calc(100vh - 28px) ${
-            collapsed
-              ? isSidebarOpen
-                ? "left-[0px] min-[480px]:left-[248px]"
-                : "-left-36 min-[480px]:left-[104px]"
-              : isSidebarOpen
-              ? "left-[0px] min-[480px]:left-[348px]"
-              : "left-[-56px] min-[480px]:left-[204px]"
-          }] px-2 left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm`}
-          style={{
-            height: "calc(100vh - 28px)",
-            // left: collapsed
-            //   ? isSidebarOpen
-            //     ? "88px"
-            //     : "-56px"
-            //   : isSidebarOpen
-            //   ? "188px"
-            //   : "44px",
-            transition: "left 0.3s",
-          }}
+          className={`fixed top-16 w-36 px-2 flex flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm z-[999] transition-left duration-300 ease-in-out
+    ${
+      collapsed
+        ? isSidebarOpen
+          ? "left-0 min-[450px]:left-[88px]"
+          : "-left-[144px] min-[450px]:left-[-56px]"
+        : isSidebarOpen
+        ? "left-[184px] min-[450px]:left-[184px]"
+        : "left-[40px] min-[450px]:left-[40px]"
+    }
+  `}
+          style={{ height: "calc(100vh - 28px)" }}
         >
           <Link
             href="/notes"
