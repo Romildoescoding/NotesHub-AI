@@ -225,7 +225,7 @@ body {
 .ai-message {
   height: fit-content;
   width: fit-content;
-  max-width: 40vw;
+  /* max-width: 40vw; */
   background: #fafafa;
   /* color: #efefef; */
   border-radius: 10px;
@@ -251,7 +251,7 @@ body {
 .user-message {
   height: fit-content;
   width: fit-content;
-  max-width: 40vw;
+  /* max-width: 40vw; */
   background: #f3f3f3;
   border: 2px solid #eaeaea;
   color: #0d0d0d;

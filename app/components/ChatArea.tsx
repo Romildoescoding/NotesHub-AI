@@ -67,7 +67,8 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
         }`}
       >
         <div
-          className="w-full max-w-[60vw] h-fit flex flex-col gap-4"
+          className="w-full max-w-[95vw] min-[450px]:max-w-[75vw] min-[800px]:max-w-[60vw] h-fit flex flex-col gap-4"
+          // Styles to display the loading spinner
           style={{
             alignItems:
               !status || status === "loading" || status === ""

@@ -117,16 +117,20 @@ const ChatInputForm = ({
     <form
       onSubmit={handleSendMessage}
       style={{
-        left: collapsed
-          ? !isSidebarOpen
-            ? "50.25%"
-            : "calc(50.25% + 65px)"
-          : !isSidebarOpen
-          ? "53.1%"
-          : "calc(53.1% + 65px)",
-        transition: "left 0.3s",
+        transition: "all 0.3s",
       }}
-      className="w-full max-w-[60vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-[36px] p-4 pt-2 rounded-t-xl"
+      // 60vw
+      className={`w-full
+        ${
+          collapsed
+            ? !isSidebarOpen
+              ? "left-[50.25%] min-[450px]:left-[calc(50.25%+38px)] min-[600px]:left-[calc(54.25%+38px)] min-[800px]:left-[calc(54.25%+38px)]"
+              : "left-[50.25%] min-[450px]:left-[calc(50.25%+38px)] min-[600px]:left-[calc(54.25%+38px)] min-[900px]:left-[calc(54.5%+68px)]"
+            : !isSidebarOpen
+            ? "left-[50.25%] min-[450px]:left-[calc(50.25%+38px)] min-[600px]:left-[calc(54.25%+76px)] min-[600px]:max-w-[70vw] min-[800px]:left-[calc(54.25%+76px)]"
+            : "left-[50.25%] min-[450px]:left-[calc(50.25%+38px)] min-[600px]:left-[calc(54.25%+76px)] min-[600px]:max-w-[70vw]  min-[900px]:left-[calc(54.5%+108px)]"
+        }
+        min-[450px]:max-w-[75vw] max-w-[95vw] min-[800px]:max-w-[65vw] bg-zinc-100 fixed bottom-0 left-1/2 -translate-x-1/2 pb-[36px] p-4 pt-2 rounded-t-xl`}
     >
       {/* Dispaly the selected pdf only in the chat session it was selected in yk.. */}
       {selectedPDfFile && chatId === selectedPDfFile.chatId && (

@@ -62,17 +62,27 @@ const AiChatPage = ({ email, chats }) => {
   return (
     <div className="h-full w-full flex relative overflow-hidden">
       {/* button to toggle sidebar */}
+
       <motion.button
-        className="fixed top-18 left-[104px] rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
+        className={`fixed z-[99999999999] top-18 ${
+          collapsed
+            ? isSidebarOpen
+              ? "left-[160px] min-[450px]:left-[248px]"
+              : "left-[16px] min-[450px]:left-[104px]"
+            : isSidebarOpen
+            ? // + 176px
+              "left-[336px] min-[450px]:left-[348px]"
+            : "left-[192px] min-[450px]:left-[204px]"
+        } rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all`}
         onClick={() => setIsSidebarOpen((open) => !open)}
         style={{
-          left: collapsed
-            ? isSidebarOpen
-              ? "248px"
-              : "104px"
-            : isSidebarOpen
-            ? "348px"
-            : "204px",
+          // left: collapsed
+          //   ? isSidebarOpen
+          //     ? "248px"
+          //     : "104px"
+          //   : isSidebarOpen
+          //   ? "348px"
+          //   : "204px",
           transition: "left 0.3s",
         }}
         // initial={{ left: "104px" }}
@@ -85,20 +95,29 @@ const AiChatPage = ({ email, chats }) => {
         )}
       </motion.button>
       <motion.button
-        className="fixed top-[79px] left-[138px] rounded-sm z-[999] text-zinc-500 hover:text-zinc-950 transition-all"
-        onClick={() => handleCreateNewChat()}
-        style={{
-          left: collapsed
+        className={`fixed z-[99999999999] top-18 ${
+          collapsed
             ? isSidebarOpen
-              ? "282px"
-              : "138px"
+              ? "left-[190px] min-[450px]:left-[278px]"
+              : "left-[46px] min-[450px]:left-[134px]"
             : isSidebarOpen
-            ? "382px"
-            : "238px",
+            ? // + 176px
+              "left-[366px] min-[450px]:left-[378px]"
+            : "left-[222px] min-[450px]:left-[234px]"
+        } rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all`}
+        onClick={() => setIsSidebarOpen((open) => !open)}
+        style={{
+          // left: collapsed
+          //   ? isSidebarOpen
+          //     ? "248px"
+          //     : "104px"
+          //   : isSidebarOpen
+          //   ? "348px"
+          //   : "204px",
           transition: "left 0.3s",
         }}
-        // initial={{ left: "138px" }}
-        // animate={{ left: "282px" }}
+        // initial={{ left: "104px" }}
+        // animate={{ left: "248px" }}
       >
         <span className="relative tooltip h-full w-full">
           <span className="tooltiptext">New Chat</span>
@@ -108,35 +127,35 @@ const AiChatPage = ({ email, chats }) => {
 
       {/* div to make the right moving effect after opening sidebar */}
       <div
-        className="h-[calc(100vh - 28px)] w-36 mt-24"
-        style={{
-          width: collapsed
-            ? isSidebarOpen
-              ? "144px"
-              : "0px"
-            : isSidebarOpen
-            ? "244px"
-            : "100px",
-          // width: isSidebarOpen ? "144px" : 0,
-          transition: "width 0.3s",
-        }}
+        className={`h-[calc(100vh - 28px)] 
+            ${
+              collapsed
+                ? isSidebarOpen
+                  ? "w-[0px] min-[600px]:w-[54px] min-[900px]:w-[178px]"
+                  : "w-[0px] min-[600px]:w-[54px]" // +54px
+                : isSidebarOpen
+                ? // +110px
+
+                  "w-[0px] min-[600px]:w-[204px] min-[900px]:w-[328px]"
+                : "w-[0px] min-[600px]:w-[204px]" // +54px
+              //   "w-[0px] min-[600px]:w-[480px]"
+              // : "w-[0px] min-[600px]:w-[230px]" // +54px
+            } transition-left bg-white duration-300 ease-in-out`}
       ></div>
 
       <motion.div
-        className="h-[calc(100vh - 28px)] left-0 fixed w-36 top-16 flex z-[999] flex-col gap-2 pt-2 bg-white border-r-2 border-zinc-100 items-center"
-        style={{
-          height: "calc(100vh - 28px)",
-          left: collapsed
-            ? isSidebarOpen
-              ? "88px"
-              : "-56px"
-            : isSidebarOpen
-            ? "188px"
-            : "44px",
-          transition: "left 0.3s",
-        }}
-        // initial={{ left: "-56px" }}
-        // animate={{ left: "88px" }}
+        className={`fixed top-16 w-36 px-2 flex flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm z-[999] transition-left duration-300 ease-in-out
+    ${
+      collapsed
+        ? isSidebarOpen
+          ? "left-0 min-[450px]:left-[88px]"
+          : "-left-[144px] min-[450px]:left-[-56px]"
+        : isSidebarOpen
+        ? "left-[184px] min-[450px]:left-[184px]"
+        : "left-[40px] min-[450px]:left-[40px]"
+    }
+  `}
+        style={{ height: "calc(100vh - 28px)" }}
       >
         {/* Reversed so make the chats look like from the most recent made to top!! */}
         {/* {chatsState?.chats?.reverse().map((chat, i) => ( */}

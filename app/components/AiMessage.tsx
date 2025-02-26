@@ -21,7 +21,7 @@ const AiMessage = ({ text }) => {
         className="rounded-full border-2"
       />
       {text.length > 0 ? (
-        <span className="h-fit w-full max-w-[40vw] ai-message relative ">
+        <span className="h-fit w-full max-w-[60vw] min-[600px]:max-w-[55vw] min-[1000px]:max-w-[40vw] ai-message relative text-sm min-[600px]:text-base">
           {text}
           {copied ? (
             <span className="absolute bottom-2 right-2 p-1 transition-all rounded-md text-zinc-900">
