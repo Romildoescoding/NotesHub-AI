@@ -11,6 +11,7 @@ import Modal from "@/app/components/Modal";
 import ModalExportPdf from "@/app/components/ModalExportPdf";
 import ModalExportError from "@/app/components/ModalExportError";
 import ModalExportSuccess from "@/app/components/ModalExportSuccess";
+import { useNotesSidebar } from "@/app/context/NotesSidebarContext";
 
 const Page = () => {
   const Editor = useMemo(
@@ -23,6 +24,8 @@ const Page = () => {
   // const { exportToPDF, isLoading, exportSuccess } = useExportPdf();
   const { collapsed } = useSidebar();
   const [exportModal, setExportModal] = useState<boolean | string>("");
+
+  const { isSidebarOpen } = useNotesSidebar();
 
   // const editorRefs = useRef([]);
   const uploadBtnRef = useRef<HTMLDivElement | null>(null);
@@ -70,7 +73,7 @@ const Page = () => {
       </button>
       <motion.div
         // Here, tranition-all would maeke smooth effect while if i do not use it, then i would make a sudden switching effect making it feel like i switched editors while keeping their states even...
-        className={`w-fit h-full overflow-y-hidden pb-[30vh] flex flex-nowrap -translate-x-[${
+        className={`w-fit h-full overflow-y-hidden bg-white pb-[30vh] flex flex-nowrap -translate-x-[${
           selectedNote * 100
         }vw]}`}
         // style={{ translateX: -`${selectedNote * 100}%` }}
@@ -80,8 +83,15 @@ const Page = () => {
         {notes?.[0]?.map((note, i) => (
           <div
             key={i}
-            className={`w-[calc(100vw-130px)] ${
-              collapsed ? "pl-[100px]" : "pl-[130px]"
+            // className={`w-[calc(100vw-130px)] ${
+            className={`w-[100vw] ${
+              collapsed
+                ? isSidebarOpen
+                  ? "pl-[0px] min-[600px]:pl-[232px]"
+                  : "pl-[0px] min-[450px]:pl-[88px]"
+                : isSidebarOpen
+                ? "pl-[0px] min-[600px]:pl-[329px]"
+                : "pl-[0px] min-[600px]:pl-[184px]"
             } h-fit relative  transition-all duration-300`}
           >
             <Editor key={i} page={i} initialContent={note} />

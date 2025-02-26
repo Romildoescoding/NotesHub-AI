@@ -42,7 +42,8 @@ const NotesSearchForm = () => {
   const [inputFocused, setInputFocused] = useState(false);
 
   return (
-    <div className="flex flex-col gap-4 min-[1050px]:gap-0 min-[1050px]:flex-row justify-between w-full bg-white pr-4">
+    // min-[1050px]:flex-row
+    <div className="flex flex-col gap-4 min-[1050px]:gap-0  justify-between w-full bg-white pr-4">
       <div
         className={`flex w-fit items-center  px-2 rounded-lg border-[1px] ${
           inputFocused ? "border-zinc-800" : " border-zinc-300"
@@ -78,7 +79,8 @@ const NotesSearchForm = () => {
       </div>
 
       {/* Filters and other */}
-      <div className=" w-full justify-end flex-col min-[600px]:flex-col min-[965px]:flex-row min-[1050px]:w-fit min-[1050px]:justify-start flex gap-2">
+      {/* min-[965px]:flex-row */}
+      <div className=" w-full justify-end flex-col min-[600px]:flex-col  min-[1050px]:w-fit min-[1050px]:justify-start flex gap-2">
         <div className="flex gap-1 border-[1px] items-center px-[6px] rounded-full shadow-sm">
           <button
             onClick={(e) => {

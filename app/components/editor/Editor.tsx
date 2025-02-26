@@ -56,7 +56,7 @@ const Editor: React.FC<EditorProps> = ({
   };
 
   return (
-    <div className="h-full w-full flex flex-col gap-4 pl-16">
+    <div className="h-full w-full flex flex-col gap-4">
       <BlockNoteView
         editor={editor}
         editable={editable}

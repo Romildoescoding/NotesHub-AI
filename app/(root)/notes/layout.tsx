@@ -38,13 +38,14 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { NotesProvider } from "@/app/context/NotesContext";
 import CollapseButton from "@/app/components/CollapseButton";
+import { useNotesSidebar } from "@/app/context/NotesSidebarContext";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState();
+  const { isSidebarOpen, setIsSidebarOpen } = useNotesSidebar();
   const pathname = usePathname();
   const { collapsed } = useSidebar();
   return (
@@ -88,12 +89,12 @@ export default function RootLayout({
             ${
               collapsed
                 ? isSidebarOpen
-                  ? "w-[0px] min-[600px]:w-[54px] "
+                  ? "w-[0px] min-[600px]:w-[54px] min-[900px]:w-[258px]"
                   : "w-[0px] min-[600px]:w-[54px]" // +54px
                 : isSidebarOpen
                 ? // +110px
 
-                  "w-[0px] min-[600px]:w-[204px] "
+                  "w-[0px] min-[600px]:w-[204px] min-[900px]:w-[458px]"
                 : "w-[0px] min-[600px]:w-[204px]" // +54px
               //   "w-[0px] min-[600px]:w-[480px]"
               // : "w-[0px] min-[600px]:w-[230px]" // +54px
@@ -147,7 +148,7 @@ export default function RootLayout({
           </Link>
           <CollapseButton />
         </motion.div>
-        {children}
+        <main className="w-full h-full">{children}</main>
       </div>
     </NotesProvider>
   );
