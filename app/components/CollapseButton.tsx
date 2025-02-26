@@ -126,12 +126,14 @@ const CollapseButton = () => {
                 key={Math.random() * i + i}
               >
                 {showOptions === "confirm-delete" && selectedNote === i && (
-                  <Modal setShowModal={setShowOptions}>
-                    <ModalConfirmDelete
-                      setShowModal={setShowOptions}
-                      handleDelete={handleDeletePage}
-                    />
-                  </Modal>
+                  // <Modal setShowModal={setShowOptions}>
+                  <ModalConfirmDelete
+                    setShowModal={setShowOptions}
+                    handleDelete={handleDeletePage}
+                    title="Delete Note?"
+                    text="This action will permanently delete it's content and related data. Are you sure you want to proceed?"
+                  />
+                  // </Modal>
                 )}
                 {/* OPTIONS MODAL */}
                 {showOptions === "options" && selectedNote === i && (

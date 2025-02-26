@@ -23,7 +23,7 @@ const Page = () => {
   const { notes, selectedNote } = useNotes();
   // const { exportToPDF, isLoading, exportSuccess } = useExportPdf();
   const { collapsed } = useSidebar();
-  const [exportModal, setExportModal] = useState<boolean | string>("");
+  const [exportModal, setExportModal] = useState<boolean | string>("success");
 
   const { isSidebarOpen } = useNotesSidebar();
 
@@ -67,7 +67,7 @@ const Page = () => {
         onClick={() =>
           uploadBtnRef.current?.scrollIntoView({ behavior: "smooth" })
         }
-        className="p-2 text-zinc-950 fixed bottom-4 right-4 z-[99999] rounded-full flex items-center justify-center bg-zinc-200"
+        className="p-2 text-zinc-950 fixed bottom-4 right-4 z-[998] rounded-full flex items-center justify-center bg-zinc-200"
       >
         <ArrowUp size={18} />
       </button>
@@ -87,11 +87,11 @@ const Page = () => {
             className={`w-[100vw] ${
               collapsed
                 ? isSidebarOpen
-                  ? "pl-[0px] min-[600px]:pl-[232px]"
-                  : "pl-[0px] min-[450px]:pl-[88px]"
+                  ? "pl-[0px] min-[450px]:pl-[88px] min-[600px]:pl-[232px]"
+                  : "pl-[0px] min-[450px]:pl-[88px] "
                 : isSidebarOpen
-                ? "pl-[0px] min-[600px]:pl-[329px]"
-                : "pl-[0px] min-[600px]:pl-[184px]"
+                ? "pl-[0px] min-[450px]:pl-[88px] min-[600px]:pl-[329px]"
+                : "pl-[0px] min-[450px]:pl-[88px] min-[600px]:pl-[184px]"
             } h-fit relative  transition-all duration-300`}
           >
             <Editor key={i} page={i} initialContent={note} />

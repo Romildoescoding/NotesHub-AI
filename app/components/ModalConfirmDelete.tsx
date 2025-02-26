@@ -1,6 +1,7 @@
 import React from "react";
 import Modal from "./Modal";
 import Spinner from "./Spinner";
+import { AlertTriangle, Trash2 } from "lucide-react";
 
 const ModalConfirmDelete = ({
   isLoading = false,
@@ -15,9 +16,16 @@ const ModalConfirmDelete = ({
     // </div>
 
     <Modal setShowModal={setShowModal}>
-      <div className="w-[500px] p-4 rounded-md h-auto bg-white flex flex-col gap-2">
-        <h2 className="text-2xl font-bold text-zinc-900 border-b-2">{title}</h2>
-        <p className="text-gray-600 mt-2  text-md">{text}</p>
+      <div className=" w-[95vw] max-w-[500px] p-4 rounded-md h-auto bg-white flex flex-col gap-2">
+        <h2 className="text-xl min-[600px]:text-2xl pb-2 flex gap-2 font-bold text-zinc-900 border-b-2">
+          <span className="bg-[rgb(255,209,209)] flex items-center justify-center text-red-500 rounded-full h-8 w-8">
+            <Trash2 size={20} />
+          </span>
+          {title}
+        </h2>
+        <p className="text-gray-600 mt-2 text-xs min-[600px]:text-base text-md">
+          {text}
+        </p>
 
         {/* Buttons */}
         <div className="flex justify-end gap-4 mt-6">

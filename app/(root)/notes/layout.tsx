@@ -52,7 +52,7 @@ export default function RootLayout({
     <NotesProvider>
       <div className=" relative w-full flex h-full">
         <motion.button
-          className={`fixed z-[99999999999] top-18 ${
+          className={`fixed top-18 ${
             collapsed
               ? isSidebarOpen
                 ? "left-[160px] min-[450px]:left-[248px]"
@@ -61,7 +61,7 @@ export default function RootLayout({
               ? // + 176px
                 "left-[336px] min-[450px]:left-[348px]"
               : "left-[192px] min-[450px]:left-[204px]"
-          } rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all`}
+          } rounded-sm  z-[997] text-zinc-500 hover:text-zinc-950 transition-all`}
           onClick={() => setIsSidebarOpen((open) => !open)}
           style={{
             // left: collapsed
@@ -113,7 +113,7 @@ export default function RootLayout({
         ></div>
 
         <motion.div
-          className={`fixed top-16 w-36 px-2 flex flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm z-[999] transition-left duration-300 ease-in-out
+          className={`fixed top-16 w-36 px-2 flex flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm z-[997] transition-left duration-300 ease-in-out
     ${
       collapsed
         ? isSidebarOpen

@@ -47,14 +47,16 @@ const Sidebar = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="h-full w-full  fixed left-0 top-0 min-[600px]:hidden z-[9998] bg-[#00000075]"
+            className="h-full w-full  fixed left-0 top-0 min-[600px]:hidden bg-[#00000075]"
+            style={{ zIndex: 998 }}
           ></motion.div>
         )}
       </AnimatePresence>
       <div
-        className={`pointer-events-auto z-[9999] bg-zinc-950 ${
+        className={`pointer-events-auto bg-zinc-950 ${
           collapsed ? "left-[-88px]" : "left-[0px]"
         } fixed min-[450px]:left-0 top-0 p-1 h-screen w-fit flex flex-col gap-16 items-center`}
+        style={{ zIndex: 999 }}
       >
         <div
           className={`flex flex-col relative ${
@@ -71,7 +73,8 @@ const Sidebar = () => {
           </div> */}
 
           <button
-            className="w-8 h-8 flex items-center justify-center rounded-md top-4 -right-11 absolute z-[99999] min-[600px]:hover:text-zinc-950 min-[600px]:text-zinc-500 transition-all"
+            className="w-8 h-8 flex items-center justify-center rounded-md top-4 -right-11 absolute min-[600px]:hover:text-zinc-950 min-[600px]:text-zinc-500 transition-all"
+            style={{ zIndex: 999 }}
             onClick={handleToggleSidebar}
           >
             {collapsed ? (
@@ -81,9 +84,18 @@ const Sidebar = () => {
             )}
           </button>
 
-          <div className="flex items-center justify-center rounded-md bg-red-500 top-5 -right-[75px] w-[0px] overflow-visible absolute z-[99999] transition-all text-zinc-500">
+          <div
+            style={{ zIndex: 999 }}
+            className="flex items-center justify-center rounded-md bg-red-500 top-5 -right-[75px] w-[0px] overflow-visible absolute transition-all text-zinc-500"
+          >
             <div className="relative">
-              <div className="absolute top-0 flex gap-2 left-0 whitespace-nowrap">
+              <div
+                className={`absolute top-0 flex gap-2 transition-all duration-300 left-0 whitespace-nowrap ${
+                  collapsed
+                    ? "opacity-100"
+                    : "opacity-0 min-[600px]:opacity-100"
+                }`}
+              >
                 {/* <span className=""> */}
                 {routeArr.map((route, i) => (
                   <span
