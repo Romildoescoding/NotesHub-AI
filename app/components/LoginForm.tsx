@@ -49,7 +49,7 @@ const LoginForm = () => {
       <button
         type="submit"
         disabled={pending}
-        className="text-sm text-zinc-100 bg-zinc-800 py-1 items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200 transition-all hover:bg-zinc-700"
+        className="rounded-md gap-2 w-full flex items-center justify-center h-fit px-2 py-[6px] hover:bg-zinc-800 transition bg-black text-zinc-50"
       >
         <span>Sign in</span>
         {pending && <Spinner width={15} height={15} isWhite={true} />}

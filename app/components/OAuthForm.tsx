@@ -18,7 +18,7 @@ const OAuthForm = () => {
       >
         <button
           type="submit"
-          className="text-sm text-zinc-600 font-[500] py-1 items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200"
+          className="text-base text-zinc-600 transition-all font-[500] py-[6px] items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200 hover:bg-zinc-100"
         >
           <Google height={20} width={20} />
           <span>Google</span>
@@ -35,7 +35,7 @@ const OAuthForm = () => {
       >
         <button
           type="submit"
-          className="text-sm text-zinc-600 font-[500] py-1 items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200"
+          className="text-base text-zinc-600 transition-all font-[500] py-[6px] items-center justify-center gap-2 flex border-2 rounded-md w-full border-zinc-200 hover:bg-zinc-100"
         >
           <Github height={20} width={20} />
           <span>Github</span>
