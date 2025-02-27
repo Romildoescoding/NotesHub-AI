@@ -107,7 +107,9 @@ const Categories = ({
       <label className="text-sm font-medium">Categories</label>
       <div
         className={`flex flex-wrap gap-2 border p-2 max-h-40 overflow-y-scroll rounded-md cursor-text ${
-          error.categories ? "border-2 border-red-500" : "border-none"
+          error.categories
+            ? "border-2 border-red-500"
+            : "border border-gray-300"
         }`}
         onClick={() => inputRef.current.focus()}
       >

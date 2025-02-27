@@ -22,7 +22,13 @@ const ModalExportSuccess = ({ setShowModal }) => {
         </div>
         <ConfettiFireworks />
         <h1 className="text-2xl font-semibold text-black">Export Success</h1>
-        <p className="text-zinc-600">Your note has been saved successfully.</p>
+        <p className="text-zinc-500 flex flex-col">
+          <span>Your note has been saved successfully.</span>
+          <span>
+            Feel free to create more notes and review your exported notes
+            anytime.
+          </span>
+        </p>
         <Link
           href="/notes"
           className="mt-2 rounded-md gap-2 w-full flex items-center justify-center h-fit px-2 py-2 hover:bg-zinc-800 cursor-pointer transition bg-black text-zinc-50"

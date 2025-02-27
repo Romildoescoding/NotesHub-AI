@@ -5,6 +5,7 @@ import Categories from "./Categories";
 import { useNotes } from "../context/NotesContext";
 import Spinner from "./Spinner";
 import useEditNote from "../(root)/notes/useEditNote";
+import { Switch } from "@/components/ui/switch";
 
 const ModalEditNote = ({ selectedNote, setShowModal, onSave }) => {
   //   console.log(selectedNote);
@@ -77,7 +78,7 @@ const ModalEditNote = ({ selectedNote, setShowModal, onSave }) => {
 
   return (
     <Modal setShowModal={setShowModal}>
-      <div className="w-[600px] p-4 rounded-md h-auto bg-white flex flex-col gap-4">
+      <div className="w-[95vw] max-w-[600px] p-4 rounded-md h-auto bg-white flex flex-col gap-4">
         <h1 className="text-xl font-semibold">Edit Note</h1>
 
         {/* Title Input */}
@@ -108,39 +109,15 @@ const ModalEditNote = ({ selectedNote, setShowModal, onSave }) => {
         )}
 
         {/* Public/Private Toggle */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-medium">Visibility:</span>
-          <div className="w-fit flex gap-2">
-            <div className="flex gap-1 border-2 items-center px-1 rounded-md shadow-sm border-zinc-100">
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsPublic(false);
-                }}
-                disabled={!isPublic}
-                className={`${
-                  !isPublic
-                    ? "bg-zinc-950 text-zinc-50 cursor-not-allowed"
-                    : "bg-white text-zinc-950 cursor-pointer"
-                } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all rounded-md px-3 border-none shadow-sm h-fit w-fit`}
-              >
-                Private
-              </button>
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsPublic(true);
-                }}
-                disabled={isPublic}
-                className={`${
-                  isPublic
-                    ? "bg-zinc-950 text-zinc-50 cursor-not-allowed"
-                    : "bg-white text-zinc-950 cursor-pointer"
-                } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all rounded-md px-3 border-none shadow-sm h-fit w-fit`}
-              >
-                Public
-              </button>
-            </div>
+        <div className="flex items-center justify-between gap-2 p-4 h-fit border rounded-md border-gray-300">
+          <div className="flex flex-col w-[75%]">
+            <span className="text-md font-medium">Public Visibility:</span>
+            <span className="text-zinc-500 text-xs min-[600px]:text-sm">
+              All users will have the permissions to view this content.
+            </span>
+          </div>
+          <div className="h-full flex items-center">
+            <Switch checked={isPublic} onCheckedChange={setIsPublic} />
           </div>
         </div>
 
