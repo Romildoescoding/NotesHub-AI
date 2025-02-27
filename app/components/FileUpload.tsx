@@ -36,7 +36,7 @@ const FileUpload: React.FC = () => {
     "hey there.. how you doin?? I am fine thank you",
     "hey there.. how you doin?? I am fine thank you",
   ]);
-  const [showModal, setShowModal] = useState<string>("");
+  const [showModal, setShowModal] = useState<string>("loading");
   const [isLoading, setIsLoading] = useState(false);
   const { setNotes } = useNotes();
 
@@ -209,7 +209,7 @@ const FileUpload: React.FC = () => {
       {/* Uploaded Files Section */}
       <div className="w-[80%] overflow-x-hidden p-4 mt-6 bg-white border-[2px] border-[#eaeaea] rounded-md">
         <div className="flex justify-between flex-col gap-2 min-[600px]:flex-row">
-          <h3 className="text-xl font-semibold">Uploaded Files:</h3>
+          <h3 className="text-xl font-semibold w-full">Uploaded Files:</h3>
           <div className="w-full flex justify-end">
             <button
               className=" bg-zinc-900 w-fit text-zinc-50 p-2 px-4 flex gap-1 items-center rounded-full"

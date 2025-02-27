@@ -7,7 +7,7 @@ const Note = ({ note, selectedPdf, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`h-fit cursor-pointer hover:shadow-md shadow-black rounded-md transition-all w-64 border-2 flex flex-col ${
+      className={`h-fit cursor-pointer hover:border-gray-300 shadow-black rounded-md overflow-hidden transition-all w-72 border-2 flex flex-col ${
         selectedPdf?.fileUrl === note.fileUrl ? "border-black" : "auto"
       }`}
       // className={`flex flex-col items-center gap-4 p-4 border rounded-lg cursor-pointer  hover:shadow-md`}
@@ -20,12 +20,15 @@ const Note = ({ note, selectedPdf, onClick }) => {
           </div>
         </Worker>
       </div>
-      <div className="p-2 px-4 flex flex-col gap-2">
-        <p className="capitalize">
-          {note.title.length > 22 ? note.title.slice(0, 22) + ".." : note.title}
+      <div className="p-2 px-4 flex flex-col gap-1">
+        <p className="capitalize font-semibold text-ellipsis w-64 whitespace-nowrap overflow-hidden">
+          {note.title}
         </p>
-        <p className="w-full justify-end flex gap-1">
-          {note.tags.slice(0, 3).map((tag, i) => (
+        <p className="text-zinc-400 text-xs text-ellipsis w-64 whitespace-nowrap overflow-hidden">
+          {note.description}
+        </p>
+        <p className="w-full justify-end flex gap-1 mt-3">
+          {note.tags.slice(0, 4).map((tag, i) => (
             <span
               key={i}
               className="px-2 py-1 text-xs rounded-full capitalize"

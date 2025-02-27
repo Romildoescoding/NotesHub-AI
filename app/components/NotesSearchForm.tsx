@@ -31,9 +31,10 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { Search, X } from "lucide-react";
+import { ListFilter, Search, X } from "lucide-react";
 import { useSearchNotes } from "../context/SearchNotesContext";
 import { motion } from "framer-motion";
+import { DropdownInput } from "./DropdownInput";
 
 const NotesSearchForm = () => {
   const { query, setQuery, category, setCategory, visibility, setVisibility } =
@@ -43,16 +44,16 @@ const NotesSearchForm = () => {
 
   return (
     // min-[1050px]:flex-row
-    <div className="flex flex-col gap-4 min-[1050px]:gap-0  justify-between w-full bg-white pr-4">
+    <div className="flex flex-col gap-4 justify-between w-full bg-white pl-10 min-[450px]:pl-14 pr-4">
       <div
-        className={`flex w-fit items-center  px-2 rounded-lg border-[1px] ${
+        className={`flex w-full min-[600px]:w-fit items-center  px-2 rounded-lg border-[1px] ${
           inputFocused ? "border-zinc-800" : " border-zinc-300"
         }`}
       >
-        <button className="bg-white cursor-default text-zinc-500 pl-[4px] pr-[8px] transition-all">
+        <span className="bg-white cursor-default text-zinc-500 pl-[4px] pr-[8px] transition-all">
           {/* Search */}
           <Search size={18} />
-        </button>
+        </span>
         <input
           name="query"
           onBlur={() => setInputFocused(false)}
@@ -60,28 +61,38 @@ const NotesSearchForm = () => {
           // defaultValue={query}
           value={query}
           className="w-full min-[1050px]:w-96 h-10 pr-4 border-none rounded-md text-zinc-700 duration-300 outline-none transition-all"
-          placeholder="Search notes.."
+          placeholder="Search notes via title.."
           onChange={(e) => setQuery(e.target.value)}
         />
-        {query.length > 0 && (
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="ml-2 p-1 h-fit w-fit text-sm rounded-md text-zinc-400 bg-zinc-100 hover:text-zinc-600 transition-all"
-            onClick={(e) => {
-              e.preventDefault();
-              setQuery("");
-            }}
-          >
-            <X size={16} />
-          </motion.button>
-        )}
+        {/* {query.length > 0 && ( */}
+        <motion.button
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="ml-2 p-1 h-fit w-fit text-sm border border-gray-300 rounded-md text-zinc-400 bg-white hover:bg-zinc-100 hover:text-zinc-600 transition-all"
+          onClick={(e) => {
+            e.preventDefault();
+            setQuery("");
+          }}
+        >
+          <X size={16} />
+        </motion.button>
+        {/* )} */}
       </div>
+
+      {/* <button
+        className={`border  ${
+          true
+            ? " border-zinc-900 text-zinc-900 bg-white hover:bg-zinc-100"
+            : " border-gray-300 bg-white hover:bg-zinc-100"
+        } flex gap-2 rounded-md transition  p-2`}
+      >
+        <ListFilter /> Filters
+      </button> */}
 
       {/* Filters and other */}
       {/* min-[965px]:flex-row */}
-      <div className=" w-full justify-end flex-col min-[600px]:flex-col  min-[1050px]:w-fit min-[1050px]:justify-start flex gap-2">
-        <div className="flex gap-1 border-[1px] items-center px-[6px] rounded-full shadow-sm">
+      <div className="w-full items-end min-[600px]:w-full flex-col min-[1000px]:justify-end min-[1000px]:flex-row bg-white flex gap-4 min-[1000px]:gap-6">
+        <div className="flex gap-1 border-[1px] py-[4px] items-center px-[4px] rounded-lg shadow-sm">
           <button
             onClick={(e) => {
               e.preventDefault();
@@ -92,7 +103,7 @@ const NotesSearchForm = () => {
               visibility === ""
                 ? "bg-zinc-950 text-zinc-50 cursor-not-allowed"
                 : "bg-white text-zinc-600 cursor-pointer"
-            } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all rounded-full px-4 border-none shadow-sm h-fit w-fit`}
+            } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all duration-300 rounded-lg px-4 border-none shadow-sm h-fit w-fit`}
           >
             All
           </button>
@@ -106,7 +117,7 @@ const NotesSearchForm = () => {
               visibility === "public"
                 ? "bg-zinc-950 text-zinc-50 cursor-not-allowed"
                 : "bg-white text-zinc-600 cursor-pointer"
-            } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all rounded-full px-4 border-none shadow-sm h-fit w-fit`}
+            } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all duration-300 rounded-lg px-4 border-none shadow-sm h-fit w-fit`}
           >
             Public
           </button>
@@ -120,13 +131,13 @@ const NotesSearchForm = () => {
               visibility === "private"
                 ? "bg-zinc-950 text-zinc-50 cursor-not-allowed"
                 : "bg-white text-zinc-600 cursor-pointer"
-            } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all rounded-full px-4 border-none shadow-sm h-fit w-fit`}
+            } py-1 hover:bg-zinc-950 hover:text-zinc-50 transition-all duration-300 rounded-lg px-4 border-none shadow-sm h-fit w-fit`}
           >
             Private
           </button>
         </div>
 
-        <div className="relative flex w-36 items-center">
+        {/* <div className="relative flex w-36 items-center">
           <select
             id="category"
             onChange={(e) => setCategory(e.target.value)}
@@ -144,7 +155,8 @@ const NotesSearchForm = () => {
               )
             )}
           </select>
-        </div>
+        </div> */}
+        <DropdownInput category={category} setCategory={setCategory} />
       </div>
     </div>
   );
