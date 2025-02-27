@@ -23,7 +23,7 @@ const Page = () => {
   const { notes, selectedNote } = useNotes();
   // const { exportToPDF, isLoading, exportSuccess } = useExportPdf();
   const { collapsed } = useSidebar();
-  const [exportModal, setExportModal] = useState<boolean | string>("success");
+  const [exportModal, setExportModal] = useState<boolean | string>("");
 
   const { isSidebarOpen } = useNotesSidebar();
 

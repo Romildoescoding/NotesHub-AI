@@ -68,10 +68,12 @@ export async function signup(state, formData: FormData) {
 
     // 3. Initiate Session
     // You can implement session creation here (e.g., using NextAuth or JWT)
-    await createSession(user.id);
+    await createSession({
+      user: { name: user.name, email: user.email, image: user.image },
+    });
 
     // Convert the Mongoose document into a plain object
-    const plainUser = user.toObject(); // Converts Mongoose document to a plain object
+    const plainUser = user.toObject();
 
     return {
       user: {
@@ -81,6 +83,7 @@ export async function signup(state, formData: FormData) {
         createdAt: plainUser.createdAt,
       },
     };
+    // await createSession(user.id)
   } catch (error) {
     console.error("Error creating user:", error);
     return {
@@ -133,6 +136,8 @@ export async function signin(state, formData: FormData) {
         },
       };
     }
+    console.log(password);
+    console.log(user.password);
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 

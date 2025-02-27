@@ -2,7 +2,7 @@ import "server-only";
 import { jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
 
 const key = new TextEncoder().encode(process.env.SECRET_KEY);
 
@@ -112,6 +112,7 @@ export async function updateSession() {
 
 export async function deleteSession() {
   (await cookies()).delete(cookieOptions.name);
+  await signOut({ redirect: false });
   console.log("Session deleted. Redirecting to login.");
-  redirect("/auth/login");
+  // redirect("/auth/login");
 }

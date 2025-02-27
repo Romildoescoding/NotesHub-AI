@@ -133,12 +133,12 @@ const UserChatButton = ({
         )}
 
         {showOptions === "confirm-delete" && (
-          <Modal setShowModal={setShowOptions}>
-            <ModalConfirmDelete
-              setShowModal={setShowOptions}
-              handleDelete={handleDeleteChat}
-            />
-          </Modal>
+          // <Modal setShowModal={setShowOptions}>
+          <ModalConfirmDelete
+            setShowModal={setShowOptions}
+            handleDelete={handleDeleteChat}
+          />
+          // </Modal>
         )}
 
         {!isRenaming && (

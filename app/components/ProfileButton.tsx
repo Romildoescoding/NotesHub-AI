@@ -1,12 +1,14 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { Power, User } from "lucide-react";
+import ModalLogout from "./ModalLogout";
 
 const ProfileButton = ({ user }) => {
   const [showOptions, setShowOptions] = useState(false);
+  const [showModal, setShowModal] = useState<boolean | string>("");
   return (
     // <Link href="/dashboard/profile" className="">
     <button className=" relative cursor-default outline-none">
@@ -18,37 +20,49 @@ const ProfileButton = ({ user }) => {
         onClick={() => setShowOptions((option) => !option)}
         className=" cursor-pointer rounded-full border-[2px] border-[#ededed] hover:border-zinc-300 transition-all"
       />
-      <motion.div
-        className="absolute top-[110%] rounded-xl border-2 border-zinc-100 bg-white right-0 h-fit w-fit p-2"
-        animate={{
-          opacity: showOptions ? 1 : 0,
-          scale: showOptions ? 1 : 0.95,
-        }}
-        style={{
-          pointerEvents: showOptions ? "all" : "none",
-          boxShadow: "0px 5px 10px #00000040",
-        }}
-        // transition={{
-        //   ease: "easeInOut",
-        //   duration: 0.5,
-        // }}
-      >
-        <Link
-          href="/dashboard/profile"
-          className=" p-2 pr-24 flex gap-4 hover:bg-zinc-100 rounded-lg"
-        >
-          <User className=" text-zinc-400" />
-          Profile
-        </Link>
-        <Link
-          // ><
-          href="/dashboard/logout"
-          className=" p-2 pr-12 flex gap-4 hover:bg-zinc-100 rounded-lg"
-        >
-          <Power className=" text-zinc-400" />
-          <span>Sign out</span>
-        </Link>
-      </motion.div>
+      <AnimatePresence>
+        {showOptions && (
+          <motion.div
+            className="absolute top-[110%] rounded-md border border-zinc-100 shadow-sm bg-white right-0 h-fit w-fit p-2"
+            initial={{
+              opacity: 0,
+              scale: 0.95,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0.95,
+            }}
+            style={{
+              boxShadow: "0px 5px 5px #00000020",
+            }}
+          >
+            <Link
+              href="/dashboard/profile"
+              className=" p-2 pr-20 flex gap-4 hover:bg-zinc-100 rounded-md"
+            >
+              <User className=" text-zinc-600" />
+              Profile
+            </Link>
+            <button
+              // ><
+              // href="/dashboard/logout"
+              onClick={() => setShowModal("logout")}
+              className=" p-2 pr-12 flex gap-4 hover:bg-zinc-100 rounded-md"
+            >
+              <Power className=" text-zinc-600" />
+              <span>Sign out</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showModal === "logout" && <ModalLogout />}
+      </AnimatePresence>
     </button>
     //   </Link>
   );
