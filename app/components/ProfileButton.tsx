@@ -23,7 +23,7 @@ const ProfileButton = ({ user }) => {
       <AnimatePresence>
         {showOptions && (
           <motion.div
-            className="absolute top-[110%] rounded-md border border-zinc-100 shadow-sm bg-white right-0 h-fit w-fit p-2"
+            className="absolute top-[110%] rounded-md border border-zinc-100 shadow-sm bg-white right-0 h-fit w-48 p-2"
             initial={{
               opacity: 0,
               scale: 0.95,
@@ -42,7 +42,7 @@ const ProfileButton = ({ user }) => {
           >
             <Link
               href="/dashboard/profile"
-              className=" p-2 pr-20 flex gap-4 hover:bg-zinc-100 rounded-md"
+              className="p-2 w-full flex gap-4 hover:bg-zinc-100 transition rounded-md"
             >
               <User className=" text-zinc-600" />
               Profile
@@ -51,10 +51,10 @@ const ProfileButton = ({ user }) => {
               // ><
               // href="/dashboard/logout"
               onClick={() => setShowModal("logout")}
-              className=" p-2 pr-12 flex gap-4 hover:bg-zinc-100 rounded-md"
+              className="p-2 w-full flex gap-4 hover:bg-zinc-100 transition rounded-md"
             >
               <Power className=" text-zinc-600" />
-              <span>Sign out</span>
+              <span className="">Sign out</span>
             </button>
           </motion.div>
         )}

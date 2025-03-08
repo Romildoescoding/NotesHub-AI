@@ -18,7 +18,7 @@ const UserChatButton = ({
   const [isRenaming, setIsRenaming] = useState(false);
   const [renameValue, setRenameValue] = useState("");
   const { renameChat, isRenaming: isRenamingLoading } = useRenameChat();
-  const { deleteChat, isRenaming: isDeletingChat } = useDeleteChat();
+  const { deleteChat, isDeleting: isDeletingChat } = useDeleteChat();
   const [isHovered, setIsHovered] = useState(false);
 
   //The chats filtering bug caused due to the title not updating as it was a state...
@@ -27,16 +27,20 @@ const UserChatButton = ({
   }, [chat]);
 
   // Single ref to handle both rename input and options menu
+
+  // Check for the modal for delete
   const containerRef = useOutsideClick(() => {
     if (isRenaming) {
       handleRenameEnd();
-    } else if (showOptions) {
+    } else if (showOptions === "options") {
       setShowOptions("");
     }
   });
 
   const handleDeleteChat = async () => {
-    await deleteChat(email, chat.chatId);
+    console.log("Deleting chat!!!!");
+    console.log(await deleteChat(email, chat.chatId));
+    console.log("Executed the delete function!!");
     setChatsState((prevChats) => {
       if (!prevChats) return prevChats;
       const newChats = [
@@ -137,6 +141,7 @@ const UserChatButton = ({
           <ModalConfirmDelete
             setShowModal={setShowOptions}
             handleDelete={handleDeleteChat}
+            isLoading={isDeletingChat}
           />
           // </Modal>
         )}

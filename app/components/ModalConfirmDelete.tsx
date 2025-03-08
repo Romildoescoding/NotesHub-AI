@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "./Modal";
 import Spinner from "./Spinner";
 import { AlertTriangle, Trash2 } from "lucide-react";
@@ -10,6 +10,11 @@ const ModalConfirmDelete = ({
   title = "Delete Chat?",
   text = "This action will permanently delete all messages and related data. Are you sure you want to proceed?",
 }) => {
+  useEffect(() => {
+    console.log("Deleting!!");
+    console.log(handleDelete);
+  }, [handleDelete]);
+
   return (
     // <div className="w-[full] max-w-md bg-white rounded-md p-6 flex flex-col ">
 
@@ -37,7 +42,11 @@ const ModalConfirmDelete = ({
           </button>
           <button
             className="px-5 py-2 flex items-center justify-center bg-red-600 min-w-[88px] text-white text-base rounded-lg hover:bg-red-700 transition"
-            onClick={handleDelete}
+            onClick={() => {
+              console.log("Deleting");
+              handleDelete();
+            }}
+            // onClick={handleDelete}
           >
             {isLoading ? (
               <Spinner isWhite={true} height={22} width={22} />

@@ -16,7 +16,6 @@ import { motion } from "framer-motion";
 import { useSidebar } from "../context/SidebarContext";
 
 const AiChatPage = ({ email, chats }) => {
-  console.log(chats);
   //  Create a selectedChat state and a hook that fetches all the messages/chats regarding that specific userChat
   const [selectedChat, setSelectedChat] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -26,13 +25,6 @@ const AiChatPage = ({ email, chats }) => {
 
   //Simulate realtime update on new chats
   const [chatsState, setChatsState] = useState(chats.chats);
-
-  useEffect(() => {
-    console.log("--------DEBUGGING--------");
-    console.log(localStorage.getItem("recentChatId"));
-    console.log(selectedChat);
-    console.log("--------DEBUGGING--------");
-  }, []);
 
   // Use useEffect to access localStorage only in the browser
   useEffect(() => {
@@ -48,7 +40,6 @@ const AiChatPage = ({ email, chats }) => {
   }, []);
 
   useEffect(() => {
-    console.log();
     if (selectedChat) {
       localStorage.setItem("recentChatId", selectedChat);
     }
@@ -62,8 +53,10 @@ const AiChatPage = ({ email, chats }) => {
     // setChatsState(newChat.data);
     setChatsState(newChat.data.chats);
     console.log(newChat.data.chats);
-    console.log(newChat.data.chats[newChat.data.chats.length - 1].chatId);
-    setSelectedChat(newChat.data.chats[newChat.data.chats.length - 1].chatId);
+    const newChatId = newChat.data.chats[newChat.data.chats.length - 1].chatId;
+    console.log(newChatId);
+    if (newChatId) localStorage.setItem("recentChatId", newChatId);
+    setSelectedChat(newChatId);
     console.log("------------------------------------------------");
   }
 
@@ -113,7 +106,7 @@ const AiChatPage = ({ email, chats }) => {
               "left-[366px] min-[450px]:left-[378px]"
             : "left-[222px] min-[450px]:left-[234px]"
         } rounded-sm  z-[999] text-zinc-500 hover:text-zinc-950 transition-all`}
-        onClick={() => setIsSidebarOpen((open) => !open)}
+        onClick={handleCreateNewChat}
         style={{
           // left: collapsed
           //   ? isSidebarOpen
