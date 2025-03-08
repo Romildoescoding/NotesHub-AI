@@ -38,6 +38,9 @@ const ModalEditNote = ({ selectedNote, setShowModal, onSave }) => {
     if (!title.trim()) {
       errors.title = "Title is required.";
     }
+    if (title.trim().length > 20) {
+      errors.title = "Title must be 20 characters or fewer.";
+    }
     if (!description.trim()) {
       errors.description = "Description is required.";
     }

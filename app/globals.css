@@ -53,7 +53,7 @@ body {
 }
 
 /* LOADER */
-.loader {
+/* .loader {
   --path: #2f3545;
   --dot: #2874ee;
   --duration: 3s;
@@ -123,7 +123,7 @@ body {
   100% {
     transform: translate(-18px, -18px);
   }
-}
+} */
 
 /* SCROLLBAR */
 
@@ -348,4 +348,87 @@ iframe::-webkit-scrollbar {
   100% {
     background-color: #f9f9f9;
   }
+}
+
+/* criss-cross loader animation */
+/* From Uiverse.io by SchawnnahJ */
+.loader {
+  position: relative;
+  width: 2.5em;
+  height: 2.5em;
+  transform: rotate(165deg);
+}
+
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 0.25em;
+  transform: translate(-50%, -50%);
+}
+
+.loader:before {
+  animation: before8 2s infinite;
+}
+
+.loader:after {
+  animation: after6 2s infinite;
+}
+
+@keyframes before8 {
+  0% {
+    width: 0.5em;
+    box-shadow: 1em -0.5em #000, -1em 0.5em #000;
+  }
+
+  35% {
+    width: 2.5em;
+    box-shadow: 0 -0.5em #000, 0 0.5em #000;
+  }
+
+  70% {
+    width: 0.5em;
+    box-shadow: -1em -0.5em #000, 1em 0.5em #000;
+  }
+
+  100% {
+    box-shadow: 1em -0.5em #000, -1em 0.5em #000;
+  }
+}
+
+@keyframes after6 {
+  0% {
+    height: 0.5em;
+    box-shadow: 0.5em 1em #ccc, -0.5em -1em #ccc;
+  }
+
+  35% {
+    height: 2.5em;
+    box-shadow: 0.5em 0 #ccc, -0.5em 0 #ccc;
+  }
+
+  70% {
+    height: 0.5em;
+    box-shadow: 0.5em -1em #ccc, -0.5em 1em #ccc;
+  }
+
+  100% {
+    box-shadow: 0.5em 1em #ccc, -0.5em -1em #ccc;
+  }
+}
+
+/* .loader {
+  position: absolute;
+  top: calc(50% - 1.25em);
+  left: calc(50% - 1.25em);
+} */
+
+/* Hiding the text-layer of the pdf on the bottom */
+.rpv-core__text-layer {
+  display: none !important;
 }

@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { useNotes } from "../context/NotesContext";
 import { generateNotes, getTitle } from "../context/defaultNote";
 import { ImageIcon, Trash2 } from "lucide-react";
+import LoaderCrissCross from "./LoaderCrissCross";
 
 // Define the type for the files state
 type FileType = File;
@@ -36,7 +37,7 @@ const FileUpload: React.FC = () => {
     "hey there.. how you doin?? I am fine thank you",
     "hey there.. how you doin?? I am fine thank you",
   ]);
-  const [showModal, setShowModal] = useState<string>("loading");
+  const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const { setNotes } = useNotes();
 
@@ -59,6 +60,9 @@ const FileUpload: React.FC = () => {
   };
 
   const handleGenerate = async () => {
+    // If the pages are being processed already and the user got out of the moal and clicks the generating again.
+    // I just show the loading modal once again...
+    if (isLoading) return setShowModal("loading");
     setIsLoading(true);
     setShowModal("loading");
     const results: INote[] = [];
@@ -109,30 +113,25 @@ const FileUpload: React.FC = () => {
     <div className="z-2 flex flex-col items-center justify-center w-full pt-4 relative">
       {showModal === "loading" && (
         <Modal setShowModal={setShowModal}>
-          <div className="w-[60vw] h-[90vh] flex flex-col items-center justify-center bg-white text-zinc-500 rounded-md">
-            <Loader />
+          <div className="w-[95vw] items-center text-center max-w-[600px] py-16 p-4 rounded-md h-auto bg-white flex flex-col gap-2">
+            <LoaderCrissCross />
             <span className="mt-2 text-xl font-semibold text-zinc-800">
               Generating Results...
             </span>{" "}
-            <span>It might take a few minutes or seconds.</span>
-            {/* {ocrResults.map((result, i) => (
-              <span key={i}>{result}</span>
-            ))} */}
+            <span className="text-zinc-400">
+              It may take a few minutes or seconds, depending on the number of
+              pages.
+            </span>
+            {/* <span> Loading slower? Consider the NoteCraft Pro Subsription</span> */}
           </div>
         </Modal>
       )}
 
-      {/* {showModal === "results" && (
-        <Modal setShowModal={setShowModal}>
-          <NotesSlider ocrResults={ocrResults} setShowModal={setShowModal} />
-        </Modal>
-      )} */}
-
-      {showModal === "uploaded" && (
+      {/* {showModal === "uploaded" && (
         <Modal setShowModal={setShowModal}>
           <SuccessfulUpload />
         </Modal>
-      )}
+      )} */}
 
       {/* Drag-and-Drop Input */}
       <label

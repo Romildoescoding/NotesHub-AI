@@ -21,6 +21,7 @@ import { formatDate } from "../_lib/actions";
 import useDeleteNote from "../(root)/notes/useDeleteNote";
 import ModalEditNote from "./ModalEditNote";
 import ModalConfirmDelete from "./ModalConfirmDelete";
+import ModalNoteDetails from "./ModalNoteDetails";
 
 const Collections = ({ notes }) => {
   const {
@@ -71,15 +72,7 @@ const Collections = ({ notes }) => {
     setNotes(filteredNotes);
   }, [notes, query, category, visibility, setNotes]);
 
-  const { user } = useCurrentUser();
-  const [copyUrl, setCopyUrl] = useState(false);
   const [showModal, setShowModal] = useState<string | boolean>();
-
-  useEffect(() => {
-    if (copyUrl) {
-      const timeout = setTimeout(() => setCopyUrl(false), 2000);
-    }
-  }, [copyUrl]);
 
   useEffect(() => {
     console.log(selectedNote?._id);
@@ -95,9 +88,6 @@ const Collections = ({ notes }) => {
     }
     setSelectedNote(null);
     setShowModal(false);
-  }
-  function handleEditNote(selectedNote) {
-    setShowModal("editing");
   }
 
   function updateLocalStates(updatedNote) {
@@ -123,152 +113,13 @@ const Collections = ({ notes }) => {
     <div className="w-full h-full bg-white relative text-black flex flex-col gap-8">
       <NotesSearchForm />
 
-      <AnimatePresence>
-        {selectedNote && !showModal && (
-          <motion.div
-            // ref={ref}
-            initial={{ bottom: "-100%" }}
-            animate={{ bottom: 0 }}
-            exit={{ bottom: "-100%" }}
-            className="fixed bottom-0 overflow-y-scroll left-0 z-[999999999] w-full h-[90%]  bg-white rounded-t-xl"
-          >
-            <div className="w-full h-fit p-8 pb-4 flex flex-col gap-4 items-center">
-              <div className="font-bold text-3xl w-full flex pb-4 justify-between border-b-2 border-zinc-200">
-                <span className="capitalize">{selectedNote.title}</span>
-                <div className="flex gap-2">
-                  <button
-                    className="
-                      flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-full text-zinc-500 hover:text-zinc-900 p1 px-2 text-sm"
-                    onClick={() => handleEditNote(selectedNote)}
-                  >
-                    <Pencil size={20} />
-                    Edit Note
-                  </button>
-
-                  <button
-                    className="
-                      flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-full text-zinc-500 hover:text-zinc-900 p1 px-2 text-sm"
-                    onClick={() =>
-                      // handleDelete(selectedNote?._id, selectedNote.fileUrl)
-                      setShowModal("deleting")
-                    }
-                  >
-                    <Trash2 size={20} /> {"Delete Note"}
-                  </button>
-
-                  <span
-                    className={`${
-                      selectedNote.isPublic
-                        ? "text-red-900 bg-red-300 border-red-400"
-                        : "text-green-900 bg-green-300 border-green-400"
-                    } rounded-full border-2 text-sm items-center px-3 flex gap-2`}
-                  >
-                    {selectedNote.isPublic ? (
-                      <LockOpen size={16} />
-                    ) : (
-                      <Lock size={16} />
-                    )}
-                    {selectedNote.isPublic ? "Public" : "Private"}
-                  </span>
-                </div>
-              </div>
-              <div className="w-full h-fit flex justify-between">
-                <div className="h-fit flex gap-6 items-center">
-                  <Image
-                    src={user?.image ?? ""}
-                    height={60}
-                    width={60}
-                    alt="user"
-                    className="rounded-full"
-                  />
-                  <p className="flex flex-col ">
-                    <span className="font-semibold text-xl ">{user?.name}</span>{" "}
-                    <span className="text-zinc-600">Full-Stack Developer</span>
-                  </p>
-                </div>
-                <div className="h-full w-fit flex gap-2">
-                  <span
-                    className="
-                      flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-md text-zinc-500 hover:text-zinc-900 p1 px-2"
-                    onClick={() => {
-                      window.open(selectedNote.fileUrl);
-                    }}
-                  >
-                    <ExternalLink size={16} /> View in separate tab
-                  </span>
-                  <span
-                    className={`${
-                      copyUrl ? "cursor-auto" : "cursor-pointer"
-                    } flex gap-2 items-center cursor-pointer border-zinc-200 border-2 rounded-md text-zinc-500 hover:text-zinc-900 p1 px-2`}
-                    onClick={() => {
-                      navigator.clipboard.writeText(selectedNote.fileUrl);
-                      setCopyUrl(true);
-                    }}
-                  >
-                    {copyUrl ? <Check size={16} /> : <Link size={16} />} Copy
-                    Url
-                  </span>
-                </div>
-              </div>
-              <div className="w-full h-[75vh] flex justify-center">
-                <div className="relative w-[75%] h-full overflow-scroll border-2 border-zinc-200 rounded-lg px-4">
-                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.js">
-                    <div>
-                      <Viewer defaultScale={1} fileUrl={selectedNote.fileUrl} />
-                    </div>
-                  </Worker>
-                </div>
-              </div>
-              <div className="w-[100%] flex flex-col mt-2 border-t-2 border-zinc-200 py-2 pr-4 pl-2 gap-2">
-                <span className="text-3xl font-semibold">About</span>
-                <p className="text-zinc-700 text-md">
-                  {selectedNote.description}
-                </p>
-              </div>
-
-              {/* Categories */}
-              <div className="w-full flex flex-col py-2 pl-2 gap-2">
-                <span className="text-3xl font-semibold">Categories</span>
-                <div className="flex gap-2 flex-wrap">
-                  {selectedNote.tags.map((tag, i) => (
-                    <span
-                      className="bg-blue-300 text-md p-2 px-3 rounded-full text-blue-900 border-blue-400"
-                      style={{
-                        backgroundColor: tag.secondary,
-                        color: tag.primary,
-                      }}
-                      key={i}
-                    >
-                      {tag.category}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <p className="flex w-full justify-end text-md gap-2">
-                Uploaded on{" "}
-                <span className="font-semibold">
-                  {formatDate(selectedNote.createdAt)}{" "}
-                </span>
-              </p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {selectedNote && !showModal && (
-          <motion.div
-            onClick={() => {
-              setSelectedNote(null);
-            }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            exit={{ opacity: 0 }}
-            className="fixed bottom-0 cursor-pointer left-0 z-[999999998] w-full h-full bg-zinc-950"
-          ></motion.div>
-        )}
-      </AnimatePresence>
+      <ModalNoteDetails
+        showModal={showModal}
+        setShowModal={setShowModal}
+        setSelectedNote={setSelectedNote}
+        selectedNote={selectedNote}
+        handleDelete={handleDelete}
+      />
 
       {showModal === "editing" && (
         <ModalEditNote

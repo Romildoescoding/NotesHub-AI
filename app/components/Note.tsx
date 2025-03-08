@@ -7,8 +7,12 @@ const Note = ({ note, selectedPdf, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className={`h-fit cursor-pointer hover:border-gray-300 shadow-black rounded-md overflow-hidden transition-all w-72 border-2 flex flex-col ${
+      className={`h-fit cursor-pointer  shadow-black rounded-md overflow-hidden transition-all w-72 border-2 flex flex-col ${
         selectedPdf?.fileUrl === note.fileUrl ? "border-black" : "auto"
+      } hover:${
+        selectedPdf?.fileUrl === note.fileUrl
+          ? "border-black"
+          : "border-gray-300"
       }`}
       // className={`flex flex-col items-center gap-4 p-4 border rounded-lg cursor-pointer  hover:shadow-md`}
     >

@@ -86,6 +86,10 @@ const CollapseButton = () => {
     setNotes(JSON.parse(localStorage.getItem("notes") ?? "[]"));
   }, [selectedNote, setNotes]); // Trigger when `selectedNote` changes
 
+  useEffect(() => {
+    setEditorCollapsed(pathname !== "/notes/editor");
+  }, [pathname, setEditorCollapsed]);
+
   return (
     <AnimatePresence>
       <button

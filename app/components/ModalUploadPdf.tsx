@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Note from "./Note";
 import { Viewer, Worker } from "@react-pdf-viewer/core";
 import { uploadFileToSupabase } from "../(root)/notes/upload/uploadFile";
@@ -6,24 +6,24 @@ import useFetchNotes from "../(root)/notes/useFetchNotes";
 
 // Implement local storage for selected file yk...
 
-const pdfFiles = [
-  {
-    title: "My First Note",
-    fileName: "uploads.pdf",
-    fileUrl:
-      "https://toedslmykfbanqvtpktp.supabase.co/storage/v1/object/public/pdfs/pdfs/0_Resume_Romil_v1.pdf",
-    isPublic: true,
-    tags: [
-      { category: "learning", primary: "#429583", secondary: "#b8fff0" },
-      { category: "typescipt", primary: "#956742", secondary: "#ffd9b6" },
-    ],
-    uploadedBy: {
-      $oid: "67839448b5474a277037a82a",
-    },
-    uploaderEmail: "romilrajrana1@gmail.com",
-    description: "This is my first note uploaded to Supabase.",
-  },
-];
+// const pdfFiles = [
+//   {
+//     title: "My First Note",
+//     fileName: "uploads.pdf",
+//     fileUrl:
+//       "https://toedslmykfbanqvtpktp.supabase.co/storage/v1/object/public/pdfs/pdfs/0_Resume_Romil_v1.pdf",
+//     isPublic: true,
+//     tags: [
+//       { category: "learning", primary: "#429583", secondary: "#b8fff0" },
+//       { category: "typescipt", primary: "#956742", secondary: "#ffd9b6" },
+//     ],
+//     uploadedBy: {
+//       $oid: "67839448b5474a277037a82a",
+//     },
+//     uploaderEmail: "romilrajrana1@gmail.com",
+//     description: "This is my first note uploaded to Supabase.",
+//   },
+// ];
 
 const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -31,6 +31,10 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const { notes, isFetching } = useFetchNotes();
+
+  useEffect(() => {
+    console.log(selectedPdf, uploadedFile);
+  }, [selectedPdf, uploadedFile]);
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -44,14 +48,17 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
 
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
+    console.log(file);
     if (file) {
       setSelectedPdf(null);
       setUploadedFile(file);
+      // This reset is necessary as the input holds the value even after reset of the state and the handleChange event is not fired at all because of this..
+      e.target.value = "";
     }
   };
 
   const filteredPdfFiles = notes.filter((file) =>
-    file.fileName.toLowerCase().includes(searchTerm.toLowerCase())
+    file.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   async function handleUploadFile() {
@@ -61,10 +68,11 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
       uploadedUrl = selectedPdf;
       //It means that the pdf seleceted alreay has a deployed url so we can already process it
     } else if (uploadedFile) {
+      //First i need to upload the file to supabase storage and then make
       const url = await uploadFileToSupabase(uploadedFile);
       uploadedUrl = url;
-      //First i need to upload the file to supabas storage and then make
     } else return;
+    // the isNote in the below object means the file had to be uploaded to supabase for the processing and then, whenver the user deselects the file, i delete the file...
     setSelectedPdfFile(
       selectedPdf
         ? {
@@ -84,7 +92,8 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
   }
 
   return (
-    <div className="w-[60vw] h-[80vh] min-h-fit bg-white rounded-xl shadow-lg p-6 flex flex-col">
+    <div className="w-[95vw] max-w-[800px] h-[80vh] min-h-fit bg-white rounded-xl shadow-lg p-6 flex flex-col">
+      {/* <div className="w-[95vw] max-w-[600px] p-4 rounded-md h-auto bg-white flex flex-col gap-4"> */}
       <h2 className="text-xl font-semibold mb-4">Select Notes</h2>
       {/* Search Bar */}
       {!uploadedFile && (
@@ -139,8 +148,8 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
       )}
 
       {/* Sticky Buttons */}
-      <div className="flex justify-between items-center mt-4">
-        <div className="relative">
+      <div className="flex flex-col gap-3 min-[600px]:gap-0 min-[600px]:flex-row justify-between items-center mt-4">
+        <div className="relative w-full flex justify-start">
           <label
             htmlFor="uploadPdfInput"
             className="px-4 py-2 bg-black text-white rounded-lg cursor-pointer hover:bg-zinc-800"
@@ -155,7 +164,7 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
             onChange={handleFileUpload}
           />
         </div>
-        <div className="flex gap-2 w-fit">
+        <div className="flex gap-2 w-full justify-end">
           <button
             className="px-4 py-2 bg-zinc-200 text-black rounded-lg hover:bg-zinc-300"
             onClick={() => {

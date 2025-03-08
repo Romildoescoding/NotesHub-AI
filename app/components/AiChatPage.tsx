@@ -144,7 +144,7 @@ const AiChatPage = ({ email, chats }) => {
       ></div>
 
       <motion.div
-        className={`fixed top-16 w-36 px-2 flex flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm z-[999] transition-left duration-300 ease-in-out
+        className={`fixed top-16 w-36 px-2 flex flex-col gap-2 pt-4 bg-white border-r-2 border-zinc-100 items-center text-sm z-[997] transition-left duration-300 ease-in-out
     ${
       collapsed
         ? isSidebarOpen

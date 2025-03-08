@@ -28,6 +28,9 @@ const ModalExportPdf = ({ setShowModal }) => {
     if (!title.trim()) {
       errors.title = "Title is required.";
     }
+    if (title.trim().length > 20) {
+      error.title = "Title must be 20 characters or fewer.";
+    }
     if (!description.trim()) {
       errors.description = "Description is required.";
     }
@@ -76,7 +79,7 @@ const ModalExportPdf = ({ setShowModal }) => {
           // type="text"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className={`border p-2 rounded-md w-full max-h-28 ${
+          className={`border p-2 rounded-md w-full max-h-28 min-h-[66px] ${
             error.description ? "border-red-500" : "border-gray-300"
           }`}
           placeholder="Enter note description"
