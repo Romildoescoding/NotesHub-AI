@@ -13,13 +13,15 @@ const AiMessage = ({ text }) => {
 
   return (
     <div className="h-fit items-end w-full flex gap-3">
-      <Image
-        src="/App_Logo.png"
-        height={24}
-        width={24}
-        alt="user-image"
-        className="rounded-full border-2"
-      />
+      <div className="w-[24px] h-[24px] flex items-center justify-center rounded-full border-2">
+        <Image
+          src="/logo_notecraft.svg"
+          height={16}
+          width={16}
+          alt="user-image"
+          // className=""
+        />
+      </div>
       {text.length > 0 ? (
         <span className="h-fit w-full max-w-[60vw] min-[600px]:max-w-[55vw] min-[1000px]:max-w-[40vw] ai-message relative text-sm min-[600px]:text-base">
           {text}

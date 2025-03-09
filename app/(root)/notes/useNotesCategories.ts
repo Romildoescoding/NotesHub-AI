@@ -7,7 +7,7 @@ interface Category {
 
 export default function useNotesCategories() {
   const [categories, setCategories] = useState<Category[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -30,7 +30,6 @@ export default function useNotesCategories() {
         // });
 
         if (data.status !== "success") throw new Error(data.message);
-
         setCategories(data.data);
       } catch (error) {
         console.error("❌ Note fetch failed:", error.message);

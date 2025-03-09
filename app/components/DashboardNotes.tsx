@@ -4,6 +4,7 @@ import useFetchNotes from "../(root)/notes/useFetchNotes";
 import { CircleAlert } from "lucide-react";
 import { CardDescription, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import Spinner from "./Spinner";
 
 const DashboardNotes = () => {
   const { notes, isFetching } = useFetchNotes();
@@ -13,7 +14,11 @@ const DashboardNotes = () => {
       <CardDescription>
         The following are your latest exported notes
       </CardDescription>
-      {notes.length > 0 ? (
+      {isFetching ? (
+        <div className="h-[173px] w-full flex items-center justify-center">
+          <Spinner height={24} width={24} isWhite={false} />
+        </div>
+      ) : notes.length > 0 ? (
         <>
           {notes.slice(0, 3).map((note, i) => (
             <div
@@ -41,7 +46,7 @@ const DashboardNotes = () => {
         </>
       ) : (
         <div className="w-full flex flex-col gap-2 text-center">
-          <span className="font-semibold items-center gap-2 mt-4 flex flex-col">
+          <span className="font-semibold items-center gap-2 mt-[45px] flex flex-col">
             <CircleAlert />
             No notes found!
           </span>

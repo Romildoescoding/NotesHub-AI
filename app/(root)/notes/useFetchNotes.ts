@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function useFetchNotes() {
   const [notes, setNotes] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
     const fetchNotes = async () => {

@@ -40,7 +40,7 @@ const ModalLogout = ({
     <Modal setShowModal={setShowModal}>
       <div className=" w-[95vw] max-w-[500px] p-4 rounded-md h-auto bg-white flex flex-col gap-2">
         <h2 className="text-xl min-[600px]:text-2xl pb-2 flex gap-2 font-bold text-zinc-900 border-b-2">
-          <span className="border-2 border-zinc-300 flex items-center justify-center text-zinc-900 rounded-full h-8 w-8">
+          <span className="border-2 border-zinc-300zzzzz flex items-center justify-center text-zinc-900 rounded-full h-8 w-8">
             <LogOut size={20} />
           </span>
           Logout

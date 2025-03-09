@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingDown, TrendingUp } from "lucide-react";
+import { CircleAlert, TrendingDown, TrendingUp } from "lucide-react";
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
 import {
@@ -20,6 +20,7 @@ import {
 import useNotesInsights from "../(root)/notes/useNotesInsights";
 import { useRef } from "react";
 import Spinner from "./Spinner";
+import Link from "next/link";
 // const chartData = [
 //   { month: "January", Notes: 4 },
 //   { month: "February", Notes: 7 },
@@ -65,7 +66,7 @@ export function ChartCard() {
         <div className="flex items-center h-[317px] w-full justify-center">
           <Spinner height={20} width={20} isWhite={false} />
         </div>
-      ) : (
+      ) : insights.length > 0 ? (
         <>
           <CardContent>
             <ChartContainer config={chartConfig}>
@@ -128,6 +129,22 @@ export function ChartCard() {
             </div>
           </CardFooter>
         </>
+      ) : (
+        <div className="w-full flex flex-col gap-2 text-center p-4 pt-0">
+          <span className="font-semibold items-center gap-2 mt-[45px] flex flex-col">
+            <CircleAlert />
+            No notes found!
+          </span>
+          <span className=" text-sm text-zinc-600">
+            You have not uploaded any notes yet.
+          </span>
+          <Link
+            href="/notes/upload"
+            className="w-full flex items-center justify-center p-2 font-semibold text-sm bg-zinc-950 hover:bg-zinc-800 text-zinc-50 rounded-lg transition-all"
+          >
+            Upload Notes
+          </Link>
+        </div>
       )}
     </Card>
   );

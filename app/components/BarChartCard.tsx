@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, NotebookText, TrendingUp } from "lucide-react";
+import { Activity, CircleAlert, NotebookText, TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts";
 
 import {
@@ -18,6 +18,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import useNotesCategories from "../(root)/notes/useNotesCategories";
+import Link from "next/link";
+import Spinner from "./Spinner";
 // const chartData = [
 //   { month: "January", Notes: 186 },
 //   { month: "February", Notes: 305 },
@@ -43,50 +45,74 @@ export function BarChartCard() {
         <CardTitle>Category-wise Notes</CardTitle>
         {/* <CardDescription>January - June 2024</CardDescription> */}
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart
-            accessibilityLayer
-            data={categories}
-            margin={{
-              top: 25,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="category"
-              tickLine={false}
-              tickMargin={10}
-              axisLine={false}
-              tickFormatter={(value) => value.slice(0, 10)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Bar dataKey="Notes" fill="var(--color-Notes)" radius={8}>
-              <LabelList
-                position="top"
-                offset={12}
-                className="fill-foreground"
-                fontSize={12}
-              />
-            </Bar>
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter className="flex-col items-start gap-2 text-sm">
-        {/* <div className="flex gap-2 font-medium leading-none">
+      {isFetching ? (
+        <div className="flex items-center h-[277px] w-full justify-center">
+          <Spinner height={20} width={20} isWhite={false} />
+        </div>
+      ) : categories.length > 0 ? (
+        <>
+          <CardContent>
+            <ChartContainer config={chartConfig}>
+              <BarChart
+                accessibilityLayer
+                data={categories}
+                margin={{
+                  top: 25,
+                }}
+              >
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="category"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => value.slice(0, 10)}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Bar dataKey="Notes" fill="var(--color-Notes)" radius={8}>
+                  <LabelList
+                    position="top"
+                    offset={12}
+                    className="fill-foreground"
+                    fontSize={12}
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
+          <CardFooter className="flex-col items-start gap-2 text-sm">
+            {/* <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div> */}
-        <div className="flex gap-2 font-medium leading-none">
-          Maximum notes belong to {categories[0]?.category?.slice(0, 10)}{" "}
-          category <Activity size={15} />
+            <div className="flex gap-2 font-medium leading-none">
+              Maximum notes belong to {categories[0]?.category?.slice(0, 10)}{" "}
+              category <Activity size={15} />
+            </div>
+            <div className="leading-none text-muted-foreground">
+              Showing category wise number of notes
+            </div>
+          </CardFooter>
+        </>
+      ) : (
+        <div className="w-full flex flex-col gap-2 text-center p-4 pt-0">
+          <span className="font-semibold items-center gap-2 mt-[45px] flex flex-col">
+            <CircleAlert />
+            No notes found!
+          </span>
+          <span className=" text-sm text-zinc-600">
+            You have not uploaded any notes yet.
+          </span>
+          <Link
+            href="/notes/upload"
+            className="w-full flex items-center justify-center p-2 font-semibold text-sm bg-zinc-950 hover:bg-zinc-800 text-zinc-50 rounded-lg transition-all"
+          >
+            Upload Notes
+          </Link>
         </div>
-        <div className="leading-none text-muted-foreground">
-          Showing category wise number of notes
-        </div>
-      </CardFooter>
+      )}
     </Card>
   );
 }

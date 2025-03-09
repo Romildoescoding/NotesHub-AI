@@ -61,7 +61,7 @@ const ProfileButton = ({ user }) => {
       </AnimatePresence>
 
       <AnimatePresence>
-        {showModal === "logout" && <ModalLogout />}
+        {showModal === "logout" && <ModalLogout setShowModal={setShowModal} />}
       </AnimatePresence>
     </button>
     //   </Link>
