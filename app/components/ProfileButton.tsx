@@ -11,7 +11,7 @@ const ProfileButton = ({ user }) => {
   const [showModal, setShowModal] = useState<boolean | string>("");
   return (
     // <Link href="/dashboard/profile" className="">
-    <button className=" relative cursor-default outline-none">
+    <div className=" relative cursor-default outline-none">
       <Image
         src={user?.image}
         width={42}
@@ -63,7 +63,7 @@ const ProfileButton = ({ user }) => {
       <AnimatePresence>
         {showModal === "logout" && <ModalLogout setShowModal={setShowModal} />}
       </AnimatePresence>
-    </button>
+    </div>
     //   </Link>
   );
 };

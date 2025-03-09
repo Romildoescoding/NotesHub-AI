@@ -432,3 +432,12 @@ iframe::-webkit-scrollbar {
 .rpv-core__text-layer {
   display: none !important;
 }
+
+.img-hover-ele {
+  opacity: 0;
+  transition: all 150ms;
+}
+
+.img-hover:hover .img-hover-ele {
+  opacity: 1;
+}
