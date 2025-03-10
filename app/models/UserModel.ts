@@ -8,6 +8,8 @@ interface IUser extends Document {
   image: string;
   password?: string;
   providerId: string;
+  professionalTitle: string;
+  profession: string;
   createdAt: Date;
 }
 
@@ -43,6 +45,16 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
     unique: true, // Unique ID (e.g., email) for OAuth users
+  },
+  professionalTitle: {
+    type: String,
+    required: false,
+    default: "",
+  },
+  profession: {
+    type: String,
+    required: false,
+    default: "",
   },
   createdAt: {
     type: Date,

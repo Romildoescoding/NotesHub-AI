@@ -69,7 +69,13 @@ export async function signup(state, formData: FormData) {
     // 3. Initiate Session
     // You can implement session creation here (e.g., using NextAuth or JWT)
     await createSession({
-      user: { name: user.name, email: user.email, image: user.image },
+      user: {
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        professionalTitle: user.professionalTitle,
+        profession: user.profession,
+      },
     });
 
     // Convert the Mongoose document into a plain object
@@ -95,6 +101,7 @@ export async function signup(state, formData: FormData) {
 }
 
 export async function signin(state, formData: FormData) {
+  console.log("SIGN-IN CALLED");
   // 1. Validate Fields
   const validationResult = SigninFormSchema.safeParse({
     email: formData.get("email"),
@@ -156,7 +163,13 @@ export async function signin(state, formData: FormData) {
     // 3. Initiate Session
     // await createSession(user.id);
     await createSession({
-      user: { name: user.name, email: user.email, image: user.image },
+      user: {
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        professionalTitle: user.professionalTitle,
+        profession: user.profession,
+      },
     });
 
     // Convert the Mongoose document into a plain object
@@ -232,8 +245,8 @@ export async function handler() {
 
   // After redirection back to your app, get the user session
   const session = await auth();
-  // console.log("SESSION IS---->");
-  // console.log(session);
+  console.log("SESSION IS---->");
+  console.log(session);
   if (!session || !session?.user) {
     console.log("No session in OAuth handler");
     return;
@@ -272,3 +285,33 @@ export async function handler() {
     throw new Error("Unable to complete the sign-in process.");
   }
 }
+
+// export async function handler(session) {
+//   const { email, name, image } = session?.user;
+//   console.log(email, name, image);
+
+//   try {
+//     // Check if user exists
+//     await dbConnect();
+
+//     console.log("Creating a new account");
+//     // Create a new user if not found
+//     const user = await User.create({
+//       email,
+//       name,
+//       provider: image?.includes("google")
+//         ? "google"
+//         : image?.includes("github")
+//         ? "github"
+//         : "custom",
+//       providerId: email,
+//       image,
+//     });
+
+//     // Redirect to the dashboard or grant access
+//     // redirect("/dashboard");
+//   } catch (error) {
+//     console.error("Error during sign-in via OAuth:", error);
+//     throw new Error("Unable to complete the sign-in process.");
+//   }
+// }

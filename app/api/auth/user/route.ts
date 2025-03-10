@@ -70,6 +70,49 @@ export async function GET(req) {
   }
 }
 
+export async function POST(req) {
+  try {
+    // Parse request body
+    // The valuesToUpdate can contain following values optionally
+    // const {name, profTitle, image, profession} = req.body;
+    const valuesToUpdate = await req.json();
+
+    // Connect to DB
+    await dbConnect();
+
+    // Verify the session and get user email
+    const decoded = await verifySession();
+    const email = decoded.user?.email;
+
+    // Update the user document in the database
+    const result = await User.findOneAndUpdate(
+      { email },
+      { $set: valuesToUpdate }, // Dynamically set fields to update
+      { new: true } // Return the updated document
+    );
+
+    // If user not found
+    if (!result) {
+      return Response.json(
+        { success: false, message: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    // Success response
+    return Response.json(
+      { success: true, message: "Profile updated successfully", user: result },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error updating profile:", error);
+    return Response.json(
+      { success: false, message: "Internal server error" },
+      { status: 500 }
+    );
+  }
+}
+
 // Helper function to filter user data
 function userDTO(user) {
   return { name: user.name, email: user.email, image: user.image };

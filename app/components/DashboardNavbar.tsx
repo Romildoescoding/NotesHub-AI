@@ -2,15 +2,19 @@ import { RainbowButton } from "@/components/ui/rainbow-button";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { cubicBezier, motion } from "framer-motion";
 
 const DashboardNavbar = () => {
   return (
-    <div
-      className="fixed top-4 left-1/2 -translate-x-1/2 flex gap-16 items-center px-4  z-[99] bg-white rounded-full"
+    <motion.div
+      className="fixed top-4 left-1/2 -translate-x-1/2 flex gap-16 items-center px-4 z-[100] bg-white rounded-full"
       style={{
         boxShadow: "0px 2px 3px #00000040",
         borderTop: "1px solid #00000010",
       }}
+      // initial={{ width: 0, padding: "0px 0px" }}
+      // animate={{ width: "auto", padding: "8px 16px" }}
+      // transition={{ duration: 0.25, ease: cubicBezier(0.33, 0.64, 0.57, 0.74) }}
     >
       <Link href="/">
         <Image
@@ -21,7 +25,12 @@ const DashboardNavbar = () => {
           className=" antialiased"
         />
       </Link>
-      <div className="flex gap-2 items-center">
+      <motion.div
+        // initial={{ opacity: 0 }}
+        // animate={{ opacity: 1 }}
+        // transition={{ delay: 0.5 }}
+        className="flex gap-2 items-center"
+      >
         <Link
           href="/contact"
           className=" hover:bg-zinc-200 p-2 px-4 rounded-full transition-all"
@@ -42,8 +51,8 @@ const DashboardNavbar = () => {
             Get Started
           </RainbowButton>
         </Link>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

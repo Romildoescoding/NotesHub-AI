@@ -6,6 +6,9 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { Camera, Check } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import useOutsideClick from "@/app/hooks/useOutsideClick";
+import useUpdateProfile from "./useUpdateProfile";
+import { useUserDetails } from "@/app/auth/useUserDetails";
 
 const professions = [
   "Engineering",
@@ -18,23 +21,53 @@ const professions = [
 
 const Profile = () => {
   const { collapsed, setIsCollapsed } = useSidebar();
-  const { user } = useCurrentUser();
+  const { user } = useUserDetails();
+  console.log(user);
+  // const { user } = useCurrentUser();
+  console.log(user);
   const [showModal, setShowModal] = useState<string | boolean>("");
-  const [name, setName] = useState("");
   const [open, setOpen] = useState(false);
+  const { updateProfile, isUpdating, error } = useUpdateProfile();
+  const ref = useOutsideClick(() => setOpen(false));
+
+  // these 4 values are the one that can be updated by the user...
+  // need to disable the updated button if the values have not been changed based on these 4 values itself
+  // change the user database to contain the values profession and professionalTitle
+  const [name, setName] = useState("");
   const [profTitle, setProfTitle] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [image, setImage] = useState<File | null>(null);
   const [profession, setProfession] = useState<string>("");
+
   useEffect(() => {
     setName(user?.name);
     setImageUrl(user?.image);
+    setProfession(user?.profession);
+    setProfTitle(user?.professionalTitle);
   }, [user]);
 
   function handleImageChange(e) {
     const file = e.target.files[0];
     if (file) {
+      setImage(file);
       setImageUrl(URL.createObjectURL(file));
     }
+  }
+
+  async function handleUpdateProfile() {
+    const updatedVals: {
+      name?: string;
+      professionalTitle?: string;
+      image?: File;
+      profession?: string;
+    } = {};
+    // Set the updated values dynamically
+    if (name !== user?.name) updatedVals.name = name;
+    if (imageUrl !== user?.image) updatedVals.image = image;
+    if (name !== user?.name) updatedVals.profession = profession;
+    if (name !== user?.name) updatedVals.professionalTitle = profTitle;
+    const data = await updateProfile(updatedVals);
+    console.log(data);
   }
 
   return (
@@ -48,13 +81,13 @@ const Profile = () => {
           <ModalDeleteAccount setShowModal={setShowModal} />
         )}
 
-        <label htmlFor="image-upload">
+        <label htmlFor="image-upload" className="w-fit h-fit rounded-full">
           <div className="hover:grayscale img-hover rounded-full h-fit w-fit transition-all relative">
             <span className="absolute cursor-pointer top-1/2 img-hover-ele left-1/2 -translate-y-1/2 -translate-x-1/2 text-white">
               <Camera size={50} />
             </span>
             <Image
-              src={imageUrl || user?.image}
+              src={imageUrl || user?.image || ""}
               alt="user-image"
               height={100}
               width={100}
@@ -107,6 +140,7 @@ const Profile = () => {
             <AnimatePresence>
               {open && (
                 <motion.div
+                  ref={ref}
                   className="text-black absolute top-[calc(100%+1px)] left-0 flex flex-col p-1 rounded-md w-full bg-white shadow-md"
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -139,8 +173,15 @@ const Profile = () => {
         </div>
 
         <button
-          onClick={() => setShowModal("delete-account")}
-          className="p-2 px-4 rounded-lg bg-zinc-950 w-fit text-white hover:bg-zinc-800 transition"
+          onClick={handleUpdateProfile}
+          disabled={
+            name?.trim() === user?.name?.trim() &&
+            imageUrl === user?.image &&
+            profTitle?.trim() === user?.professionalTitle?.trim() &&
+            profession === user?.profession
+          }
+          // disabled={name === user?.name || imageUrl === user?.image || profTitle === user?.profTitle || profession === user?.profession}
+          className="p-2 px-4 rounded-lg bg-zinc-950 w-fit text-white disabled:cursor-not-allowed disabled:bg-zinc-700 hover:bg-zinc-800 transition"
         >
           Update Profile
         </button>
