@@ -52,7 +52,7 @@ export function ChartCard() {
     <Card>
       <CardHeader>
         <CardTitle>Recent Activity</CardTitle>
-        {!isFetching ? (
+        {!isFetching && insights.length > 0 ? (
           <CardDescription>
             {insights[0]?.month}- {insights[insights.length - 1]?.month}{" "}
             {currentYear.current}

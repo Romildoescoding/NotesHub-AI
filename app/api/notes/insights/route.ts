@@ -19,9 +19,13 @@ import { verifySession } from "@/app/_lib/session";
 export async function GET() {
   try {
     await dbConnect();
+    const decoded = await verifySession();
+    const user = decoded?.user;
 
     // Fetch all notes
-    const notes = await Notes.find().sort({ createdAt: 1 }); // Sort by oldest first
+    const notes = await Notes.find({ uploaderEmail: user?.email }).sort({
+      createdAt: 1,
+    }); // Sort by oldest first
 
     if (notes.length === 0) {
       return NextResponse.json({
