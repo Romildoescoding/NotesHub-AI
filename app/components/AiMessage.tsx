@@ -15,9 +15,9 @@ const AiMessage = ({ text }) => {
     <div className="h-fit items-end w-full flex gap-3">
       <div className="w-[24px] h-[24px] flex items-center justify-center rounded-full border-2">
         <Image
-          src="/logo_notecraft.svg"
-          height={16}
-          width={16}
+          src="/App_Logo.svg"
+          height={24}
+          width={24}
           alt="user-image"
           // className=""
         />

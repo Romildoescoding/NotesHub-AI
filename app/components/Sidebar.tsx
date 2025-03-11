@@ -86,7 +86,7 @@ const Sidebar = () => {
 
           <div
             style={{ zIndex: 999 }}
-            className="flex items-center justify-center rounded-md bg-red-500 top-5 -right-[75px] w-[0px] overflow-visible absolute transition-all text-zinc-500"
+            className="flex items-center justify-center rounded-md top-5 -right-[75px] w-[0px] overflow-visible absolute transition-all text-zinc-500"
           >
             <div className="relative">
               <div
@@ -123,9 +123,9 @@ const Sidebar = () => {
 
           <Link href="/" className="invert">
             <Image
-              src={"/logo_notecraft.svg"}
-              width={collapsed ? 30 : 46}
-              height={60}
+              src={"/App_Logo.svg"}
+              width={collapsed ? 60 : 92}
+              height={120}
               alt="avatar"
               className=" antialiased transition-all duration-300"
             />
