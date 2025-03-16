@@ -9,6 +9,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import useOutsideClick from "@/app/hooks/useOutsideClick";
 import useUpdateProfile from "./useUpdateProfile";
 import { useUserDetails } from "@/app/auth/useUserDetails";
+import Spinner from "@/app/components/Spinner";
+import { uploadFileToSupabase } from "../../notes/upload/uploadFile";
 
 const professions = [
   "Engineering",
@@ -58,14 +60,20 @@ const Profile = () => {
     const updatedVals: {
       name?: string;
       professionalTitle?: string;
-      image?: File;
+      image?: string;
       profession?: string;
     } = {};
     // Set the updated values dynamically
+    // Validate the field values
     if (name !== user?.name) updatedVals.name = name;
-    if (imageUrl !== user?.image) updatedVals.image = image;
-    if (name !== user?.name) updatedVals.profession = profession;
-    if (name !== user?.name) updatedVals.professionalTitle = profTitle;
+    if (imageUrl !== user?.image && image) {
+      updatedVals.image = await uploadFileToSupabase(image);
+    }
+    if (profession !== user?.profession) updatedVals.profession = profession;
+    if (profTitle !== user?.professionalTitle)
+      updatedVals.professionalTitle = profTitle;
+    console.log("THE UPDATED VALUES ARE --->");
+    console.log(updatedVals);
     const data = await updateProfile(updatedVals);
     console.log(data);
   }
@@ -183,7 +191,13 @@ const Profile = () => {
           // disabled={name === user?.name || imageUrl === user?.image || profTitle === user?.profTitle || profession === user?.profession}
           className="p-2 px-4 rounded-lg bg-zinc-950 w-fit text-white disabled:cursor-not-allowed disabled:bg-zinc-700 hover:bg-zinc-800 transition"
         >
-          Update Profile
+          {isUpdating ? (
+            <span className="flex gap-[17px]">
+              Updating <Spinner height={20} width={20} isWhite={true} />
+            </span>
+          ) : (
+            "Update Profile"
+          )}
         </button>
 
         <div className="flex  min-[600px]:items-center w-full justify-between gap-4 flex-col min-[600px]:flex-row p-4 h-fit border rounded-md border-gray-300">

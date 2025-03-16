@@ -11,7 +11,7 @@ const useUpdateProfile = () => {
   const updateProfile = async (updatedValues: {
     name?: string;
     profTitle?: string;
-    image?: File;
+    image?: string;
     profession?: string;
   }) => {
     setIsUpdating(true);
@@ -26,6 +26,7 @@ const useUpdateProfile = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedValues),
+          credentials: "include",
         }
       );
 
