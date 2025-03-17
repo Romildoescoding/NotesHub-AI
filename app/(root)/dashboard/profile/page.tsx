@@ -1,5 +1,4 @@
 "use client";
-import { useCurrentUser } from "@/app/auth/useCurrentUser";
 import ModalDeleteAccount from "@/app/components/ModalDeleteAccount";
 import { useSidebar } from "@/app/context/SidebarContext";
 import Image from "next/image";
@@ -10,7 +9,10 @@ import useOutsideClick from "@/app/hooks/useOutsideClick";
 import useUpdateProfile from "./useUpdateProfile";
 import { useUserDetails } from "@/app/auth/useUserDetails";
 import Spinner from "@/app/components/Spinner";
-import { uploadFileToSupabase } from "../../notes/upload/uploadFile";
+import {
+  deleteImageFromSupabase,
+  uploadImageToSupabase,
+} from "../../notes/upload/uploadFile";
 
 const professions = [
   "Engineering",
@@ -22,7 +24,7 @@ const professions = [
 ];
 
 const Profile = () => {
-  const { collapsed, setIsCollapsed } = useSidebar();
+  const { collapsed } = useSidebar();
   const { user } = useUserDetails();
   console.log(user);
   // const { user } = useCurrentUser();
@@ -67,8 +69,11 @@ const Profile = () => {
     // Validate the field values
     if (name !== user?.name) updatedVals.name = name;
     if (imageUrl !== user?.image && image) {
-      updatedVals.image = await uploadFileToSupabase(image);
+      const res = await deleteImageFromSupabase(user.image);
+      console.log(res);
+      updatedVals.image = await uploadImageToSupabase(image, user.email);
     }
+
     if (profession !== user?.profession) updatedVals.profession = profession;
     if (profTitle !== user?.professionalTitle)
       updatedVals.professionalTitle = profTitle;

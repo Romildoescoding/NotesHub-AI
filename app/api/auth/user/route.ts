@@ -76,7 +76,7 @@ export async function POST(req) {
     // The valuesToUpdate can contain following values optionally
     // const {name, profTitle, image, profession} = req.body;
     const valuesToUpdate = await req.json();
-    if (valuesToUpdate.image) return;
+    // if (valuesToUpdate.image) return;
 
     // Connect to DB
     await dbConnect();
