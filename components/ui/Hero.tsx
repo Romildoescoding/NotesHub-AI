@@ -38,7 +38,7 @@ export function BackgroundBoxesDemo() {
         {/* <div className="h-full w-full relative">
         </div> */}
         <img
-          src="/Hero_img.png"
+          src="/hero-image-1.png"
           alt="dashboard-img"
           className="z-[99] h-auto w-[80vw] rounded-lg border-2"
         />

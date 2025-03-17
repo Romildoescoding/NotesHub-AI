@@ -5,6 +5,9 @@ const LandingPage = () => {
   return (
     <>
       <BackgroundBoxesDemo />
+      <div className="w-full h-screen bg-white flex items-center justify-center">
+        SECTION_2
+      </div>
     </>
   );
 };

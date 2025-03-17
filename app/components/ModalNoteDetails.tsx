@@ -13,6 +13,7 @@ import React, { useEffect, useState } from "react";
 import { formatDate } from "../_lib/actions";
 import { useCurrentUser } from "../auth/useCurrentUser";
 import { SpecialZoomLevel, Viewer, Worker } from "@react-pdf-viewer/core";
+import { useUserDetails } from "../auth/useUserDetails";
 
 const ModalNoteDetails = ({
   selectedNote,
@@ -27,7 +28,7 @@ const ModalNoteDetails = ({
       const timeout = setTimeout(() => setCopyUrl(false), 2000);
     }
   }, [copyUrl]);
-  const { user } = useCurrentUser();
+  const { user } = useUserDetails();
   //   function handleEditNote(selectedNote) {
   //     setShowModal("editing");
   //   }
@@ -97,7 +98,9 @@ const ModalNoteDetails = ({
                   />
                   <p className="flex flex-col ">
                     <span className="font-semibold text-xl ">{user?.name}</span>{" "}
-                    <span className="text-zinc-600">Full-Stack Developer</span>
+                    <span className="text-zinc-600">
+                      {user?.professionalTitle}
+                    </span>
                   </p>
                 </div>
                 <div className="h-full flex justify-end min-w-fit w-full gap-2">

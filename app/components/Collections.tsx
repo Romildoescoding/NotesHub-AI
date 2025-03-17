@@ -44,7 +44,9 @@ const Collections = ({ notes }) => {
       if (
         category &&
         category !== "All" &&
-        !note.tags.some((tag) => tag.category === category.toLowerCase())
+        !note.tags.some(
+          (tag) => tag.category.toLowerCase() === category.toLowerCase()
+        )
         // !note.tags.category.includes(category.toLowerCase())
       ) {
         return false;

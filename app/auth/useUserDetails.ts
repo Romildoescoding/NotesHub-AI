@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { getUserDetails } from "../_lib/actions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
 interface User {
   name?: string | null;
@@ -10,7 +10,6 @@ interface User {
   professionalTitle: string;
 }
 
-//Status === "" || "authenticated" || "error" and here "" means idle state
 export function useUserDetails() {
   const [user, setUser] = useState<User>({
     name: "",
@@ -22,32 +21,32 @@ export function useUserDetails() {
   const [status, setStatus] = useState("");
   const { data: session } = useSession();
 
+  // ✅ Create a function to re-fetch user details
+  const fetchUser = useCallback(async (email: string | null) => {
+    setStatus("loading");
+    try {
+      const fetchedUser = await getUserDetails(email);
+      setUser(fetchedUser.user);
+      setStatus("authenticated");
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      setStatus("error");
+    }
+  }, []);
+
+  // handles the empty user session case with this check
   useEffect(() => {
-    const fetchUser = async (email: string | null) => {
-      setStatus("loading");
-      try {
-        const fetchedUser = await getUserDetails(email);
-        setUser(fetchedUser.user);
-        setStatus("authenticated");
-      } catch (error) {
-        console.error("Error fetching user:", error);
-        setStatus("error");
-      }
-    };
-
-    console.log("SESSION USER PRINTED AS--->");
-    console.log(session?.user);
-
-    if (session?.user) {
-      // Use session user directly if available
+    if (session?.user?.email) {
       fetchUser(session.user.email);
       setStatus("authenticated");
     } else {
-      // Fetch user data if session user is not available
       fetchUser(null);
     }
-  }, [session?.user]);
-  //   }, [session]);
+  }, [session?.user, fetchUser]);
 
-  return { user, status };
+  return {
+    user,
+    status,
+    refetchUser: () => fetchUser(session?.user?.email || null),
+  };
 }

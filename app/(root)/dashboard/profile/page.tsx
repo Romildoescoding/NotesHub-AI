@@ -25,13 +25,14 @@ const professions = [
 
 const Profile = () => {
   const { collapsed } = useSidebar();
-  const { user } = useUserDetails();
+  const { user, refetchUser, status } = useUserDetails();
   console.log(user);
   // const { user } = useCurrentUser();
   console.log(user);
   const [showModal, setShowModal] = useState<string | boolean>("");
   const [open, setOpen] = useState(false);
   const { updateProfile, isUpdating, error } = useUpdateProfile();
+  const [isHandlingImage, setIsHandlingImage] = useState(false);
   const ref = useOutsideClick(() => setOpen(false));
 
   // these 4 values are the one that can be updated by the user...
@@ -69,6 +70,7 @@ const Profile = () => {
     // Validate the field values
     if (name !== user?.name) updatedVals.name = name;
     if (imageUrl !== user?.image && image) {
+      setIsHandlingImage(true);
       const res = await deleteImageFromSupabase(user.image);
       console.log(res);
       updatedVals.image = await uploadImageToSupabase(image, user.email);
@@ -80,7 +82,13 @@ const Profile = () => {
     console.log("THE UPDATED VALUES ARE --->");
     console.log(updatedVals);
     const data = await updateProfile(updatedVals);
+    setIsHandlingImage(false);
     console.log(data);
+
+    // Re-fetch the updated user details from database
+    if (data) {
+      refetchUser();
+    }
   }
 
   return (
@@ -188,15 +196,18 @@ const Profile = () => {
         <button
           onClick={handleUpdateProfile}
           disabled={
-            name?.trim() === user?.name?.trim() &&
-            imageUrl === user?.image &&
-            profTitle?.trim() === user?.professionalTitle?.trim() &&
-            profession === user?.profession
+            isUpdating ||
+            isHandlingImage ||
+            status === "loading" ||
+            (name?.trim() === user?.name?.trim() &&
+              imageUrl === user?.image &&
+              profTitle?.trim() === user?.professionalTitle?.trim() &&
+              profession === user?.profession)
           }
           // disabled={name === user?.name || imageUrl === user?.image || profTitle === user?.profTitle || profession === user?.profession}
           className="p-2 px-4 rounded-lg bg-zinc-950 w-fit text-white disabled:cursor-not-allowed disabled:bg-zinc-700 hover:bg-zinc-800 transition"
         >
-          {isUpdating ? (
+          {isUpdating || isHandlingImage ? (
             <span className="flex gap-[17px]">
               Updating <Spinner height={20} width={20} isWhite={true} />
             </span>

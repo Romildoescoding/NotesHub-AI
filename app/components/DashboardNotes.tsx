@@ -20,16 +20,19 @@ const DashboardNotes = () => {
         </div>
       ) : notes.length > 0 ? (
         <>
-          {notes.slice(0, 3).map((note, i) => (
-            <div
-              key={i}
-              className="w-full p-2 hover:bg-zinc-100  transition border-[1px] rounded-lg text-sm font-semibold capitalize"
-            >
-              {note.title.length > 22
-                ? note.title.slice(0, 22) + ".."
-                : note.title}
-            </div>
-          ))}
+          {notes
+            .toReversed()
+            .slice(0, 3)
+            .map((note, i) => (
+              <div
+                key={i}
+                className="w-full p-2 hover:bg-zinc-100  transition border-[1px] rounded-lg text-sm font-semibold capitalize"
+              >
+                {note.title.length > 22
+                  ? note.title.slice(0, 22) + ".."
+                  : note.title}
+              </div>
+            ))}
 
           {/* <div className="w-full p-2 hover:bg-zinc-100 cursor-pointer transition border-[1px] rounded-lg text-sm font-semibold">
             Best Note
