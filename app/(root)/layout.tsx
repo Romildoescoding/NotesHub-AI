@@ -6,6 +6,7 @@
 // import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
+import { NotesProvider } from "../context/NotesContext";
 import { NotesSidebarProvider } from "../context/NotesSidebarContext";
 // import { useState } from "react";
 import { SidebarProvider } from "../context/SidebarContext";
@@ -35,20 +36,22 @@ export default function RootLayout({
   return (
     <SidebarProvider>
       <NotesSidebarProvider>
-        <SessionProvider>
-          <div className="bg-red-600 flex w-full">
-            <Sidebar />
-            <main className="items-center w-full relative bg-white flex flex-col">
-              <Navbar />
-              <main
-                // style={{ boxShadow: "-5px -5px 5px black" }}
-                className="pt-4 bg-white w-full text-zinc-900 max-w-[1500px]"
-              >
-                {children}
+        <NotesProvider>
+          <SessionProvider>
+            <div className="bg-red-600 flex w-full">
+              <Sidebar />
+              <main className="items-center w-full relative bg-white flex flex-col">
+                <Navbar />
+                <main
+                  // style={{ boxShadow: "-5px -5px 5px black" }}
+                  className="pt-4 bg-white w-full text-zinc-900 max-w-[1500px]"
+                >
+                  {children}
+                </main>
               </main>
-            </main>
-          </div>
-        </SessionProvider>
+            </div>
+          </SessionProvider>
+        </NotesProvider>
       </NotesSidebarProvider>
     </SidebarProvider>
   );
