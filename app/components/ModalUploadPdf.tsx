@@ -111,7 +111,7 @@ const ModalUploadPdf = ({ setSelectedPdfFile, setShowModal, chatId }) => {
           {/* Cards Section */}
           <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
             <div className="flex flex-wrap gap-6 justify-center">
-              {filteredPdfFiles.map((file, i) => (
+              {filteredPdfFiles.toReversed().map((file, i) => (
                 <Note
                   selectedPdf={selectedPdf}
                   onClick={() => handleCardClick(file)}

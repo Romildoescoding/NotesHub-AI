@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Humane-Regular";
+  src: url("../public/fonts/Humane-Regular.ttf") format("ttf"),
+    url("../public/fonts/Humane-Regular.woff") format("woff"),
+    url("../public/fonts/Humane-Regular.woff2") format("woff2");
+}
+
+.humane {
+  font-family: Humane-Regular;
+}
+
 :root {
   --font-geist-sans: "Geist", sans-serif;
   --font-geist-mono: "Geist Mono", monospace;
@@ -440,4 +451,117 @@ iframe::-webkit-scrollbar {
 
 .img-hover:hover .img-hover-ele {
   opacity: 1;
+}
+
+/* .bento-chat-1 {
+  transition: all 0.2s ease-in-out;
+}
+.bento-chat-2 {
+  transition: all 0.225s ease-in-out;
+}
+.bento-chat-3 {
+  transition: all 0.25s ease-in-out;
+}
+
+.bento-dashboard {
+  transition: all 0.35s ease-in-out;
+}
+
+.bento-grid-1:hover .bento-chat-1 {
+  transform: scale(1.2) rotate(-10deg) translateY(-50%);
+}
+.bento-grid-1:hover .bento-chat-2 {
+  transform: scale(1.25) rotate(-17deg) translateY(-50%);
+}
+.bento-grid-1:hover .bento-chat-3 {
+  transform: scale(1.1) rotate(-30deg) translateY(-50%);
+}
+
+.bento-grid-3:hover .bento-dashboard {
+  bottom: -5%;
+}
+
+.bento-notes-1 {
+  transition: all 0.2s ease-in-out;
+}
+.bento-notes-2 {
+  transition: all 0.225s ease-in-out;
+}
+
+.bento-notes-3 {
+  transition: all 0.25s ease-in-out;
+}
+
+.bento-grid-4:hover .bento-notes-1 {
+  right: 32px;
+  transform: rotate(10deg);
+}
+.bento-grid-4:hover .bento-notes-2 {
+  right: 44px;
+  transform: rotate(8deg);
+}
+
+.bento-grid-4:hover .bento-notes-3 {
+  right: 56px;
+  transform: rotate(6deg);
+}
+
+.bento-grid-2:hover .bento-editor {
+  transform: rotate(-15deg);
+  /* right: -40%;
+  bottom: -20%; */
+/* }
+.bento-editor {
+  transition: all 0.2s ease-in-out;
+} */
+
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Apply to the entire page */
+html,
+body {
+  /* For Firefox */
+  scrollbar-width: none;
+
+  /* For IE/Edge */
+  -ms-overflow-style: none;
+}
+
+.notes-left-1,
+.notes-right-1 {
+  transition: all 0.25s ease-in-out;
+}
+.notes-left-2,
+.notes-right-2 {
+  transition: all 0.35s ease-in-out;
+}
+.notes-left-3,
+.notes-right-3 {
+  transition: all 0.45s ease-in-out;
+}
+
+.cta-section:hover .notes-left-1 {
+  transform: translateY(-50%) rotate(-10deg);
+}
+.cta-section:hover .notes-left-2 {
+  left: -12.5%;
+  transform: translateY(-50%) rotate(0deg);
+}
+.cta-section:hover .notes-left-3 {
+  left: -10%;
+  transform: translateY(-50%) rotate(10deg);
+}
+.cta-section:hover .notes-right-1 {
+  transform: translateY(-50%) rotate(10deg);
+}
+.cta-section:hover .notes-right-2 {
+  right: -12.5%;
+  transform: translateY(-50%) rotate(0deg);
+}
+.cta-section:hover .notes-right-3 {
+  right: -10%;
+  transform: translateY(-50%) rotate(-10deg);
 }

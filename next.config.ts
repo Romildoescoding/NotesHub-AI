@@ -25,6 +25,9 @@ const nextConfig: NextConfig = {
     ],
     dangerouslyAllowSVG: true, // Enable SVG rendering
   },
+  devIndicators: {
+    buildActivity: false,
+  },
 };
 
 // Export the configuration
