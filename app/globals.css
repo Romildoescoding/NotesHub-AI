@@ -516,19 +516,14 @@ iframe::-webkit-scrollbar {
 } */
 
 /* For Webkit browsers (Chrome, Safari) */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
 }
-
-/* Apply to the entire page */
 html,
 body {
-  /* For Firefox */
   scrollbar-width: none;
-
-  /* For IE/Edge */
   -ms-overflow-style: none;
-}
+} */
 
 .notes-left-1,
 .notes-right-1 {
