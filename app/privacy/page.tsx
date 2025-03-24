@@ -13,7 +13,7 @@ const PrivacyPolicy = () => {
           content="Read the privacy policy for using NoteCraft AI."
         />
       </Head>
-      <div className="container relative max-w-[75vw] mx-auto mt-24 px-4 py-10">
+      <div className="container relative max-w-[95vw] min-[600px]:max-w-[75vw] mx-auto mt-24 px-4 py-10">
         <DashboardNavbar />
         <h1 className="text-3xl font-semibold mb-6">Privacy Policy</h1>
 

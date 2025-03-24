@@ -97,11 +97,11 @@ const problems: IProblem[] = [
 
 const Problem = () => {
   return (
-    <div className="w-full max-w-screen h-screen min-h-fit flex relative flex-col mt-14 gap-8 min-[600px]:gap-2 items-center">
+    <div className="w-full max-w-screen overflow-y-visible h-screen min-h-fit flex relative flex-col mt-14 gap-8 min-[600px]:gap-2 items-center">
       <div className="dark w-fit h-fit border-t-[2px] border-l-[2px] border-r-[2px] border-gray-100 rounded-full">
         <RainbowButton
           disabled={true}
-          className="text-xs  min-[500px]:text-base cursor-default border-t-2 rounded-full"
+          className="text-sm min-[500px]:text-base cursor-default border-t-2 rounded-full"
         >
           The Problem
         </RainbowButton>
@@ -111,7 +111,7 @@ const Problem = () => {
         Lack of a seamless note system
       </h1>
 
-      <div className="w-screen max-w-screen h-[632px] min-[600px]:h-[416px] relative overflow-hidden">
+      <div className="w-screen max-w-screen h-[632px] min-[600px]:h-[416px] relative overflow-y-visible overflow-x-hidden">
         <div className="z-[2] pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background"></div>
         <div className="z-[2] pointer-events-none absolute inset-y-0 right-0 w-1/3 bg-gradient-to-l from-background"></div>
         <div className="z-[1] absolute left-1/2 bottom-0 -translate-x-1/2 grid w-[848px] min-[600px]:w-[1280px] h-[632px] min-[600px]:h-[416px] grid-rows-3 min-[600px]:grid-rows-2 gap-4 mt-4 grid-cols-4 min-[600px]:grid-cols-6">

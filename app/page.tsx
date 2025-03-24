@@ -29,141 +29,169 @@ const LandingPage = () => {
     <>
       <BackgroundBoxesDemo />
       <Problem />
-      <div className="w-full h-screen flex relative flex-col justify-center gap-2 items-center">
+      <div className="w-full max-h-[800px] h-[80vh] min-[600px]:h-screen flex relative flex-col justify-center gap-2 items-center">
+        {/* <div className="w-[90vw] ml-[5vw] mr-[5vw] bg-zinc-300 h-[2px] absolute left-0 bottom-0"></div> */}
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[10%] top-[10%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[18deg] scale-[1] min-[600px]:scale-[1.25]">
+          {" "}
+          <Send className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
+        </div>
+        <div className="p-4 blur-[2px] opacity-1 hover:shadow-xl transition-all left-[50%] -translate-x-1/2 top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[2deg] scale-[1] min-[600px]:scale-[1.25]">
+          {" "}
+          <Sparkles className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
+        </div>
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all right-[10%] top-[10%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1] min-[600px]:scale-[1.25]">
+          {" "}
+          <Pencil className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
+        </div>
+
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[10%] top-[75%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[8deg] scale-[1] min-[600px]:scale-[1.25]">
+          {" "}
+          <MessageCircleMore className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
+        </div>
+        <div
+          className="p-4 blur-[2px] opacity-1 hover:shadow-xl transition-all right-[10%] top-[75%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[10deg] scale-[1] min-[600px]:scale-[1.25]
+        "
+        >
+          {" "}
+          <WandSparkles className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
+        </div>
+
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all -translate-x-1/2 left-[50%] top-[80%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[6deg] scale-[1] min-[600px]:scale-[1.25]">
+          {" "}
+          <ScanLine className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
+        </div>
         <div className="dark w-fit h-fit border-t-[2px] border-l-[2px] border-r-[2px] border-gray-100 rounded-full">
           <RainbowButton
             disabled={true}
-            className="cursor-default border-t-2 rounded-full"
+            className="text-sm min-[500px]:text-base cursor-default border-t-2 rounded-full"
           >
             The Solution
           </RainbowButton>
         </div>
 
-        <h1 className="text-center text-[5vw] leading-[6vw] text-zinc-900  font-medium tracking-tighter">
+        <h1 className="text-center text-[8vw] leading-[8vw] px-2 min-[600px]:px-0 min-[600px]:text-[5vw] min-[600px]:leading-[6vw] text-zinc-900  font-medium tracking-tighter">
           <span>NoteCraft AI is an all-in-one</span>{" "}
           <span>notes management application.</span>
         </h1>
-        <span className="text-xl text-zinc-600">
+        <span className="text-base px-4 min-[600px]:px-0 min-[600px]:text-xl text-zinc-600 text-center">
           Take a look at what NoteCraft AI offers you as a service
         </span>
       </div>
 
       {/* OCR Scanner */}
-      <div className="w-full h-fit px-[10vw] pt-[25vh] pb-[5vh] flex relative flex-col justify-center gap-2 items-center">
-        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[24deg] scale-[1.25]">
+      <div className="w-full h-fit pt-[25vh] pb-[5vh] flex relative flex-col justify-center gap-2 items-center">
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[24deg] scale-[1] min-[600px]:scale-[1.25]">
           {" "}
-          <ScanLine size={48} />
+          <ScanLine className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
-        <div className="p-4 blur-[3px] opacity-1 hover:shadow-xl transition-all right-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1.25]">
+        <div className="p-4 blur-[3px] opacity-1 hover:shadow-xl transition-all right-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1] min-[600px]:scale-[1.25]">
           {" "}
-          <ScanSearch size={48} />
+          <ScanSearch className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="p-4 blur-[2px] opacity-1 hover:shadow-xl transition-all left-[5%] top-[30%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-12">
           {" "}
-          <ScanSearch size={48} />
+          <ScanSearch className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="p-4 blur-[1px] scale-[1.1] opacity-1 hover:shadow-xl transition-all right-[5%] top-[25%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[24deg]">
           {" "}
-          <ScanLine size={48} />
+          <ScanLine className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="dark w-fit h-fit border-t-[2px] border-l-[2px] border-r-[2px] border-gray-100 rounded-full">
           <RainbowButton
             disabled={true}
-            className="cursor-default border-t-2 rounded-full"
+            className="text-sm min-[500px]:text-base cursor-default border-t-2 rounded-full"
           >
             OCR Scanner
           </RainbowButton>
         </div>
 
-        <h1 className="text-center text-[5vw] leading-[6vw] text-zinc-900  flex flex-col font-medium tracking-tighter">
+        <h1 className="text-center px-[10vw]  text-[8vw] leading-[7vw] min-[600px]:text-[5vw] min-[600px]:leading-[6vw] text-zinc-900  font-medium tracking-tighter">
           <span>Scan your notes and get</span>{" "}
           <span>the results in the editor</span>
         </h1>
 
-        <div className="mt-12 w-full aspect-video rounded-xl bg-black"></div>
+        <div className="mt-12 mx-[2.5vw] min-[500px]:mx-[10vw] w-[95vw] min-[500px]:w-[80vw] aspect-video rounded-xl bg-black"></div>
       </div>
 
       {/* Editor Interface */}
-      <div className="w-full h-fit px-[10vw] pt-[25vh] pb-[5vh] flex relative flex-col justify-center gap-2 items-center">
-        <div className="p-4 blur-[2px] opacity-1 hover:shadow-xl transition-all left-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1.25]">
+      <div className="w-full h-fit pt-[25vh] pb-[5vh] flex relative flex-col justify-center gap-2 items-center">
+        <div className="p-4 blur-[2px] opacity-1 hover:shadow-xl transition-all left-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1] min-[600px]:scale-[1.25]">
           {" "}
-          <Bold size={48} />
+          <Bold className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
-        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all right-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[18deg] scale-[1.25]">
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all right-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[18deg] scale-[1] min-[600px]:scale-[1.25]">
           {" "}
-          <Pencil size={48} />
+          <Pencil className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[5%] top-[30%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-12">
           {" "}
-          <AlignLeft size={48} />
+          <AlignLeft className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="p-4 blur-[3px] scale-[1.1] opacity-1 hover:shadow-xl transition-all right-[5%] top-[25%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[24deg]">
           {" "}
-          <TextCursor size={48} />
+          <TextCursor className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="dark w-fit h-fit border-t-[2px] border-l-[2px] border-r-[2px] border-gray-100 rounded-full">
           <RainbowButton
             disabled={true}
-            className="cursor-default border-t-2 rounded-full"
+            className="text-sm min-[500px]:text-base cursor-default border-t-2 rounded-full"
           >
             Editor Interface
           </RainbowButton>
         </div>
 
-        <h1 className="text-center text-[5vw] leading-[6vw] text-zinc-900  flex flex-col font-medium tracking-tighter">
-          <span>Refine your scanned notes</span>{" "}
-          <span>using a Markdown-based editor.</span>
+        <h1 className="text-center px-[5vw] text-[8vw] leading-[7vw] min-[600px]:text-[5vw] min-[600px]:leading-[6vw] text-zinc-900  font-medium tracking-tighter">
+          Refine your scanned notes using a Markdown-based editor.
         </h1>
 
-        <div className="mt-12 w-full aspect-video rounded-xl bg-black"></div>
+        <div className="mt-12 mx-[2.5vw] min-[500px]:mx-[10vw] w-[95vw] min-[500px]:w-[80vw] aspect-video rounded-xl bg-black"></div>
       </div>
 
       {/* Chat with AI */}
-      <div className="w-full h-fit px-[10vw] pt-[25vh] pb-[5vh] flex relative flex-col justify-center gap-2 items-center">
-        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[24deg] scale-[1.25]">
+      <div className="w-full h-fit pt-[25vh] pb-[5vh] flex relative flex-col justify-center gap-2 items-center">
+        <div className="p-4 blur-[1px] opacity-1 hover:shadow-xl transition-all left-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-[24deg] scale-[1] min-[600px]:scale-[1.25]">
           {" "}
-          <Sparkles size={48} />
+          <Sparkles className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
-        <div className="p-4 blur-[3px] opacity-1 hover:shadow-xl transition-all right-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1.25]">
+        <div className="p-4 blur-[3px] opacity-1 hover:shadow-xl transition-all right-[15%] top-[5%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[18deg] scale-[1] min-[600px]:scale-[1.25]">
           {" "}
-          <Send size={48} />
+          <Send className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="p-4 blur-[2px] opacity-1 hover:shadow-xl transition-all left-[5%] top-[30%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg -rotate-12">
           {" "}
-          <MessageCircleMore size={48} />
+          <MessageCircleMore className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="p-4 blur-[1px] scale-[1.1] opacity-1 hover:shadow-xl transition-all right-[5%] top-[25%] border absolute z-[21] bg-white shadow-md border-gray-300 rounded-lg rotate-[24deg]">
           {" "}
-          <WandSparkles size={48} />
+          <WandSparkles className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
 
         <div className="dark w-fit h-fit border-t-[2px] border-l-[2px] border-r-[2px] border-gray-100 rounded-full">
           <RainbowButton
             disabled={true}
-            className="cursor-default border-t-2 rounded-full"
+            className="text-sm min-[500px]:text-base cursor-default border-t-2 rounded-full"
           >
             AI Chat
           </RainbowButton>
         </div>
 
-        <h1 className="text-center text-[5vw] leading-[6vw] text-zinc-900 flex flex-col font-medium tracking-tighter">
-          <span>Turn your notes into a conversation</span>
-          <span>with intelligent AI assistance.</span>
+        <h1 className="text-center px-[5vw] text-[8vw] gap-2 leading-[7vw] min-[600px]:text-[5vw] min-[600px]:leading-[6vw] text-zinc-900  font-medium tracking-tighter">
+          Turn your notes into a conversation with intelligent AI assistance.
         </h1>
 
-        <div className="mt-12 w-full aspect-video rounded-xl bg-black"></div>
+        <div className="mt-12 mx-[2.5vw] min-[500px]:mx-[10vw] w-[95vw] min-[500px]:w-[80vw] aspect-video rounded-xl bg-black"></div>
       </div>
 
       {/* CALL-TO-ACTION */}
-      <div className="cta-section w-full h-screen overflow-hidden  px-[10vw] pb-[5vh] flex relative flex-col justify-center gap-4 items-center">
+      <div className="cta-section w-full h-fit pt-[10vh] pb-[10vh] min-[600px]:pb-[5vh] min-[600px]:pt-0 min-[600px]:h-screen overflow-hidden px-[10vw]  flex relative flex-col justify-center gap-4 items-center">
         <div className="notes-left-1 flex flex-col gap-[3%] w-[25vw] rounded-md aspect-[2/3] border-2 shadow-md bg-white absolute -left-[15%] top-1/2 -translate-y-1/2 -rotate-12 p-[2%] z-[3]">
           {Array.from({ length: 10 }).map((_, i) => (
             <p key={i} className="w-full h-[1%] rounded-full bg-zinc-400"></p>
@@ -194,20 +222,15 @@ const LandingPage = () => {
             <p key={i} className="w-full h-[1%] rounded-full bg-zinc-400"></p>
           ))}
         </div>
-        <h1 className="text-center text-[5vw] leading-[5vw] text-zinc-900 flex flex-col font-medium tracking-tighter">
-          <span>Ready to transform the way</span>
-          <span>you manage notes?</span>
+        <h1 className="text-center px-[5vw] min-[600px]:px-[10vw] text-[8vw] leading-[7vw] min-[600px]:text-[5vw] min-[600px]:leading-[6vw] text-zinc-900  font-medium tracking-tighter">
+          Ready to transform the way you manage notes?
         </h1>
-        <span className="flex flex-col">
-          <span className="text-xl">
-            Unlock AI-powered efficiency to structure, retrieve,
-          </span>
-          <span className="text-xl">
-            and engage with your notes like never before.
-          </span>
+        <span className="text-center px-[10vw] min-[600px]:px-[20vw] text-[16px] leading-[16px] min-[600px]:text-xl mt-4 min-[600px]:mt-2 flex flex-col gap-4 text-zinc-400">
+          Unlock AI-powered efficiency to structure, retrieve, and engage with
+          your notes like never before.
         </span>
         <Link href="/dashboard" className="cta-btn">
-          <RainbowButton className="ml-2 py-8 px-12 text-2xl rounded-full">
+          <RainbowButton className="ml-2 py-6 px-8 min-[500px]:py-8 min-[500px]:px-12 text-lg min-[600px]:text-2xl rounded-full">
             Get Started
           </RainbowButton>
         </Link>
@@ -215,87 +238,6 @@ const LandingPage = () => {
 
       {/* <BentorGrid /> */}
       {/* <MarqueeDemo /> */}
-
-      {/* <div className="w-full h-screen bg-white flex flex-col gap-4 items-center justify-center">
-        <h1 className="text-7xl font-semibold">How it works</h1>
-        <p className="text-2xl text-zinc-500">
-          NoteCraft AI is the AI powered Notes Manager you needed.
-        </p>
-        <div className="h-fit py-8 w-full flex gap-4 justify-center">
-          <div className=" max-w-[30vw] text-md shadow-xl rounded-xl h-fit flex flex-col gap-2 items-center text-center py-12 p-8">
-            <div className="text-2xl flex items-center flex-col gap-4">
-              <div className="rounded-xl border w-fit h-fit p-3 border-gray-300 relative">
-                <span className="absolute text-base -bottom-[10px] -right-[10px] border-2 border-white rounded-full h-7 w-7 bg-zinc-900 text-white">
-                  1
-                </span>
-                <ScanLine size={44} />
-              </div>
-              <span className="font-semibold">Scan Notes</span>
-            </div>
-            <p>
-              Scan your handwritten notes via the upload section to process them
-              and access an editor for easy modifications.
-            </p>
-          </div>
-
-          <div className=" max-w-[30vw] text-md shadow-xl rounded-xl h-fit flex flex-col gap-2 items-center text-center py-12 p-8">
-            <div className="text-2xl flex items-center flex-col gap-4">
-              <div className="rounded-xl border w-fit h-fit p-3 border-gray-300 relative">
-                <span className="absolute text-base -bottom-[10px] -right-[10px] border-2 border-white rounded-full h-7 w-7 bg-zinc-900 text-white">
-                  2
-                </span>
-                <Pencil size={44} />
-              </div>
-              <span className="font-semibold">Editor Preview</span>
-            </div>
-            <p>
-              Utilize the editor preview feature to seamlessly review and refine
-              your scanned notes after processing.
-            </p>
-          </div>
-
-          <div className=" max-w-[30vw] text-md shadow-xl rounded-xl h-fit flex flex-col gap-2 items-center text-center py-12 p-8">
-            <div className="text-2xl flex items-center flex-col gap-4">
-              <div className="rounded-xl border w-fit h-fit p-3 border-gray-300 relative">
-                <span className="absolute text-base -bottom-[10px] -right-[10px] border-2 border-white rounded-full h-7 w-7 bg-zinc-900 text-white">
-                  3
-                </span>
-                <Sparkles size={44} />
-              </div>
-              <span className="font-semibold">Chat with AI</span>
-            </div>
-            <p>
-              Engage in conversations with AI to gain insights or ask questions
-              regarding your notes effortlessly.
-            </p>
-          </div>
-        </div>
-      </div> */}
-      {/* TESTIMONIALS */}
-      {/* DETAILS */}
-      {/* GET STARTED */}
-      {/* CONTACT */}
-
-      {/* <div className="w-full h-screen flex items-center justify-center">
-        {" "}
-        <div className="border border-black rounded-xl w-[80%] h-[90%]">
-          VIDEO FOR THE PROJECT SHOWCASE
-        </div>
-        
-      </div> */}
-      {/* <div className="w-full h-screen relative overflow-hidden">
-        <div className="absolute inset-0 w-full h-full bg-white z-20 [mask-image:linear-gradient(to bottom, transparent 0%, white 25%)] pointer-events-none" />
-        <div className="absolute inset-0 w-full h-full bg-white z-20 [mask-image:linear-gradient(to bottom, white 0%, transparent 25%)] pointer-events-none" />
-
-        <div className="w-full h-full grid grid-cols-3 gap-2 p-2 skew-y-[10deg] grid-rows-2">
-          <div className="bg-zinc-900 rounded-xl"></div>
-          <div className="bg-zinc-900 rounded-xl"></div>
-          <div className="bg-zinc-900 rounded-xl"></div>
-          <div className="bg-zinc-900 rounded-xl"></div>
-          <div className="bg-zinc-900 rounded-xl"></div>
-          <div className="bg-zinc-900 rounded-xl"></div>
-        </div>
-      </div> */}
 
       <Footer />
     </>

@@ -13,7 +13,7 @@ const TermsAndConditions = () => {
           content="Read the terms and conditions for using NoteCraft AI."
         />
       </Head>
-      <div className="container relative  max-w-[75vw] mx-auto mt-24 px-4 py-10">
+      <div className="container relative max-w-[95vw] min-[600px]:max-w-[75vw] mx-auto mt-24 px-4 py-10">
         <DashboardNavbar />
         <h1 className="text-3xl font-semibold mb-6">Terms and Conditions</h1>
 
@@ -54,7 +54,7 @@ const TermsAndConditions = () => {
               rights.
             </li>
             <li>
-              Attempting to gain unauthorized access to NoteCraft AI’s
+              Attempting to gain unauthorized access to NoteCraft AI{"'"}s
               infrastructure or data.
             </li>
           </ul>

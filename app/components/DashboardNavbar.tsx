@@ -34,8 +34,8 @@ const DashboardNavbar = () => {
         <Link href="/" className="h-[60px] flex items-center">
           <Image
             src={"/App_Logo.svg"}
-            width={200}
-            height={200}
+            width={60}
+            height={60}
             alt="avatar"
             className="h-[40px] min-[500px]:h-[60px] min-w-[40px] min-[500px]:min-w-[60px] antialiased"
           />
