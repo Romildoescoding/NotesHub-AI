@@ -24,6 +24,13 @@ import ModalConfirmDelete from "./ModalConfirmDelete";
 import ModalNoteDetails from "./ModalNoteDetails";
 
 const Collections = ({ notes }) => {
+  const [localNotes, setLocalNotes] = useState(notes);
+
+  //Sync the local state with upcoming notes
+  useEffect(() => {
+    setLocalNotes(notes);
+  }, [notes]);
+
   const {
     visibility,
     query,
@@ -39,7 +46,7 @@ const Collections = ({ notes }) => {
   //   const ref = useOutsideClick(() => setSelectedNote(null));
 
   useEffect(() => {
-    const filteredNotes = notes.filter((note) => {
+    const filteredNotes = localNotes.filter((note) => {
       // Filter by category if it's not empty
       if (
         category &&
@@ -72,7 +79,7 @@ const Collections = ({ notes }) => {
     });
 
     setNotes(filteredNotes);
-  }, [notes, query, category, visibility, setNotes]);
+  }, [localNotes, query, category, visibility, setNotes]);
 
   const [showModal, setShowModal] = useState<string | boolean>();
 
@@ -86,18 +93,25 @@ const Collections = ({ notes }) => {
       console.log("note was not deleted dude!");
     } else {
       //Update the state in the app..
-      setNotes((prev) => prev.filter((note) => note._id !== noteId));
+      setLocalNotes((prev) => prev.filter((note) => note._id !== noteId));
+      // setNotes((prev) => prev.filter((note) => note._id !== noteId));
     }
     setSelectedNote(null);
     setShowModal(false);
   }
 
   function updateLocalStates(updatedNote) {
-    setNotes((prevNotes) =>
-      prevNotes.map((note) =>
-        note._id === updatedNote._id ? updatedNote : note
-      )
+    // also update the notes for state persistance
+    setLocalNotes((prev) =>
+      prev.map((note) => (note._id === updatedNote._id ? updatedNote : note))
     );
+
+    // setNotes((prevNotes) =>
+    //   prevNotes.map((note) =>
+    //     note._id === updatedNote._id ? updatedNote : note
+    //   )
+    // );
+
     setSelectedNote(updatedNote);
     setShowModal(false); // Close the modal
   }

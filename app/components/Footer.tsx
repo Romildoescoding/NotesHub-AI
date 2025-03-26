@@ -56,7 +56,7 @@ const Footer = () => {
           {" "}
           <TextCursor className="w-8 h-8 min-[800px]:w-12 min-[800px]:h-12" />
         </div>
-        <h1 className="text-center px-[5vw] text-[10vw] gap-2 leading-[7vw] min-[600px]:text-[5vw] min-[600px]:leading-[6vw] text-white  font-medium tracking-tighter">
+        <h1 className="text-center px-[5vw] text-[10vw] gap-2 leading-[7vw] min-[600px]:text-[7vw] min-[600px]:leading-[6vw] text-white  font-medium tracking-tighter">
           NoteCraft AI
         </h1>
         <p className="text-center text-lg text-zinc-400 mt-2">
