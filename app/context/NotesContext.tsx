@@ -21,6 +21,7 @@ export function NotesProvider({ children }: { children: React.ReactNode }) {
 
   // This one sets the value at initial rendering time and all the note changes...
   useEffect(() => {
+    console.log(notes);
     localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 

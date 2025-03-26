@@ -2,19 +2,13 @@
 
 import Image from "next/image";
 import React, { useState, DragEvent, ChangeEvent, useEffect } from "react";
-import AnimatedLogoLoader from "./AnimatedLogoLoader";
-import Spinner from "./Spinner";
 import Modal from "./Modal";
-import NotesSlider from "./NotesSlider";
-import Loader from "./Loader";
-import Confetti, { ConfettiButton } from "@/components/ui/confetti";
-import { ConfettiFireworks } from "./ConfettiFireworks";
-import SuccessfulUpload from "./SuccessfulUpload";
 import { useRouter } from "next/navigation";
 import { useNotes } from "../context/NotesContext";
 import { generateNotes, getTitle } from "../context/defaultNote";
-import { ImageIcon, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import LoaderCrissCross from "./LoaderCrissCross";
+import useOCRGemini from "../(root)/ai/chat/useOCRGemini";
 
 // Define the type for the files state
 type FileType = File;
@@ -32,7 +26,7 @@ const FileUpload: React.FC = () => {
 
   // After successful upload, redirect to /dashboard/editor
   const [files, setFiles] = useState<FileType[]>([]);
-  const [ocrResults, setOcrResults] = useState<string[]>([
+  const [ocrResults, setOcrResults] = useState([
     "hey there.. how you doin?? I am fine thank you",
     "hey there.. how you doin?? I am fine thank you",
     "hey there.. how you doin?? I am fine thank you",
@@ -40,6 +34,8 @@ const FileUpload: React.FC = () => {
   const [showModal, setShowModal] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const { setNotes } = useNotes();
+
+  const { sendOCRImage, isProcessing } = useOCRGemini();
 
   // OCR UPLOAD URL IS http://localhost:3000/api/ocr/upload
   useEffect(() => {
@@ -65,40 +61,77 @@ const FileUpload: React.FC = () => {
     if (isLoading) return setShowModal("loading");
     setIsLoading(true);
     setShowModal("loading");
-    const results: INote[] = [];
+    // const results: INote[] = [];
 
+    const results = [];
     for (const file of files) {
-      const formData = new FormData();
-      formData.append("file", file);
+      const page = await sendOCRImage(file);
+      const rawText = page.candidates[0]?.content?.parts[0]?.text || "";
+      console.log(rawText);
+      const cleanJson = rawText.replace(/^```json\s+|\s+```$/g, "").trim();
+      console.log(cleanJson);
 
-      try {
-        const response = await fetch("/api/ocr/upload", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
+      // Ensure there's no trailing characters or syntax issues
+      const lastIndex = cleanJson.lastIndexOf("]");
+      const finalJson = cleanJson.substring(0, lastIndex + 1);
 
-        results.push({
-          title: getTitle(data.text) || "Placeholder Title",
-          text: data.text,
-        });
-        //Go to the editor
-      } catch (error) {
-        console.error("Error processing file:", file.name, error);
-        // results.push(`Error processing file: ${file.name}`);
-      }
+      const parsedData = JSON.parse(finalJson);
+      console.log(parsedData);
+      results.push(parsedData);
     }
     console.log(results);
-    const results2 = generateNotes(results);
-    console.log(results2);
-    setNotes(JSON.parse(results2));
+    // const results2 = generateNotes(results);
+    // console.log(results2);
+    setNotes([results]);
     router.push("/notes/editor");
     // router.push("/dashboard/editor");
 
     // setOcrResults(results);
-    setShowModal("results");
+    // setShowModal("results");
     setIsLoading(false);
   };
+
+  //Original function for getting the text
+  // const handleGenerate = async () => {
+  //   // If the pages are being processed already and the user got out of the moal and clicks the generating again.
+  //   // I just show the loading modal once again...
+  //   if (isLoading) return setShowModal("loading");
+  //   setIsLoading(true);
+  //   setShowModal("loading");
+  //   const results: INote[] = [];
+
+  //   for (const file of files) {
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+
+  //     try {
+  //       const response = await fetch("/api/ocr/upload", {
+  //         method: "POST",
+  //         body: formData,
+  //       });
+  //       const data = await response.json();
+
+  //       results.push({
+  //         title: getTitle(data.text) || "Placeholder Title",
+  //         text: data.text,
+  //       });
+  //       //Go to the editor
+  //     } catch (error) {
+  //       console.error("Error processing file:", file.name, error);
+  //       // results.push(`Error processing file: ${file.name}`);
+  //     }
+  //   }
+  //   console.log(results);
+  //   const results2 = generateNotes(results);
+  //   console.log(results2);
+  //   setNotes(JSON.parse(results2));
+  //   router.push("/notes/editor");
+  //   // router.push("/dashboard/editor");
+
+  //   // setOcrResults(results);
+  //   setShowModal("results");
+  //   setIsLoading(false);
+  // };
 
   const handleDragOver = (e: DragEvent<HTMLLabelElement>): void => {
     e.preventDefault();
