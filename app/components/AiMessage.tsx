@@ -1,4 +1,4 @@
-import { Check, Copy } from "lucide-react";
+import { Check, Copy, FilePen, Pencil } from "lucide-react";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import Spinner from "./Spinner";
@@ -9,26 +9,26 @@ import { ghcolors } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const components = {
   h1: ({ node, ...props }) => (
-    <h1 className="text-2xl font-bold my-2" {...props} />
+    <h1 className="text-2xl font-bold my-1" {...props} />
   ),
   h2: ({ node, ...props }) => (
-    <h2 className="text-xl font-semibold my-2" {...props} />
+    <h2 className="text-xl font-semibold my-1" {...props} />
   ),
   h3: ({ node, ...props }) => (
-    <h3 className="text-lg font-semibold my-2" {...props} />
+    <h3 className="text-lg font-semibold my-1" {...props} />
   ),
   h4: ({ node, ...props }) => (
-    <h4 className="text-base font-medium my-2" {...props} />
+    <h4 className="text-base font-medium my-1" {...props} />
   ),
   h5: ({ node, ...props }) => (
-    <h5 className="text-sm font-medium my-2" {...props} />
+    <h5 className="text-sm font-medium my-1" {...props} />
   ),
   h6: ({ node, ...props }) => (
-    <h6 className="text-xs font-medium my-2" {...props} />
+    <h6 className="text-xs font-medium my-1" {...props} />
   ),
 
   p: ({ node, ...props }) => (
-    <p className="text-base leading-6 my-2" {...props} />
+    <p className="text-base leading-6 my-1" {...props} />
   ),
 
   strong: ({ node, ...props }) => <strong className="font-bold" {...props} />,
@@ -92,6 +92,8 @@ const AiMessage = ({ text }) => {
     }
   }, [copied]);
 
+  function handleResponseToEditor() {}
+
   return (
     <div className="h-fit items-end w-full flex gap-3">
       <div className="w-[24px] h-[24px] flex items-center justify-center rounded-full border-2">
@@ -110,18 +112,53 @@ const AiMessage = ({ text }) => {
             {text}
           </ReactMarkdown>
 
+          <button className="tooltip-hover absolute overflow-visible cursor-pointer bottom-2 right-9 p-1 transition-all rounded-md text-zinc-900 hover:bg-zinc-200">
+            <span className="relative overflow-visible tooltip">
+              <span
+                className="tooltiptext"
+                style={{
+                  top: "25px",
+                  right: "-35px",
+                  left: "unset",
+                  display: "flex",
+                  paddingTop: 0,
+                  paddingBottom: 0,
+                }}
+              >
+                Open in Editor
+              </span>
+            </span>
+            <Pencil size={15} />
+          </button>
+
           {copied ? (
             <span className="absolute bottom-2 right-2 p-1 transition-all rounded-md text-zinc-900">
               <Check size={15} />
             </span>
           ) : (
             <span
+              role="button"
               onClick={() => {
                 navigator.clipboard.writeText(text);
                 setIsCopied(true);
               }}
-              className="absolute cursor-pointer bottom-2 right-2 p-1 transition-all rounded-md text-zinc-900 hover:bg-zinc-200"
+              className="tooltip-hover absolute cursor-pointer bottom-2 right-2 p-1 transition-all rounded-md text-zinc-900 hover:bg-zinc-200"
             >
+              <span className="relative overflow-visible tooltip">
+                <span
+                  className="tooltiptext"
+                  style={{
+                    top: "25px",
+                    right: "-12px",
+                    left: "unset",
+                    display: "flex",
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                  }}
+                >
+                  Copy
+                </span>
+              </span>
               <Copy size={15} />
             </span>
           )}

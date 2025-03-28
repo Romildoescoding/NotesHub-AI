@@ -79,8 +79,8 @@ export async function addChatForUser(email: string) {
   const message = new Chat({
     chatId,
     sender: "ai",
-    content:
-      "Hey There! Feel free to ask me anything or even select a PDF file and ask any questions about it. I'm here to help! 😊",
+    content: `**Hey there!** 👋  
+Feel free to ask me anything or even upload a **PDF file** and ask questions about it. I'm here to help! 😊  `,
   });
   await message.save();
 

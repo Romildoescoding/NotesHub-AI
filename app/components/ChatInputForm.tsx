@@ -1,9 +1,10 @@
-import { File, FileText, Send, X } from "lucide-react";
+import { ArrowDown, File, FileText, Send, X } from "lucide-react";
 import React, { useEffect, useRef, useState } from "react";
 import { deleteFileFromSupabase } from "../(root)/notes/upload/uploadFile";
 import { useSidebar } from "../context/SidebarContext";
 
 const ChatInputForm = ({
+  scrollToBottom,
   isSidebarOpen,
   sendMessage,
   setChats,
@@ -29,7 +30,9 @@ const ChatInputForm = ({
     }
   };
 
-  const handleSendMessage = async (e: SubmitEvent) => {
+  const handleSendMessage = async (
+    e: React.FormEvent | React.KeyboardEvent
+  ) => {
     console.log("Selected Pdf file is-->");
     console.log(selectedPDfFile);
     e.preventDefault();
@@ -172,6 +175,12 @@ const ChatInputForm = ({
         className="w-full h-auto max-h-[150px] bg-zinc-100 outline-none resize-none overflow-y-auto text-black rounded-lg p-2 scrollbar-thin scrollbar-thumb-black scrollbar-track-transparent"
         rows={1}
         value={message}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault(); // Prevents a new line from being added
+            handleSendMessage(e); // Calls the form submission function
+          }
+        }}
         onChange={(e) => setMessage(e.target.value)}
         //Resize to max-150px on inputs just like ChatGPT does ><
         onInput={(e) => {
@@ -184,6 +193,14 @@ const ChatInputForm = ({
         type="submit"
       >
         <Send size={15} color="white" />
+      </button>
+
+      <div className="relative"></div>
+      <button
+        onClick={scrollToBottom}
+        className="p-2 text-zinc-950 absolute top-[-50px] left-1/2 -translate-x-1/2 z-[998] rounded-full flex items-center justify-center bg-zinc-200"
+      >
+        <ArrowDown size={18} />
       </button>
 
       <button

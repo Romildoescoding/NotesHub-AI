@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { getUser } from "../_data/user";
-import { Copy, Send } from "lucide-react";
+import { ArrowDown, Copy, Send } from "lucide-react";
 import UserMessage from "./UserMessage";
 import AiMessage from "./AiMessage";
 import { getUserClient } from "../_lib/actions";
@@ -17,6 +17,7 @@ import Modal from "./Modal";
 import ModalUploadPdf from "./ModalUploadPdf";
 import usePdfGeminiAI from "../(root)/ai/chat/usePdfGeminiAI";
 import FileMessage from "./FileMessage";
+import { useUserDetails } from "../auth/useUserDetails";
 
 //OPTIMIZE IT TO PREVENT RE-RENDERS ON ENTERING THE DATA IN THE TEXTAREA
 
@@ -26,7 +27,7 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
   const { chats, isLoading, setChats } = useChats(chatId);
   const [isGeminiLoading, setIsGeminiLoading] = useState(false);
   const [showModal, setShowModal] = useState("");
-  const { user, status } = useCurrentUser();
+  const { user, status } = useUserDetails();
   const { sendMessage, isSending, error } = useSendMessage();
   const [selectedPdfFile, setSelectedPdfFile] = useState(null);
   const {
@@ -47,6 +48,10 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
       chatAreaRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [chats, isGeminiLoading]);
+
+  function scrollToBottom() {
+    chatAreaRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
 
   return (
     // <SessionProvider>
@@ -104,6 +109,7 @@ const ChatArea = ({ chatId, isSidebarOpen }) => {
           )}
 
           <ChatInputForm
+            scrollToBottom={scrollToBottom}
             selectedPDfFile={selectedPdfFile}
             setSelectedPdfFile={setSelectedPdfFile}
             sendPDfMessageAI={sendPDfMessageAI}
